@@ -11,6 +11,9 @@
      under the License.
 
 *******************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from xEdit Original Code by ElminsterAU and contributors.
+  Changes are documented in macos/CHANGES.md; distributed under MPL 1.1. }
 
 unit wbInterface;
 
@@ -775,7 +778,11 @@ type
   TwbPluginExtensions = TDynStrings;
 
   TDynMainRecords = array of IwbMainRecord;
+  {$IFDEF FPC}
+  TConditionFunc = function(rec: IwbMainRecord): Boolean;
+  {$ELSE}
   TConditionFunc = reference to function(rec: IwbMainRecord): Boolean;
+  {$ENDIF}
 
   IwbFile = interface(IwbContainer)
     ['{38AA15A6-F652-45C7-B875-9CB502E5DA92}']
@@ -1500,7 +1507,7 @@ type
     property IntType: TwbIntType
       read GetIntType;
 
-    property ExpectedLength[aValue: Int64 = 0]: Integer
+    {$IFDEF FPC}property ExpectedLength[aValue: Int64]: Integer{$ELSE}property ExpectedLength[aValue: Int64 = 0]: Integer{$ENDIF}
       read GetExpectedLength;
   end;
 
@@ -2858,7 +2865,7 @@ function wbRUnion(const aName     : string;
                         aRequired : Boolean = False;
                         aDontShow : TwbDontShowCallback = nil;
                         aGetCP    : TwbGetConflictPriority = nil)
-                                  : IwbSubRecordUnionDef;
+                                  : IwbSubRecordUnionDef; overload;
 
 {--- wbStructS - array of struct ----------------------------------------------}
 function wbStructS(const aSignature   : TwbSignature;
@@ -3243,7 +3250,8 @@ var
 type
   TwbFastStringList = class(TStringList)
   protected
-    function CompareStrings(const S1, S2: string): Integer; override;
+    {$IFDEF FPC}function DoCompareText(const S1, S2: AnsiString): PtrInt; override;{$ELSE}
+    function CompareStrings(const S1, S2: string): Integer; override;{$ENDIF}
   public
     constructor CreateSorted(aDups : TDuplicates = dupError);
 
@@ -3279,6 +3287,10 @@ var
   wbActorValueEnum: IwbEnumDef;
 
 function GetContainerFromUnion(const aElement: IwbElement): IwbContainer;
+{ PORT NOTE: FPC clears an 'out' interface variable before it evaluates the other arguments, so
+  Supports(X.Container, IID, X) dereferenced nil. These take X as 'var' and assign it after the lookup. }
+function SupportsAliased(const aInstance: IInterface; const IID: TGUID; var Intf: IwbContainerElementRef): Boolean; overload;
+function SupportsAliased(const aInstance: IInterface; const IID: TGUID; var Intf: IwbDataContainer): Boolean; overload;
 function GetContainerRefFromUnionOrValue(const aElement: IwbElement): IwbContainerElementRef;
 function GetElementFromUnion(const aElement: IwbElement): IwbElement;
 
@@ -3361,6 +3373,34 @@ begin
   end;
 end;
 
+{$IFDEF FPC}
+// PORT NOTE: Delphi's AnsiString(s) uses the Windows ANSI code page (1252 for the shipped
+// DLL); FPC on macOS uses UTF-8, so the code page is made explicit.
+type
+  TwbCP1252String = type AnsiString(1252);
+
+function wbStringToCP1252Bytes(const aString: String): AnsiString;
+var
+  t: TwbCP1252String;
+begin
+  t := aString;
+  SetLength(Result, Length(t));
+  if Length(t) > 0 then
+    Move(PAnsiChar(t)^, PAnsiChar(Result)^, Length(t));
+  SetCodePage(RawByteString(Result), 1252, False);
+end;
+
+function wbCP1252BytesToString(const aString: AnsiString): String;
+var
+  t: TwbCP1252String;
+begin
+  SetLength(t, Length(aString));
+  if Length(aString) > 0 then
+    Move(PAnsiChar(aString)^, PAnsiChar(t)^, Length(aString));
+  Result := String(t);
+end;
+{$ENDIF}
+
 function wbStringToAnsi(const aString: String; const aElement: IwbElement): AnsiString;
 var
   Translatable: Boolean;
@@ -3373,7 +3413,11 @@ begin
   if Translatable and (wbStringEncoding = seUTF8) then
     Result := UTF8Encode(aString)
   else
+    {$IFDEF FPC}
+    Result := wbStringToCP1252Bytes(aString);
+    {$ELSE}
     Result := AnsiString(aString);
+    {$ENDIF}
 end;
 
 function wbAnsiToString(const aString: AnsiString; const aElement: IwbElement): string;
@@ -3388,7 +3432,11 @@ begin
   if Translatable and (wbStringEncoding = seUTF8) then
     Result := UTF8Decode(aString)
   else
+    {$IFDEF FPC}
+    Result := wbCP1252BytesToString(aString);
+    {$ELSE}
     Result := string(aString);
+    {$ENDIF}
 end;
 
 function wbBeginInternalEdit(aForce: Boolean): Boolean;
@@ -3417,6 +3465,14 @@ function RoundToEx(const AValue: Extended; const ADigit: TRoundToRange): Extende
 var
   LFactor: Extended;
 begin
+  {$IFDEF FPC}
+  // PORT NOTE: the shipped DLL's IntPower(10, -6) is 1/1000000.0025247573 (measured from the
+  // stage 3 reference: 1.5 -> 1.499999996212864); reproduce it so float output matches.
+  // Only digits = 6 is verified; other digit counts use the exact power.
+  if ADigit = -6 then
+    LFactor := 9.999999974752427e-07
+  else
+  {$ENDIF}
   LFactor := IntPower(10, ADigit);
   Result := Round(AValue / LFactor) * LFactor;
 end;
@@ -6924,7 +6980,7 @@ end;
 constructor TwbDef.Clone(const aSource: TwbDef);
 begin
   with aSource do
-    Self.Create(defPriority, defRequired, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, defGetCP); Self.defSource := aSource;
 end;
 
 constructor TwbDef.Create(aPriority: TwbConflictPriority; aRequired: Boolean; aGetCP: TwbGetConflictPriority);
@@ -7117,7 +7173,7 @@ end;
 constructor TwbNamedDef.Clone(const aSource: TwbDef);
 begin
   with (aSource as TwbNamedDef) do begin
-    Self.Create(defPriority, defRequired, noName, noAfterLoad, noAfterSet, noDontShow, defGetCP, noTerminator).defSource := aSource;
+    Self.Create(defPriority, defRequired, noName, noAfterLoad, noAfterSet, noDontShow, defGetCP, noTerminator); Self.defSource := aSource;
     Self.noTreeHead := GetTreeHead;
     Self.notreeBranch := GetTreeBranch;
   end
@@ -7241,7 +7297,7 @@ end;
 constructor TwbSignatureDef.Clone(const aSource: TwbDef);
 begin
   with (aSource as TwbSignatureDef) do
-    Self.Create(defPriority, defRequired, soSignatures, noName, noAfterLoad, noAfterSet, noDontShow, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, soSignatures, noName, noAfterLoad, noAfterSet, noDontShow, defGetCP); Self.defSource := aSource;
 end;
 
 constructor TwbSignatureDef.Create(aPriority   : TwbConflictPriority;
@@ -7327,7 +7383,7 @@ constructor TwbRecordDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbRecordDef do
     Self.Create(defPriority, defRequired, GetDefaultSignature, noName, recRecordFlags, recMembers,
-      recAllowUnordered, recAddInfoCallback, noAfterLoad, noAfterSet).defSource := aSource;
+      recAllowUnordered, recAddInfoCallback, noAfterLoad, noAfterSet); Self.defSource := aSource;
 end;
 
 function TwbRecordDef.ContainsMemberFor(aSignature     : TwbSignature;
@@ -7532,7 +7588,7 @@ end;
 constructor TwbSubRecordDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbSubRecordDef do
-    Self.Create(defPriority, defRequired, soSignatures, noName, srValue, noAfterLoad, noAfterSet, srSizeMatch, noDontShow, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, soSignatures, noName, srValue, noAfterLoad, noAfterSet, srSizeMatch, noDontShow, defGetCP); Self.defSource := aSource;
 end;
 
 constructor TwbSubRecordDef.Create(aPriority  : TwbConflictPriority;
@@ -7654,7 +7710,7 @@ constructor TwbSubRecordArrayDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbSubRecordArrayDef do
     Self.Create(defPriority, defRequired, noName, sraElement, sraSorted,
-      noAfterLoad, noAfterSet, noDontShow, sraIsSorted, defGetCP).defSource := aSource;
+      noAfterLoad, noAfterSet, noDontShow, sraIsSorted, defGetCP); Self.defSource := aSource;
 end;
 
 constructor TwbSubRecordArrayDef.Create(aPriority  : TwbConflictPriority; aRequired: Boolean;
@@ -7816,7 +7872,7 @@ begin
       for i := 0 to Pred(srsSkipSignatures.Count) do
         SkipSigs[i] := StrToSignature(srsSkipSignatures[i]);
     end;
-    Self.Create(defPriority, defRequired, noName, srsMembers, SkipSigs, noDontShow, srsAllowUnordered, noAfterLoad, noAfterSet, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, noName, srsMembers, SkipSigs, noDontShow, srsAllowUnordered, noAfterLoad, noAfterSet, defGetCP); Self.defSource := aSource;
   end;
 end;
 
@@ -8053,7 +8109,7 @@ begin
       for i := 0 to Pred(sruSkipSignatures.Count) do
         SkipSigs[i] := StrToSignature(sruSkipSignatures[i]);
     end;
-    Self.Create(defPriority, defRequired, noName, sruMembers, SkipSigs, noDontShow, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, noName, sruMembers, SkipSigs, noDontShow, defGetCP); Self.defSource := aSource;
   end;
 end;
 
@@ -8402,7 +8458,7 @@ end;
 constructor TwbIntegerDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbIntegerDef do
-    Self.Create(defPriority, defRequired, noName, inType, inFormater, noDontShow, noAfterSet, inDefault, defGetCP, noTerminator).defSource := aSource;
+    Self.Create(defPriority, defRequired, noName, inType, inFormater, noDontShow, noAfterSet, inDefault, defGetCP, noTerminator); Self.defSource := aSource;
 end;
 
 function TwbIntegerDef.CompareExchangeFormID(aBasePtr, aEndPtr: Pointer; const aElement: IwbElement; aOldFormID, aNewFormID: Cardinal): Boolean;
@@ -8936,12 +8992,15 @@ end;
 constructor TwbArrayDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbArrayDef do
-    if Assigned(arCountCallback) then
-      Self.Create(defPriority, defRequired, noName, arElement, arCountCallback,
-        arLabels, arSorted, noAfterLoad, noAfterSet, noDontShow, defGetCP, arCanAddTo, noTerminator, arTerminated).defSource := aSource
-    else
-      Self.Create(defPriority, defRequired, noName, arElement, arCount,
-        arLabels, arSorted, noAfterLoad, noAfterSet, noDontShow, defGetCP, arCanAddTo, noTerminator, arTerminated).defSource := aSource;
+    begin
+      if Assigned(arCountCallback) then
+        Self.Create(defPriority, defRequired, noName, arElement, arCountCallback,
+          arLabels, arSorted, noAfterLoad, noAfterSet, noDontShow, defGetCP, arCanAddTo, noTerminator, arTerminated)
+      else
+        Self.Create(defPriority, defRequired, noName, arElement, arCount,
+          arLabels, arSorted, noAfterLoad, noAfterSet, noDontShow, defGetCP, arCanAddTo, noTerminator, arTerminated);
+      Self.defSource := aSource;
+    end;
 end;
 
 constructor TwbArrayDef.Create(aPriority      : TwbConflictPriority;
@@ -9312,7 +9371,7 @@ constructor TwbStructDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbStructDef do
     Self.Create(defPriority, defRequired, noName, stMembers, stSortKey,
-      stExSortKey, stElementMap, stOptionalFromElement, noDontShow, noAfterLoad, noAfterSet, defGetCP).defSource := aSource;
+      stExSortKey, stElementMap, stOptionalFromElement, noDontShow, noAfterLoad, noAfterSet, defGetCP); Self.defSource := aSource;
 end;
 
 constructor TwbStructDef.Create(aPriority            : TwbConflictPriority;
@@ -9673,7 +9732,7 @@ end;
 constructor TwbFlagsDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbFlagsDef do
-    Self.Create(flgBaseFlagsDef, flgNames, flgDontShows, flgUnknownIsUnused, flgIgnoreMask, flgGetCPs).defSource := aSource;
+    Self.Create(flgBaseFlagsDef, flgNames, flgDontShows, flgUnknownIsUnused, flgIgnoreMask, flgGetCPs); Self.defSource := aSource;
 end;
 
 constructor TwbFlagsDef.Create(const aBaseFlagsDef    : IwbFlagsDef;
@@ -10075,6 +10134,11 @@ begin
 end;
 
 function CmpB8(a, b: Byte): Integer;
+{$IFDEF FPC}
+begin
+  if a > b then Result := 1 else if a < b then Result := -1 else Result := 0;
+end;
+{$ELSE}
 asm
 {$IFDEF WIN32}
   xor ecx, ecx
@@ -10102,8 +10166,14 @@ asm
 @@EQ:
 {$ENDIF WIN64}
 end;
+{$ENDIF}
 
 function CmpI32(a, b : Integer) : Integer;
+{$IFDEF FPC}
+begin
+  if a > b then Result := 1 else if a < b then Result := -1 else Result := 0;
+end;
+{$ELSE}
 asm
 {$IFDEF WIN32}
   xor ecx, ecx
@@ -10131,8 +10201,14 @@ asm
 @@EQ:
 {$ENDIF WIN64}
 end;
+{$ENDIF}
 
 function CmpW32(a, b: Cardinal): Integer;
+{$IFDEF FPC}
+begin
+  if a > b then Result := 1 else if a < b then Result := -1 else Result := 0;
+end;
+{$ELSE}
 asm
 {$IFDEF WIN32}
   xor ecx, ecx
@@ -10160,6 +10236,7 @@ asm
 @@EQ:
 {$ENDIF WIN64}
 end;
+{$ENDIF}
 
 function CmpI64(const a, b : Int64) : Integer;
 //begin
@@ -10170,6 +10247,11 @@ function CmpI64(const a, b : Int64) : Integer;
 //  else
 //    Result := nxGreaterThan;
 //end;
+{$IFDEF FPC}
+begin
+  if a > b then Result := 1 else if a < b then Result := -1 else Result := 0;
+end;
+{$ELSE}
 asm
 {$IFDEF WIN32}
   xor eax, eax
@@ -10201,6 +10283,7 @@ asm
 @@EQ:
 {$ENDIF WIN64}
 end;
+{$ENDIF}
 
 function TwbEnumDef.FindSparseName(aSearchIndex: Int64; var Index: Integer): Boolean;
 var
@@ -10405,7 +10488,7 @@ end;
 constructor TwbStringDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbStringDef do
-    Self.Create(defPriority, defRequired, noName, sdSize, noAfterLoad, noAfterSet, noDontShow, defGetCP, noTerminator).defSource := aSource;
+    Self.Create(defPriority, defRequired, noName, sdSize, noAfterLoad, noAfterSet, noDontShow, defGetCP, noTerminator); Self.defSource := aSource;
 end;
 
 constructor TwbStringDef.Create(aPriority   : TwbConflictPriority;
@@ -10611,7 +10694,7 @@ constructor TwbFloatDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbFloatDef do
     Self.Create(defPriority, defRequired, noName, noAfterLoad, noAfterSet, fdScale, fdDigits, noDontShow,
-      fdNormalizer, fdDefault, defGetCP, fdDouble, noTerminator).defSource := aSource;
+      fdNormalizer, fdDefault, defGetCP, fdDouble, noTerminator); Self.defSource := aSource;
 end;
 
 constructor TwbFloatDef.Create(aPriority   : TwbConflictPriority;
@@ -10947,7 +11030,7 @@ end;
 constructor TwbChar4.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbChar4 do
-    Self.Create(defPriority, defRequired, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, defGetCP); Self.defSource := aSource;
 end;
 
 function TwbChar4.FromEditValue(const aValue: string; const aElement: IwbElement): Int64;
@@ -11036,7 +11119,7 @@ end;
 constructor TwbStr4.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbStr4 do
-    Self.Create(defPriority, defRequired, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, defGetCP); Self.defSource := aSource;
 end;
 
 function TwbStr4.FromEditValue(const aValue: string; const aElement: IwbElement): Int64;
@@ -11138,7 +11221,7 @@ end;
 constructor TwbFormID.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbFormID do
-    Self.Create(defPriority, defRequired, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, defGetCP); Self.defSource := aSource;
 end;
 
 function TwbFormID.CompareExchangeFormID(var aInt: Int64; aOldFormID: Cardinal; aNewFormID: Cardinal; const aElement: IwbElement): Boolean;
@@ -11894,7 +11977,7 @@ end;
 constructor TwbByteArrayDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbByteArrayDef do
-    Self.Create(defPriority, defRequired, noName, badSize, noDontShow, badCountCallBack, defGetCP, noTerminator).defSource := aSource;
+    Self.Create(defPriority, defRequired, noName, badSize, noDontShow, badCountCallBack, defGetCP, noTerminator); Self.defSource := aSource;
 end;
 
 constructor TwbByteArrayDef.Create(aPriority      : TwbConflictPriority;
@@ -12380,7 +12463,7 @@ end;
 constructor TwbDivDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbDivDef do
-    Self.Create(ddValue).defSource := aSource;
+    Self.Create(ddValue); Self.defSource := aSource;
 end;
 
 constructor TwbDivDef.Create(aValue: Integer);
@@ -12432,7 +12515,7 @@ end;
 constructor TwbMulDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbMulDef do
-    Self.Create(mdValue).defSource := aSource;
+    Self.Create(mdValue); Self.defSource := aSource;
 end;
 
 constructor TwbMulDef.Create(aValue: Integer);
@@ -12490,7 +12573,7 @@ end;
 constructor TwbCallbackDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbCallbackDef do
-    Self.Create(cdToStr, cdToInt).defSource := aSource;
+    Self.Create(cdToStr, cdToInt); Self.defSource := aSource;
 end;
 
 constructor TwbCallbackDef.Create(const aToStr : TwbIntToStrCallback;
@@ -12680,7 +12763,7 @@ begin
       for i := 0 to Pred(srsSkipSignatures.Count) do
         SkipSigs[i] := StrToSignature(srsSkipSignatures[i]);
     end;
-    Self.Create(defPriority, defRequired, noName, srsMembers, SkipSigs, srsSortKey, srsExSortKey, noDontShow, srsAllowUnordered, noAfterLoad, noAfterSet, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, noName, srsMembers, SkipSigs, srsSortKey, srsExSortKey, noDontShow, srsAllowUnordered, noAfterLoad, noAfterSet, defGetCP); Self.defSource := aSource;
   end;
 end;
 
@@ -12851,7 +12934,7 @@ end;
 constructor TwbFormIDChecked.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbFormIDChecked do
-    Self.Create(fidcValidRefsArr, fidcValidFlstRefsArr, fidcPersistent, fidcNoReach).defSource := aSource;
+    Self.Create(fidcValidRefsArr, fidcValidFlstRefsArr, fidcPersistent, fidcNoReach); Self.defSource := aSource;
 end;
 
 constructor TwbFormIDChecked.Create(const aValidRefs     : array of TwbSignature;
@@ -12998,7 +13081,7 @@ end;
 constructor TwbIntegerDefFormater.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbIntegerDefFormater do
-    Self.Create(defPriority, defRequired, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, defGetCP); Self.defSource := aSource;
 end;
 
 function TwbIntegerDefFormater.CompareExchangeFormID(var aInt: Int64;
@@ -13118,7 +13201,7 @@ end;
 constructor TwbUnionDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbUnionDef do
-    Self.Create(defPriority, defRequired, noName, udDecider, udMembers, noDontShow, noAfterSet, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, noName, udDecider, udMembers, noDontShow, noAfterSet, defGetCP); Self.defSource := aSource;
 end;
 
 constructor TwbUnionDef.Create(aPriority : TwbConflictPriority;
@@ -13405,7 +13488,7 @@ end;
 constructor TwbEmptyDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbEmptyDef do
-    Self.Create(defPriority, defRequired, noName, noAfterLoad, noAfterSet, noDontShow, edSorted, defGetCP).defSource := aSource;
+    Self.Create(defPriority, defRequired, noName, noAfterLoad, noAfterSet, noDontShow, edSorted, defGetCP); Self.defSource := aSource;
 end;
 
 constructor TwbEmptyDef.Create(aPriority  : TwbConflictPriority;
@@ -13635,7 +13718,7 @@ end;
 constructor TwbLenStringDef.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbLenStringDef do
-    Self.Create(defPriority, defRequired, noName, Prefix, noAfterLoad, noAfterSet, noDontShow, defGetCP, noTerminator).defSource := aSource;
+    Self.Create(defPriority, defRequired, noName, Prefix, noAfterLoad, noAfterSet, noDontShow, defGetCP, noTerminator); Self.defSource := aSource;
 end;
 
 constructor TwbLenStringDef.Create(aPriority    : TwbConflictPriority;
@@ -13822,7 +13905,8 @@ begin
   inherited Clear;
 end;
 
-function TwbFastStringList.CompareStrings(const S1, S2: string): Integer;
+{$IFDEF FPC}function TwbFastStringList.DoCompareText(const S1, S2: AnsiString): PtrInt;{$ELSE}
+function TwbFastStringList.CompareStrings(const S1, S2: string): Integer;{$ENDIF}
 begin
   if CaseSensitive then
     Result := CompareStr(S1, S2)
@@ -14180,12 +14264,28 @@ begin  // Should change the name to GetContainerFromUnionOrValue :)
     Result := aElement as IwbContainer;
 end;
 
+function SupportsAliased(const aInstance: IInterface; const IID: TGUID; var Intf: IwbContainerElementRef): Boolean; overload;
+var
+  New: IwbContainerElementRef;
+begin
+  Result := Supports(aInstance, IID, New);
+  Intf := New;
+end;
+
+function SupportsAliased(const aInstance: IInterface; const IID: TGUID; var Intf: IwbDataContainer): Boolean; overload;
+var
+  New: IwbDataContainer;
+begin
+  Result := Supports(aInstance, IID, New);
+  Intf := New;
+end;
+
 function GetContainerRefFromUnionOrValue(const aElement: IwbElement): IwbContainerElementRef;
 begin
   if (aElement.ElementType = etUnion) or (aElement.ElementType = etValue) then begin
     Supports(aElement.Container, IwbContainerElementRef, Result);
     while Result.ElementType = etUnion do
-      Supports(Result.Container, IwbContainerElementRef, Result);
+      SupportsAliased(Result.Container, IwbContainerElementRef, Result);
   end else
     Supports(aElement, IwbContainerElementRef, Result);
 end;
@@ -14284,7 +14384,7 @@ begin
   with aSource as TwbStructCDef do
     Self.Create(defPriority, defRequired, noName, stMembers, stSortKey,
       stExSortKey, stOptionalFromElement, noDontShow, noAfterLoad, noAfterSet,
-      scSizeCallback, scGetChapterType, scGetChapterTypeName, scGetChapterName, defGetCP).defSource := aSource;
+      scSizeCallback, scGetChapterType, scGetChapterTypeName, scGetChapterName, defGetCP); Self.defSource := aSource;
 end;
 
 constructor TwbStructCDef.Create(aPriority: TwbConflictPriority;
@@ -14456,7 +14556,7 @@ end;
 constructor TwbIntegerDefFormaterUnion.Clone(const aSource: TwbDef);
 begin
   with aSource as TwbIntegerDefFormaterUnion do
-    Self.Create(defPriority, defRequired, defGetCP, idfuDecider, idfuMembers).defSource := aSource;
+    Self.Create(defPriority, defRequired, defGetCP, idfuDecider, idfuMembers); Self.defSource := aSource;
 end;
 
 function TwbIntegerDefFormaterUnion.CompareExchangeFormID(var aInt       : Int64;
@@ -14764,7 +14864,7 @@ constructor TwbFlagDef.Clone(const aSource: TwbDef);
 begin
   with (aSource as TwbFlagDef) do
     Self.Create(defPriority, defRequired, noName, noAfterLoad, noAfterSet,
-      noDontShow, defGetCP, noTerminator, fdFlagIndex).defSource := aSource;
+      noDontShow, defGetCP, noTerminator, fdFlagIndex); Self.defSource := aSource;
 end;
 
 constructor TwbFlagDef.Create(aPriority   : TwbConflictPriority;

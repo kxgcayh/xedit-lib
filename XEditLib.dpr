@@ -1,7 +1,16 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from XEditLib Original Code provided by Initial Developer matortheeternal.
+// Changes are documented in macos/CHANGES.md; distributed under MPL 1.1.
 library XEditLib;
 
 uses
+  {$IFDEF FPC}
+  {$IFDEF UNIX}cthreads,{$ENDIF}
+  cwstring,
+  DelphiMessages, // Delphi RTL exception texts
+  {$ENDIF}
   SysUtils,
+  {$IFDEF FPC}NativeFaults,{$ENDIF}
   xeHelpers in 'src\xeHelpers.pas',
   xeTypes in 'src\xeTypes.pas',
   xeStackTrace in 'src\xeStackTrace.pas',
@@ -35,8 +44,10 @@ uses
   Argo in 'lib\Argo\Argo.pas',
   ArgoTypes in 'lib\Argo\ArgoTypes.pas';
 
+{$IFNDEF FPC}
 {$R *.RES}
 {$MAXSTACKSIZE 2097152}
+{$ENDIF}
 
 const
   IMAGE_FILE_LARGE_ADDRESS_AWARE = $0020;

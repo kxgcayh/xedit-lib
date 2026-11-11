@@ -1,0 +1,13 @@
+{
+  "group": "hazard_getelements_sparse_flags",
+  "schema": 1,
+  "steps": {
+    "01_GetElements_sparse_on_flags": {
+      "error": "GetElements failed | Access violation at address <ADDR> in module 'XEditLib.dll'. Write of address <ADDR>"
+    },
+    "99_session_survives": {
+      "fileName": "Hazard1.esp",
+      "records": 1
+    }
+  }
+}

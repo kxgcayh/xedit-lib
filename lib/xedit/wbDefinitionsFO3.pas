@@ -11,6 +11,9 @@
      under the License.
 
 *******************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from xEdit Original Code by ElminsterAU and contributors.
+  Changes are documented in macos/CHANGES.md; distributed under MPL 1.1. }
 
 unit wbDefinitionsFO3;
 
@@ -709,7 +712,7 @@ begin
   if not Supports(Param1.LinksTo, IwbMainRecord, MainRecord) then
     Exit;
 {    if Param1.NativeValue = 0 then
-      if Supports(Container.Container, IwbContainerElementRef, Container) then
+      if SupportsAliased(Container.Container, IwbContainerElementRef, Container) then
         for i := 0 to Pred(Container.ElementCount) do
           if Supports(Container.Elements[i], IwbContainerElementRef, Container2) then
             if SameText(Container2.ElementValues['Function'], 'GetIsID') then begin
@@ -1785,7 +1788,7 @@ begin
 
   if Supports(aElement, IwbDataContainer, DataContainer) then begin
     if DataContainer.ElementType = etArray then
-      if not Supports(DataContainer.Container, IwbDataContainer, DataContainer) then
+      if not SupportsAliased(DataContainer.Container, IwbDataContainer, DataContainer) then
         Exit;
     Assert(DataContainer.Name = 'Data');
     Result := PWord(NativeUInt(DataContainer.DataBasePtr) + 3*3*4)^;
@@ -1800,7 +1803,7 @@ begin
 
   if Supports(aElement, IwbDataContainer, DataContainer) then begin
     if DataContainer.ElementType = etArray then
-      if not Supports(DataContainer.Container, IwbDataContainer, DataContainer) then
+      if not SupportsAliased(DataContainer.Container, IwbDataContainer, DataContainer) then
         Exit;
     Assert(DataContainer.Name = 'Data');
     Result := PWord(NativeUInt(DataContainer.DataBasePtr) + 3*3*4 + 2)^;
@@ -1821,7 +1824,7 @@ var
 begin
   if aOldValue <> aNewValue then
     if Supports(aElement.Container, IwbContainerElementRef, Container) then begin
-      if Supports(Container.Container, IwbContainerElementRef, Container) then begin
+      if SupportsAliased(Container.Container, IwbContainerElementRef, Container) then begin
         Container.RemoveElement('DATA');
         Container.Add('DATA', True);
         Container.RemoveElement('Perk Conditions');
@@ -4141,7 +4144,7 @@ begin
   Result := 0;
 
   if Supports(aElement.Container, IwbDataContainer, Container) and (Container.Name = 'OFST - Offset Data') and
-     Supports(Container.Container, IwbDataContainer, Container) then begin
+     SupportsAliased(Container.Container, IwbDataContainer, Container) then begin
     Element := Container.ElementByPath['Object Bounds\NAM0 - Min\X'];
     if Assigned(Element) then begin
       fResult :=  Element.NativeValue;
@@ -4331,28 +4334,28 @@ begin
   wbPosRot :=
     wbStruct('Position/Rotation', [
       wbStruct('Position', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]),
       wbStruct('Rotation', [
-        wbFloat('X', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Y', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Z', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
+        wbFloat(string('X'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Y'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Z'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
       ])
     ]);
 
   wbDATAPosRot :=
     wbStruct(DATA, 'Position/Rotation', [
       wbStruct('Position', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]),
       wbStruct('Rotation', [
-        wbFloat('X', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Y', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Z', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
+        wbFloat(string('X'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Y'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Z'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
       ])
     ], cpNormal, True);
 
@@ -6742,14 +6745,14 @@ begin
       wbFormIDCk(ONAM, 'Static', [STAT]),
       wbArrayS(DATA, 'Placements', wbStruct('Placement', [
         wbStruct('Position', [
-          wbFloat('X'),
-          wbFloat('Y'),
-          wbFloat('Z')
+          wbFloat(string('X')),
+          wbFloat(string('Y')),
+          wbFloat(string('Z'))
         ]),
         wbStruct('Rotation', [
-          wbFloat('X', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-          wbFloat('Y', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-          wbFloat('Z', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
+          wbFloat(string('X'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+          wbFloat(string('Y'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+          wbFloat(string('Z'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
         ]),
         wbFloat('Scale')
       ]), 0, cpNormal, True)
@@ -6998,9 +7001,9 @@ begin
         wbInteger('Doors Count', itU32) // as of version = 5 (earliest NavMesh version I saw (Fallout3 1.7) is already 11)
       ]),
       wbArray(NVVX, 'Vertices', wbStruct('Vertex', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ])),
       wbArray(NVTR, 'Triangles', wbStruct('Triangle', [
         wbArray('Vertices', wbInteger('Vertex', itS16), 3),
@@ -7770,14 +7773,14 @@ begin
     {40} wbFloat('Severable - Debris Scale'),
     wbStruct('Gore Effects Positioning', [
       wbStruct('Translate', [
-        {44} wbFloat('X'),
-        {48} wbFloat('Y'),
-        {52} wbFloat('Z')
+        {44} wbFloat(string('X')),
+        {48} wbFloat(string('Y')),
+        {52} wbFloat(string('Z'))
       ]),
       wbStruct('Rotation', [
-        {56} wbFloat('X', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        {60} wbFloat('Y', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        {64} wbFloat('Z', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
+        {56} wbFloat(string('X'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        {60} wbFloat(string('Y'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        {64} wbFloat(string('Z'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
       ])
     ]),
     {68} wbFormIDCk('Severable - Impact DataSet', [IPDS, NULL]),
@@ -9496,9 +9499,9 @@ begin
     {--- Primitive ---}
     wbStruct(XPRM, 'Primitive', [
       wbStruct('Bounds', [
-        wbFloat('X', cpNormal, True, 2, 4),
-        wbFloat('Y', cpNormal, True, 2, 4),
-        wbFloat('Z', cpNormal, True, 2, 4)
+        wbFloat(string('X'), cpNormal, True, 2, 4),
+        wbFloat(string('Y'), cpNormal, True, 2, 4),
+        wbFloat(string('Z'), cpNormal, True, 2, 4)
       ]),
       wbStruct('Color', [
         {84} wbFloat('Red', cpNormal, False, 255, 0),
@@ -9564,9 +9567,9 @@ begin
 
     {--- Bound Data ---}
     wbStruct(XMBO, 'Bound Half Extents', [
-      wbFloat('X'),
-      wbFloat('Y'),
-      wbFloat('Z')
+      wbFloat(string('X')),
+      wbFloat(string('Y')),
+      wbFloat(string('Z'))
     ]),
 
     {--- Teleport ---}
@@ -9759,9 +9762,9 @@ begin
         wbFloat('Height', cpNormal, False, 2)
       ]),
       wbStruct('Position', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]),
       wbStruct('Rotation (Quaternion?)', [
         wbFloat('q1'),
@@ -9789,9 +9792,9 @@ begin
         wbFloat('Height', cpNormal, False, 2)
       ]),
       wbStruct('Position', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]),
       wbStruct('Rotation (Quaternion?)', [
         wbFloat('q1'),
@@ -9829,8 +9832,8 @@ begin
     wbRArray('Region Areas', wbRStruct('Region Area', [
       wbInteger(RPLI, 'Edge Fall-off', itU32),
       wbArray(RPLD, 'Region Point List Data', wbStruct('Point', [
-        wbFloat('X'),
-        wbFloat('Y')
+        wbFloat(string('X')),
+        wbFloat(string('Y'))
       ]), 0, wbRPLDAfterLoad)
     ], [])),
 
@@ -10465,12 +10468,12 @@ begin
       ]), cpNormal, True),
       wbRStruct('Object Bounds', [
         wbStruct(NAM0, 'Min', [
-          wbFloat('X', cpNormal, False, 1/4096),
-          wbFloat('Y', cpNormal, False, 1/4096)
+          wbFloat(string('X'), cpNormal, False, 1/4096),
+          wbFloat(string('Y'), cpNormal, False, 1/4096)
         ], cpIgnore, True),
         wbStruct(NAM9, 'Max', [
-          wbFloat('X', cpNormal, False, 1/4096),
-          wbFloat('Y', cpNormal, False, 1/4096)
+          wbFloat(string('X'), cpNormal, False, 1/4096),
+          wbFloat(string('Y'), cpNormal, False, 1/4096)
         ], cpIgnore, True)
       ], []),
       wbFormIDCk(ZNAM, 'Music', [MUSC]),
@@ -10559,12 +10562,12 @@ begin
       ]), cpNormal, True),
       wbRStruct('Object Bounds', [
         wbStruct(NAM0, 'Min', [
-          wbFloat('X', cpNormal, False, 1/4096),
-          wbFloat('Y', cpNormal, False, 1/4096)
+          wbFloat(string('X'), cpNormal, False, 1/4096),
+          wbFloat(string('Y'), cpNormal, False, 1/4096)
         ], cpIgnore, True),
         wbStruct(NAM9, 'Max', [
-          wbFloat('X', cpNormal, False, 1/4096),
-          wbFloat('Y', cpNormal, False, 1/4096)
+          wbFloat(string('X'), cpNormal, False, 1/4096),
+          wbFloat(string('Y'), cpNormal, False, 1/4096)
         ], cpIgnore, True)
       ], []),
       wbFormIDCk(ZNAM, 'Music', [MUSC]),

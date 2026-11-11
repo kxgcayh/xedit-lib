@@ -11,6 +11,9 @@
      under the License.
 
 *******************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from BSArch Original Code by Zilav.
+  Changes are documented in macos/CHANGES.md; distributed under MPL 1.1. }
 
 unit wbBSArchive;
 
@@ -1523,12 +1526,18 @@ begin
     raise Exception.Create('Archive is not in writing mode');
 
   i := Length(aRootDir);
-  if (i > 1) and (aRootDir[Length(aRootDir)] <> '\') then
+  if (i > 1) and (aRootDir[Length(aRootDir)] <> '\') {$IFDEF FPC}and (aRootDir[Length(aRootDir)] <> '/'){$ENDIF} then
     Inc(i);
 
   fname := Copy(aFileName, i + 1, Length(aFileName));
 
-  with TFileStream.Create(aFileName, fmOpenRead + fmShareDenyNone) do try
+  {$IFDEF FPC}
+  // Delphi (under Wine, the stage 3 reference) words this error differently from FPC's TFileStream
+  if not SysUtils.FileExists(StringReplace(aFileName, '\', '/', [rfReplaceAll])) then
+    raise EFOpenError.CreateFmt('Cannot open file "%s". File not found', [aFileName]);
+  {$ENDIF}
+  // relative parts use '\' (archive path form); POSIX needs '/' to open the file
+  with TFileStream.Create({$IFDEF FPC}StringReplace(aFileName, '\', '/', [rfReplaceAll]){$ELSE}aFileName{$ENDIF}, fmOpenRead + fmShareDenyNone) do try
     SetLength(Buffer, Size);
     Read(Buffer[0], Length(Buffer));
   finally

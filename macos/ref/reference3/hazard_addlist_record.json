@@ -1,0 +1,16 @@
+{
+  "group": "hazard_addlist_record",
+  "schema": 1,
+  "steps": {
+    "01_GetAddList_on_record": {
+      "error": "GetAddList failed | Access violation at address <ADDR> in module 'XEditLib.dll'. Read of address <ADDR>"
+    },
+    "99_session_survives": {
+      "fileName": "Hazard1.esp",
+      "masters": [
+        "Fixture.esm"
+      ],
+      "records": 1
+    }
+  }
+}

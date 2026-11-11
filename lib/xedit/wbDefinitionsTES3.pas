@@ -11,6 +11,9 @@
      under the License.
 
 *******************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from xEdit Original Code by ElminsterAU and contributors.
+  Changes are documented in macos/CHANGES.md; distributed under MPL 1.1. }
 //------------------------------------------------------------------------------
 // Placeholder for future expansion
 //------------------------------------------------------------------------------
@@ -1135,7 +1138,7 @@ begin
   if not Supports(Param1.LinksTo, IwbMainRecord, MainRecord) then
     Exit;
 {    if Param1.NativeValue = 0 then
-      if Supports(Container.Container, IwbContainerElementRef, Container) then
+      if SupportsAliased(Container.Container, IwbContainerElementRef, Container) then
         for i := 0 to Pred(Container.ElementCount) do
           if Supports(Container.Elements[i], IwbContainerElementRef, Container2) then
             if SameText(Container2.ElementValues['Function'], 'GetIsID') then begin
@@ -1926,28 +1929,28 @@ begin
   wbPosRot :=
     wbStruct('Position/Rotation', [
       wbStruct('Position', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]),
       wbStruct('Rotation', [
-        wbFloat('X', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Y', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Z', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
+        wbFloat(string('X'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Y'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Z'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
       ])
     ]);
 
   wbDATAPosRot :=
     wbStruct(DATA, 'Position/Rotation', [
       wbStruct('Position', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]),
       wbStruct('Rotation', [
-        wbFloat('X', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Y', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Z', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
+        wbFloat(string('X'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Y'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Z'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
       ])
     ], cpNormal, True);
 
@@ -4113,8 +4116,8 @@ begin
 
   wbPGRP :=
     wbArray(PGRP, 'Points', wbStruct('Point', [
-      wbFloat('X'),
-      wbFloat('Y'),
+      wbFloat(string('X')),
+      wbFloat(string('Y')),
       wbFloat('Z (Even = Red/Orange, Odd = Blue)'),
       wbInteger('Connections', itU8{, wbPGRPConnectionsCallback}),
       wbByteArray('Unused', 3)
@@ -4137,9 +4140,9 @@ begin
     wbArrayS(PGRI, 'Inter-Cell Connections', wbStructSK([0,2,3,4], 'Inter-Cell Connection', [
       wbInteger('Point', itU16),
       wbByteArray('Unused', 2),
-      wbFloat('X'),
-      wbFloat('Y'),
-      wbFloat('Z')
+      wbFloat(string('X')),
+      wbFloat(string('Y')),
+      wbFloat(string('Z'))
     ]), 0, cpNormal, False, wbPGRIPointerAfterLoad),
     wbRArrayS('Point-to-Reference Mappings',
       wbStructSK(PGRL, [0], 'Point-to-Reference Mapping', [
@@ -4381,8 +4384,8 @@ begin
     wbRArray('Region Areas', wbRStruct('Region Area', [
       wbInteger(RPLI, 'Edge Fall-off', itU32),
       wbArray(RPLD, 'Region Point List Data', wbStruct('Point', [
-        wbFloat('X'),
-        wbFloat('Y')
+        wbFloat(string('X')),
+        wbFloat(string('Y'))
       ]), 0, wbRPLDAfterLoad)
     ], []), cpNormal, True),
 
@@ -4485,18 +4488,18 @@ begin
        the next 4 of point 3 and so on..., this can currently not be represented
        declaratively }
       wbStruct('Point', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]), 0, nil, nil, cpNormal, True)
   ]);
 
   wbRecord(SBSP, 'Subspace', [
     wbEDID,
     wbStruct(DNAM, '', [
-      wbFloat('X'),
-      wbFloat('Y'),
-      wbFloat('Z')
+      wbFloat(string('X')),
+      wbFloat(string('Y')),
+      wbFloat(string('Z'))
     ], cpNormal, True)
   ]);
 

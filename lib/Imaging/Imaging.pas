@@ -29,7 +29,7 @@
   manipulating image data as well as various image file format support.}
 unit Imaging;
 
-{$I ImagingOptions.inc}
+{$I ImagingOptions.inc}{$IFDEF FPC}{$ASSERTIONS ON}{$ENDIF} // shipped DLL has Imaging asserts on; same line keeps line numbers
 
 interface
 
@@ -4251,3 +4251,6 @@ finalization
 }
 end.
 
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from Vampyre Imaging Library by Marek Mauder.
+  Changes are documented in macos/CHANGES.md; distributed under MPL 1.1 or LGPL. }

@@ -1,3 +1,6 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from XEditLib Original Code provided by Initial Developer matortheeternal.
+// Changes are documented in macos/CHANGES.md; distributed under MPL 1.1.
 unit xeConfiguration;
 
 interface
@@ -78,7 +81,7 @@ begin
   Result := '';
   profilePath := GetCSIDLShellFolder(CSIDL_PERSONAL);
   if profilePath <> '' then
-    Result := profilePath + 'My Games\' + wbGameName2 + '\';
+    Result := profilePath + 'My Games' + PathDelim + wbGameName2 + PathDelim;
 end;
 
 function GetAppDataPath: String;
@@ -88,7 +91,7 @@ begin
   Result := '';
   appDataPath := GetCSIDLShellFolder(CSIDL_LOCAL_APPDATA);
   if appDataPath <> '' then
-    Result := appDataPath + wbGameName2 + '\';
+    Result := appDataPath + wbGameName2 + PathDelim;
 end;
 
 function GetGameIniPath(myGamesPath: String; GameMode: TGameMode): String;
@@ -127,13 +130,13 @@ begin
     GamePath := NativeGetGamePath(GameArray[id]);
 
   // test data path
-  dataPath := GamePath + 'data\';
+  dataPath := GamePath + 'data' + PathDelim;
   if not DirectoryExists(dataPath) then
     raise Exception.Create(Format('Game Data Path "%s" does not exist.', [dataPath]));
 
   // default backup path
   if BackupPath = '' then
-    BackupPath := dataPath + 'zEdit Backups\';
+    BackupPath := dataPath + 'zEdit Backups' + PathDelim;
 
   // update xEdit vars
   GameMode := GameArray[id];

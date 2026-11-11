@@ -1,3 +1,6 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from XEditLib Original Code provided by Initial Developer matortheeternal.
+// Changes are documented in macos/CHANGES.md; distributed under MPL 1.1.
 unit xeErrors;
 
 interface
@@ -72,7 +75,7 @@ const
 implementation
 
 uses
-  SysUtils, StrUtils, Masks, RegularExpressions,
+  SysUtils, StrUtils, {$IFNDEF FPC}Masks,{$ENDIF} RegularExpressions,
   // xelib units
   xeConflict, xeMessages, xeElementValues, xeRecords,
   // library units
@@ -312,7 +315,7 @@ begin
     errors := TList.Create;
     bErrorCheckThreadDone := False;
     elementToCheck := element;
-    TErrorCheckThread.Create;
+    TErrorCheckThread.Create(False);
     Result := True;
   except
     on x: Exception do ExceptionHandler(x);

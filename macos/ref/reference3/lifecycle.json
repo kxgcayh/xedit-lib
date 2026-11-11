@@ -1,0 +1,112 @@
+{
+  "group": "lifecycle",
+  "schema": 1,
+  "steps": {
+    "01_initial": {
+      "loaderStatus": 2,
+      "names": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        "Light.esp",
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        },
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        }
+      ]
+    },
+    "02_unload_last_plugin": {
+      "byName": {
+        "error": "FileByName(Light.esp) failed | Failed to find file with name: Light.esp"
+      },
+      "handleAfter": "Fixture.esm",
+      "names": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        },
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        },
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        }
+      ]
+    },
+    "03_unload_non_last_plugin": {
+      "error": "UnloadPlugin failed | Can only unload last plugin loaded."
+    },
+    "04_reload_unloaded": {
+      "loadOrder": 3,
+      "names": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        "Light.esp",
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        },
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        }
+      ],
+      "records": 1
+    },
+    "05_nuke_loaded_last": {
+      "byName": "Light.esp",
+      "names": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        "Light.esp",
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        },
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        }
+      ]
+    },
+    "06_nuke_loaded_middle": {
+      "names": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        "Light.esp",
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        },
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        }
+      ],
+      "secondLoadOrder": 2,
+      "secondMasters": [
+        "Fixture.esm"
+      ]
+    },
+    "07_records_after_nuke": {
+      "chain": 1,
+      "second": 1
+    },
+    "08_resetStore_then_lookup": {
+      "afterReset": "Fixture.esm",
+      "names": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        "Light.esp",
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        },
+        {
+          "error": "FileByIndex failed | NativeFileByIndex: Index of out of bounds."
+        }
+      ]
+    }
+  }
+}

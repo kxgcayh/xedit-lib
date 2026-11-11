@@ -1,3 +1,6 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from Argo by Colin (matortheeternal).
+// Changes are documented in macos/CHANGES.md; distributed under the MIT License.
 unit ArgoTypes;
 
 interface
@@ -8,7 +11,8 @@ uses
 type
   TFastStringList = class(TStringList)
   protected
-    function CompareStrings(const S1, S2: string): Integer; override;
+    {$IFDEF FPC}function DoCompareText(const S1, S2: AnsiString): PtrInt; override;{$ELSE}
+    function CompareStrings(const S1, S2: string): Integer; override;{$ENDIF}
   end;
 
   PArgoTreeNode = ^TArgoTreeNode;
@@ -49,7 +53,8 @@ uses
   SysUtils, Math;
 
 { TFastStringList }
-function TFastStringList.CompareStrings(const S1, S2: string): Integer;
+{$IFDEF FPC}function TFastStringList.DoCompareText(const S1, S2: AnsiString): PtrInt;{$ELSE}
+function TFastStringList.CompareStrings(const S1, S2: string): Integer;{$ENDIF}
 begin
   Result := CompareStr(S1, S2);
 end;

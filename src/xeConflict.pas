@@ -1,3 +1,6 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from XEditLib Original Code provided by Initial Developer matortheeternal.
+// Changes are documented in macos/CHANGES.md; distributed under MPL 1.1.
 unit xeConflict;
 
 interface
@@ -446,7 +449,7 @@ begin
   if aStoreChildren then begin
     SetLength(ChildNodeArrays, NodeCount);
     for i := 0 to Pred(NodeCount) do begin
-      ChildNodeArrays[i] := TArray<TViewNodeData>.Create();
+      {$IFDEF FPC}ChildNodeArrays[i] := nil;{$ELSE}ChildNodeArrays[i] := TArray<TViewNodeData>.Create();{$ENDIF}
       SetLength(ChildNodeArrays[i], ChildCount);
     end;
   end;

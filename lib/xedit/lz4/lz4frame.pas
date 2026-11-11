@@ -36,12 +36,16 @@
 
  ******************************************************************************
 *)
+(* Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+   Derived from LZ4 / xxHash by Yann Collet, Pascal port by Jose Pascoa.
+   Changes are documented in macos/CHANGES.md; BSD 2-Clause License. *)
 unit lz4frame;
+{$I lz4FPC.inc}
 {$POINTERMATH ON}
 
 interface
 
-uses Windows, xxHash, lz4frame_static, lz4, lz4HC, lz4common;
+uses {$IFNDEF FPC}Windows,{$ENDIF} xxHash, lz4frame_static, lz4, lz4HC, lz4Common;
 
 const
     LZ4F_VERSION = 100;

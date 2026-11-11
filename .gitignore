@@ -82,3 +82,14 @@ FO4 Debug/
 *.jdbg
 lib/BSArch/*.dpr
 lib/BSArch/*.dproj
+
+# macOS port
+.[c]laude/
+xelib_log.txt
+macos/out/
+*.ppu
+*.o
+macos/ref/runtime/
+macos/ref/diagnostics*/
+# macOS port: reference outputs and skip lists are test data
+!macos/**/*.json

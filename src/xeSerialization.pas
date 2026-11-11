@@ -1,3 +1,6 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from XEditLib Original Code provided by Initial Developer matortheeternal.
+// Changes are documented in macos/CHANGES.md; distributed under MPL 1.1.
 unit xeSerialization;
 
 interface
@@ -40,10 +43,16 @@ var
 begin
   Result := TJSONValue.Create;
   if IsFormID(element) and Supports(element.LinksTo, IwbMainRecord, ref) then begin
+    {$IFDEF FPC}
+    // PORT NOTE: the shipped XEditLib.dll emits '<File>:<hex6>' of the referenced record
+    // here, not the EditorID of upstream 72a4f04 (see ParseFormIDString for the import side)
+    Result.Put(ref._File.FileName + ':' + IntToHex(ref.FormID and $00FFFFFF, 6));
+    {$ELSE}
     if ref.ElementExists['EDID'] then
       Result.Put(ref.ElementEditValues['EDID'])
     else
       Result.Put(IntToHex(element.NativeValue, 8));
+    {$ENDIF}
   end
   else begin
     v := element.NativeValue;
@@ -121,7 +130,14 @@ begin
   flags := container.ElementByPath['Record Flags'];
   Result['Record Flags'] := StructToJSON(flags as IwbContainerElementRef);
   formID := container.ElementNativeValues['FormID'];
+  {$IFDEF FPC}
+  // PORT NOTE: follows the shipped XEditLib.dll's observed behaviour, not upstream
+  // source (72a4f04 emits IntToHex(formID, 8)). The DLL writes <file name>:<6 hex digits>.
+  Result.S['FormID'] := container.ContainingMainRecord._File.FileName + ':' +
+    IntToHex(container.ContainingMainRecord.FormID and $00FFFFFF, 6);
+  {$ELSE}
   Result.S['FormID'] := IntToHex(formID, 8);
+  {$ENDIF}
 end;
 
 function RecordToJson(const rec: IwbMainRecord): TJSONObject;
@@ -307,6 +323,17 @@ begin
     signature := obj.S['Signature'];
 end;
 
+{$IFDEF FPC}
+// PORT NOTE: Parity with Windows XEditLib.dll: the shipped DLL cannot
+// import a string FormID ('File:hex6' or hex) in a Record Header; it raises an access
+// violation. We reproduce the same error text instead of importing, so behaviour matches.
+function ParseFormIDString(const str: String; var formID: Cardinal): Boolean;
+begin
+  raise Exception.Create('Access violation at address 0000000000000000 in module ' +
+    '''XEditLib.dll''. Read of address 0000000000000000');
+end;
+{$ENDIF}
+
 function GetObjFormID(obj: TJSONObject; var formID: Cardinal): Boolean;
 var
   v: TJSONValue;
@@ -316,7 +343,11 @@ begin
     v := obj['FormID'];
     case v.JSONValueType of
       jtInt: formID := v.AsVariant;
+      {$IFDEF FPC}
+      jtString: Result := ParseFormIDString(v.AsString, formID);
+      {$ELSE}
       jtString: formID := StrToInt('$' + v.AsString);
+      {$ENDIF}
       else
         Result := false;
     end;
@@ -334,9 +365,13 @@ begin
     exit;
   // raise exception if signature does not match
   recordSig := container.ElementEditValues['Signature'];
+  // PORT NOTE: the shipped XEditLib.dll imports a record whose header signature differs
+  // (stage 3 json step 10), so the check only applies to the Delphi build.
+  {$IFNDEF FPC}
   if GetObjSignature(obj, objSig) and (recordSig <> objSig) then
     raise Exception.Create(Format('Error deserializing record header: record ' +
       'signatures do not match, %s != %s', [recordSig, objSig]));
+  {$ENDIF}
   // set load order formID if different
   recordFormID := container.ElementNativeValues['FormID'];
   if GetObjFormID(obj, objFormID) and (recordFormID <> objFormID) then
@@ -387,8 +422,8 @@ begin
     v := recHeader['FormID'];
     allowOverride := true;
     case v.JSONValueType of
-      jtInt: Result := IntToHex(v.AsVariant, 8);
-      jtString: Result := v.AsString;
+      jtInt: Result := IntToHex(Int64(v.AsVariant) and $FFFFFFFF, 8);
+      jtString: Result := v.AsString; // the header import raises later, as in the DLL
     end;
   end
   else if GetObjString(recObj, 'EDID - Editor ID', str)
@@ -430,7 +465,10 @@ begin
     recObj := ary.O[i];
     key := GetRecordKey(recObj, allowOverride);
     // attempt to resolve existing record if resolution key found
-    if key <> '' then
+    // PORT NOTE: the shipped DLL never finds an existing record by EditorID or name here:
+    // stage 3 json step 15 appends a duplicate. Only FormID keys (allowOverride) resolve.
+    e := nil;
+    if (key <> '') {$IFDEF FPC}and allowOverride{$ENDIF} then
       e := ResolveGroupOrRecord(group, key, '') as IwbElement;
     // override record if it is not in the correct file and
     // it was found by formID

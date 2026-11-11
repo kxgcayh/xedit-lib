@@ -1,3 +1,6 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from XEditLib Original Code provided by Initial Developer matortheeternal.
+// Changes are documented in macos/CHANGES.md; distributed under MPL 1.1.
 unit xeMessages;
 
 interface
@@ -43,7 +46,7 @@ begin
   ExceptionMessage := x.Message;
   if ExceptionMessage = '' then
     ExceptionMessage := 'Unknown exception.';
-  ExceptionStack := x.StackTrace;
+  {$IFDEF FPC}ExceptionStack := CurrentExceptionStack;{$ELSE}ExceptionStack := x.StackTrace;{$ENDIF}
   AddMessage(ExceptionMessage + LineBreak + ExceptionStack);
 end;
 

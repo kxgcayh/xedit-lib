@@ -1,11 +1,14 @@
 { *********************************************************** }
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from TForge Library by Sergey Kasandrov.
+  Changes are documented in macos/CHANGES.md; Apache License 2.0. }
 { *                     TForge Library                      * }
 { *       Copyright (c) Sergey Kasandrov 1997, 2016         * }
 { *********************************************************** }
 
 {$IFDEF FPC}
   {$mode delphi}
-  {$asmmode intel}
+  {$IF DEFINED(CPUI386) OR DEFINED(CPUX86_64)}{$asmmode intel}{$IFEND}
   {$DEFINE TFL_POINTERMATH}
 {$ENDIF}
 

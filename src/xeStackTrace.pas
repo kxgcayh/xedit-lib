@@ -1,7 +1,29 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from XEditLib Original Code provided by Initial Developer matortheeternal.
+// Changes are documented in macos/CHANGES.md; distributed under MPL 1.1.
 unit xeStackTrace;
 
 interface
 
+{$IFDEF FPC}
+// JCL does not exist for FPC: report the raise-time frames of the exception being handled.
+function CurrentExceptionStack: string;
+
+implementation
+
+function CurrentExceptionStack: string;
+var
+  i: Integer;
+begin
+  Result := '';
+  if RaiseList = nil then Exit;
+  Result := BackTraceStrFunc(RaiseList^.Addr);
+  for i := 0 to RaiseList^.Framecount - 1 do
+    Result := Result + #13#10 + BackTraceStrFunc(RaiseList^.Frames[i]);
+end;
+
+end.
+{$ELSE}
 uses
   SysUtils, Classes, JCLDebug;
 
@@ -54,3 +76,4 @@ finalization
   end;
 
 end.
+{$ENDIF}

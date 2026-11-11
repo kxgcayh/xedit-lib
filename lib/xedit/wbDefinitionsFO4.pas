@@ -11,6 +11,9 @@
      under the License.
 
 *******************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from xEdit Original Code by ElminsterAU and contributors.
+  Changes are documented in macos/CHANGES.md; distributed under MPL 1.1. }
 
 unit wbDefinitionsFO4;
 
@@ -2336,7 +2339,7 @@ var
 begin
   if aOldValue <> aNewValue then
     if Supports(aElement.Container, IwbContainerElementRef, Container) then begin
-      if Supports(Container.Container, IwbContainerElementRef, Container) then begin
+      if SupportsAliased(Container.Container, IwbContainerElementRef, Container) then begin
         Container.RemoveElement('DATA');
         Container.Add('DATA', True);
         Container.RemoveElement('Perk Conditions');
@@ -5012,7 +5015,7 @@ begin
   Result := 0;
 
   if Supports(aElement.Container, IwbDataContainer, Container) and (Container.Name = 'OFST - Offset Data') and
-     Supports(Container.Container, IwbDataContainer, Container) then begin
+     SupportsAliased(Container.Container, IwbDataContainer, Container) then begin
     Element := Container.ElementByPath['Object Bounds\NAM0 - Min\X'];
     if Assigned(Element) then begin
       fResult :=  Element.NativeValue;
@@ -6940,28 +6943,28 @@ begin
   wbPosRot :=
     wbStruct('Position/Rotation', [
       wbStruct('Position', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]),
       wbStruct('Rotation', [
-        wbFloat('X', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Y', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Z', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
+        wbFloat(string('X'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Y'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Z'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
       ])
     ]);
 
   wbDATAPosRot :=
     wbStruct(DATA, 'Position/Rotation', [
       wbStruct('Position', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]),
       wbStruct('Rotation', [
-        wbFloat('X', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Y', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-        wbFloat('Z', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
+        wbFloat(string('X'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Y'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+        wbFloat(string('Z'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
       ])
     ], cpNormal, True);
 
@@ -7228,9 +7231,9 @@ begin
         ])
       ]),
       wbArray('Vertices', wbStruct('Vertex', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]), -1),
       wbArray('Triangles',
         wbStruct('Triangle', [
@@ -10348,9 +10351,9 @@ begin
 //          wbFormIDCk('Parent Cell', [CELL])
 //        ]),
 //        wbArray('Vertices', wbStruct('Vertex', [
-//          wbFloat('X'),
-//          wbFloat('Y'),
-//          wbFloat('Z')
+//          wbFloat(string('X')),
+//          wbFloat(string('Y')),
+//          wbFloat(string('Z'))
 //        ]), -1),
 //        wbArray('Triangles',
 //          wbStruct('Triangle', [
@@ -10404,9 +10407,9 @@ begin
         wbStruct(NVMI, 'Navigation Map Info', [
           wbFormIDCk('Navigation Mesh', [NAVM]),
           wbByteArray('Unknown', 4),
-          wbFloat('X'),
-          wbFloat('Y'),
-          wbFloat('Z'),
+          wbFloat(string('X')),
+          wbFloat(string('Y')),
+          wbFloat(string('Z')),
           wbInteger('Preferred Merges Flag', itU32),
           wbArray('Merged To', wbFormIDCk('Mesh', [NAVM]), -1),
           wbArray('Preferred Merges', wbFormIDCk('Mesh', [NAVM]), -1),
@@ -10430,9 +10433,9 @@ begin
                 ])
               , -1),
               wbArray('Vertices', wbStruct('Vertex', [
-                wbFloat('X'),
-                wbFloat('Y'),
-                wbFloat('Z')
+                wbFloat(string('X')),
+                wbFloat(string('Y')),
+                wbFloat(string('Z'))
               ]), -1)
             ])
           ]),
@@ -10557,9 +10560,9 @@ begin
         'Extra Large'
       ])),
       wbStruct('Spawn', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z'),
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z')),
         wbFloat('Spread Degrees'),
         wbInteger('Count', itU32)
       ])
@@ -11139,9 +11142,9 @@ begin
       wbFloat('Location Spring'),
       wbFloat('Target Spring'),
       wbStruct('Rotation Offset', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ])
     ], cpNormal, True, nil, 9),
     wbFormIDCk(MNAM, 'Image Space Modifier', [IMAD])
@@ -12299,9 +12302,9 @@ begin
       wbFloat('Noise UV Scale'),
       wbFloat('Material UV Scale'),
       wbStruct('Projection Vector', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]),
       wbFloat('Normal Dampener'),
       wbFloatColors('Single Pass Color'),
@@ -13983,14 +13986,14 @@ begin
     wbFloat('Eee / LipL'),
     wbFloat('Eh / LipR'),
     wbFloat('FV / LipTh'),
-    wbFloat('I'),
-    wbFloat('K'),
-    wbFloat('N'),
+    wbFloat(string('I')),
+    wbFloat(string('K')),
+    wbFloat(string('N')),
     wbFloat('Oh'),
     wbFloat('OohQ'),
-    wbFloat('R'),
+    wbFloat(string('R')),
     wbFloat('TH'),
-    wbFloat('W'),
+    wbFloat(string('W')),
     wbUnknown
   ], cpNormal, False, nil, 1); // only a single value in HandyRace
 
@@ -14275,8 +14278,8 @@ begin
     wbEmpty(MNAM, 'Male Data Marker'),
     wbStruct(NNAM, 'Male Neck Fat Adjustments Scale', [
       wbByteArray('Unknown', 4),
-      wbFloat('X'),
-      wbFloat('Y')
+      wbFloat(string('X')),
+      wbFloat(string('Y'))
     ]),
     wbRArrayS('Male Head Parts', wbHeadPart),
     wbRArray('Male Race Presets', wbFormIDCk(RPRM, 'Preset NPC', [NPC_, NULL])),
@@ -14293,8 +14296,8 @@ begin
     wbEmpty(FNAM, 'Female Data Marker'),
     wbStruct(NNAM, 'Female Neck Fat Adjustments Scale', [
       wbByteArray('Unknown', 4),
-      wbFloat('X'),
-      wbFloat('Y')
+      wbFloat(string('X')),
+      wbFloat(string('Y'))
     ]),
     wbRArrayS('Female Head Parts', wbHeadPart),
     wbRArray('Female Race Presets', wbFormIDCk(RPRF, 'Preset NPC', [NPC_, NULL])),
@@ -14457,17 +14460,17 @@ begin
     {--- Bound Contents ---}
     {--- Bound Data ---}
     wbStruct(XMBO, 'Bound Half Extents', [
-      wbFloat('X'),
-      wbFloat('Y'),
-      wbFloat('Z')
+      wbFloat(string('X')),
+      wbFloat(string('Y')),
+      wbFloat(string('Z'))
     ]),
 
     {--- Primitive ---}
     wbStruct(XPRM, 'Primitive', [
       wbStruct('Bounds', [
-        wbFloat('X', cpNormal, True, 2, 4),
-        wbFloat('Y', cpNormal, True, 2, 4),
-        wbFloat('Z', cpNormal, True, 2, 4)
+        wbFloat(string('X'), cpNormal, True, 2, 4),
+        wbFloat(string('Y'), cpNormal, True, 2, 4),
+        wbFloat(string('Z'), cpNormal, True, 2, 4)
       ]),
       wbFloatColors('Color'),
       wbFloat('Unknown'),
@@ -14493,9 +14496,9 @@ begin
         wbFloat('Height', cpNormal, False, 2)
       ]),
       wbStruct('Position', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]),
       wbStruct('Rotation (Quaternion?)', [
         wbFloat('q1'),
@@ -14513,9 +14516,9 @@ begin
         wbFloat('Height', cpNormal, False, 2)
       ]),
       wbStruct('Position', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ]),
       wbStruct('Rotation (Quaternion?)', [
         wbFloat('q1'),
@@ -14888,8 +14891,8 @@ begin
     wbRArray('Region Areas', wbRStruct('Region Area', [
       wbInteger(RPLI, 'Edge Fall-off', itU32),
       wbArray(RPLD, 'Region Point List Data', wbStruct('Point', [
-        wbFloat('X'),
-        wbFloat('Y')
+        wbFloat(string('X')),
+        wbFloat(string('Y'))
       ]), 0, wbRPLDAfterLoad),
       wbUnknown(ANAM)
     ], [])),
@@ -15323,14 +15326,14 @@ begin
     ], cpNormal, True, nil, 4),
     wbByteArray(GNAM, 'Unused', 0),
     wbStruct(NAM0, 'Linear Velocity', [
-      wbFloat('X'),
-      wbFloat('Y'),
-      wbFloat('Z')
+      wbFloat(string('X')),
+      wbFloat(string('Y')),
+      wbFloat(string('Z'))
     ], cpNormal, False),
     wbStruct(NAM1, 'Angular Velocity', [
-      wbFloat('X'),
-      wbFloat('Y'),
-      wbFloat('Z')
+      wbFloat(string('X')),
+      wbFloat(string('Y')),
+      wbFloat(string('Z'))
     ], cpNormal, False),
     wbString(NAM2, 'Layer 1 Noise Texture'),
     wbString(NAM3, 'Layer 2 Noise Texture'),
@@ -15575,12 +15578,12 @@ begin
     {>>> Object Bounds doesn't show up in CK <<<}
     wbRStruct('Object Bounds', [
       wbStruct(NAM0, 'Min', [
-        wbFloat('X', cpNormal, False, 1/4096),
-        wbFloat('Y', cpNormal, False, 1/4096)
+        wbFloat(string('X'), cpNormal, False, 1/4096),
+        wbFloat(string('Y'), cpNormal, False, 1/4096)
       ], cpIgnore, True),
       wbStruct(NAM9, 'Max', [
-        wbFloat('X', cpNormal, False, 1/4096),
-        wbFloat('Y', cpNormal, False, 1/4096)
+        wbFloat(string('X'), cpNormal, False, 1/4096),
+        wbFloat(string('Y'), cpNormal, False, 1/4096)
       ], cpIgnore, True)
     ], []),
     wbFormIDCk(ZNAM, 'Music', [MUSC]),
@@ -16224,14 +16227,14 @@ begin
       wbFormIDCk(ONAM, 'Static', [ACTI, ALCH, AMMO, BOOK, CONT, DOOR, FURN, MISC, MSTT, STAT, TERM, WEAP]),
       wbArrayS(DATA, 'Placements', wbStruct('Placement', [
         wbStruct('Position', [
-          wbFloat('X'),
-          wbFloat('Y'),
-          wbFloat('Z')
+          wbFloat(string('X')),
+          wbFloat(string('Y')),
+          wbFloat(string('Z'))
         ]),
         wbStruct('Rotation', [
-          wbFloat('X', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-          wbFloat('Y', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
-          wbFloat('Z', cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
+          wbFloat(string('X'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+          wbFloat(string('Y'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize),
+          wbFloat(string('Z'), cpNormal, True, wbRotationFactor, wbRotationScale, nil, RadiansNormalize)
         ]),
         wbFloat('Scale')
       ]), 0, cpNormal, True)
@@ -16384,9 +16387,9 @@ begin
       ])),
       wbFormIDCk('Imagespace Modifier', [IMAD, NULL]),
       wbStruct('Camera Offset', [
-        wbFloat('X'),
-        wbFloat('Y'),
-        wbFloat('Z')
+        wbFloat(string('X')),
+        wbFloat(string('Y')),
+        wbFloat(string('Z'))
       ])
     ])
   ]);

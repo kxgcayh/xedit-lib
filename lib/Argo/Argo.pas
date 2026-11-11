@@ -1,3 +1,6 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from Argo by Colin (matortheeternal).
+// Changes are documented in macos/CHANGES.md; distributed under the MIT License.
 unit Argo;
 
 interface
@@ -55,7 +58,7 @@ type
     function AsObject: TJSONObject;
     function AsString: String;
     function AsVariant: Variant;
-    function ToString: string; override;
+    function ToString: string; {$IFDEF FPC}reintroduce;{$ELSE}override;{$ENDIF}
     property JSONValueType: TJSONValueType read GetJSONValueType;
   end;
 
@@ -83,7 +86,7 @@ type
     constructor Create(json: string); overload;
     destructor Destroy; override;
     procedure Delete(index: Integer);
-    function ToString: string; override;
+    function ToString: string; {$IFDEF FPC}reintroduce;{$ELSE}override;{$ENDIF}
     property Count: Integer read GetCount;
     property Values[index: Integer]: TJSONValue read GetValue write SetValue; default;
     property S[index: Integer]: String read GetS write SetS;
@@ -110,7 +113,7 @@ type
     {$IFNDEF FAST_KEY_ACCESS}
     _Keys: TFastStringList;
     {$ENDIF}
-    constructor Create(var P: PWideChar) overload;
+    constructor Create(var P: PWideChar); overload;
     procedure ParsePair(var P: PWideChar);
     procedure AddPair(key: string; value: TJSONValue);
     function GetKey(index: Integer): String;
@@ -138,7 +141,7 @@ type
     destructor Destroy; override;
     function HasKey(key: string): Boolean;
     procedure Delete(key: string);
-    function ToString: string; override;
+    function ToString: string; {$IFDEF FPC}reintroduce;{$ELSE}override;{$ENDIF}
     property Keys[index: Integer]: String read GetKey;
     property Values[index: string]: TJSONValue read GetValue write SetValue; default;
     property ValueFromIndex[index: Integer]: TJSONValue read GetValueFromIndex write SetValueFromIndex;

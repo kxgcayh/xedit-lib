@@ -11,6 +11,9 @@
      under the License.
 
 *******************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from xEdit Original Code by ElminsterAU and contributors.
+  Changes are documented in macos/CHANGES.md; distributed under MPL 1.1. }
 
 unit wbHelpers;
 
@@ -22,6 +25,13 @@ uses
   Classes,
   Windows,
   SysUtils,
+  {$IFDEF FPC}
+  IniFiles,
+  RegExpr,
+  md5,
+  sha1,
+  wbInterface;
+  {$ELSE}
   Vcl.Graphics,
   ShellAPI,
   ShlObj,
@@ -31,6 +41,7 @@ uses
   wbInterface,
   Imaging,
   ImagingTypes;
+  {$ENDIF}
 
 Const
   CRCSeed = $ffffffff;
@@ -81,7 +92,7 @@ Const
       $b40bbe37, $c30c8ea1, $5a05df1b, $2d02ef8d  );
 //{$ENDIF}
 
-function wbDistance(const a, b: TwbVector): Single; overload
+function wbDistance(const a, b: TwbVector): Single; overload;
 function wbDistance(const a, b: IwbMainRecord): Single; overload;
 function wbStringToSignatures(aSignatures: string): TwbSignatures;
 function wbGetSiblingREFRsWithin(const aMainRecord: IwbMainRecord; aDistance: Single): TDynMainRecords;
@@ -93,6 +104,7 @@ function IsFileESL(const aFileName: string): Boolean;
 function IsFileCC(const aFileName: string): Boolean;
 procedure DeleteDirectory(const DirName: string);
 function FullPathToFilename(aString: string): string;
+{$IFNDEF FPC}
 procedure wbFlipBitmap(aBitmap: TBitmap; MirrorType: Integer); // MirrorType: 1 - horizontal, 2 - vertical, 0 - both
 function wbAlphaBlend(DestDC, X, Y, Width, Height,
   SrcDC, SrcX, SrcY, SrcWidth, SrcHeight, Alpha: integer): Boolean;
@@ -100,6 +112,7 @@ procedure SaveFont(aIni: TMemIniFile; aSection, aName: string; aFont: TFont);
 procedure LoadFont(aIni: TMemIniFile; aSection, aName: string; aFont: TFont);
 function wbDDSDataToBitmap(aData: TBytes; Bitmap: TBitmap): Boolean;
 function wbDDSStreamToBitmap(aStream: TStream; Bitmap: TBitmap): Boolean;
+{$ENDIF}
 function wbCRC32Data(aData: TBytes): Cardinal;
 function wbCRC32File(aFileName: string): Cardinal;
 function bscrc32(const aText: string): Cardinal; // hashing func used in Fallout 4
@@ -108,9 +121,13 @@ function wbSHA1Data(aData: TBytes): string;
 function wbSHA1File(aFileName: string): string;
 function wbMD5Data(aData: TBytes): string;
 function wbMD5File(aFileName: string): string;
+{$IFNDEF FPC}
 function wbIsAssociatedWithExtension(aExt: string): Boolean;
 function wbAssociateWithExtension(aExt, aName, aDescr: string): Boolean;
+{$ENDIF}
+{$IFNDEF FPC}
 function ExecuteCaptureConsoleOutput(const aCommandLine: string): Cardinal;
+{$ENDIF}
 
 
 type
@@ -125,7 +142,8 @@ procedure wbLeveledListCheckCircular(const aMainRecord: IwbMainRecord; aStack: P
 type
   TnxFastStringList = class(TStringList)
   protected
-    function CompareStrings(const S1, S2: string): Integer; override;
+    {$IFDEF FPC}function DoCompareText(const S1, S2: AnsiString): PtrInt; override;{$ELSE}
+    function CompareStrings(const S1, S2: string): Integer; override;{$ENDIF}
   public
     constructor CreateSorted(aDups : TDuplicates = dupError);
 
@@ -442,6 +460,15 @@ begin
   if Length(wbCreationClubContent) <> 0 then
     Result := MatchText(aFileName, wbCreationClubContent)
   else
+  {$IFDEF FPC}
+  with TRegExpr.Create(ccFileMask) do try
+    ModifierI := True;
+    ModifierS := True;
+    Result := Exec(aFileName);
+  finally
+    Free;
+  end;
+  {$ELSE}
   with TPerlRegEx.Create do try
     Subject := aFileName;
     RegEx := ccFileMask;
@@ -450,8 +477,30 @@ begin
   finally
     Free;
   end;
+  {$ENDIF}
 end;
 
+{$IFDEF FPC}
+procedure DeleteDirectory(const DirName: string);
+var
+  sr: TSearchRec;
+  Dir: string;
+begin
+  Dir := IncludeTrailingPathDelimiter(DirName);
+  if FindFirst(Dir + '*', faAnyFile, sr) = 0 then try
+    repeat
+      if (sr.Name = '.') or (sr.Name = '..') then Continue;
+      if (sr.Attr and faDirectory) <> 0 then
+        DeleteDirectory(Dir + sr.Name)
+      else
+        SysUtils.DeleteFile(Dir + sr.Name);
+    until FindNext(sr) <> 0;
+  finally
+    FindClose(sr);
+  end;
+  RemoveDir(DirName);
+end;
+{$ELSE}
 procedure DeleteDirectory(const DirName: string);
 var
   FileOp: TSHFileOpStruct;
@@ -462,6 +511,7 @@ begin
   FileOp.fFlags := FOF_SILENT or FOF_NOERRORUI or FOF_NOCONFIRMATION;
   SHFileOperation(FileOp);
 end;
+{$ENDIF}
 
 function FullPathToFilename(aString: string): string;
 var
@@ -486,6 +536,7 @@ begin
   Result := s;
 end;
 
+{$IFNDEF FPC}
 procedure wbFlipBitmap(aBitmap: TBitmap; MirrorType: Integer);
 var
   MemBmp: TBitmap;
@@ -562,6 +613,7 @@ begin
   aFont.Style   := TFontStyles(Byte(aIni.ReadInteger(aSection, aName + 'Style', Byte(aFont.Style))));
 end;
 
+{$ENDIF}
 var
   crctbl: array[0..7] of array[0..255] of cardinal;
 
@@ -789,6 +841,7 @@ begin
 end;
 
 
+{$IFNDEF FPC}
 function CryptAcquireContext(var phProv: DWORD;
   pszContainer, pszProvider: LPCSTR; dwProvType, dwFlags: DWORD): BOOL;
   stdcall; external advapi32 name 'CryptAcquireContextA';
@@ -892,6 +945,35 @@ begin
 end;
 
 
+{$ENDIF}
+{$IFDEF FPC}
+function wbSHA1Data(aData: TBytes): string;
+begin
+  if Length(aData) = 0 then Result := SHA1Print(SHA1Buffer(Pointer(nil)^, 0))
+  else Result := SHA1Print(SHA1Buffer(aData[0], Length(aData)));
+end;
+
+function wbSHA1File(aFileName: string): string;
+begin
+  Result := '';
+  if FileExists(aFileName) then
+    Result := SHA1Print(SHA1File(aFileName));
+end;
+
+function wbMD5Data(aData: TBytes): string;
+begin
+  if Length(aData) = 0 then Result := MD5Print(MD5Buffer(Pointer(nil)^, 0))
+  else Result := MD5Print(MD5Buffer(aData[0], Length(aData)));
+end;
+
+function wbMD5File(aFileName: string): string;
+begin
+  Result := '';
+  if FileExists(aFileName) then
+    Result := MD5Print(MD5File(aFileName));
+end;
+{$ENDIF}
+
 { TnxFastStringList }
 
 procedure TnxFastStringList.Clear(aFreeObjects: Boolean);
@@ -904,7 +986,8 @@ begin
   inherited Clear;
 end;
 
-function TnxFastStringList.CompareStrings(const S1, S2: string): Integer;
+{$IFDEF FPC}function TnxFastStringList.DoCompareText(const S1, S2: AnsiString): PtrInt;{$ELSE}
+function TnxFastStringList.CompareStrings(const S1, S2: string): Integer;{$ENDIF}
 begin
   {x$IFDEF DCC6OrLater}
   if CaseSensitive then
@@ -1143,6 +1226,36 @@ begin
   //   can use a private ini to specify the bsa to use.
   if not exact then
     ModName := ModName + '*';
+{$IFDEF FPC}
+  if FindFirst(DataPath + '*', faAnyFile, F) = 0 then try
+    repeat
+      if (F.Name = '.') or (F.Name = '..') then
+        Continue;
+      if not SameText(ExtractFileExt(F.Name), wbArchiveExtension) then
+        Continue;
+      if exact then begin
+        if not SameText(F.Name, ModName + wbArchiveExtension) then
+          Continue;
+      end else begin
+        if not StartsText(Copy(ModName, 1, Length(ModName) - 1), F.Name) then
+          Continue;
+      end;
+      if wbContainerHandler.ContainerExists(DataPath + F.Name) then
+        Continue;
+      t := MakeDataFileName(F.Name, DataPath);
+      if (Length(t)>0) and FileExists(t) then begin
+        if not wbContainerHandler.ContainerExists(t) then
+          if Assigned(bsaNames) then
+            bsaNames.Add(F.Name);
+      end else
+        if Assigned(bsaMissing) then
+          bsaMissing.Add(F.Name);
+    until FindNext(F) <> 0;
+    Result := bsaNames.Count  + bsaMissing.Count - j;
+  finally
+    FindClose(F);
+  end;
+{$ELSE}
   if FindFirst(DataPath + ModName + wbArchiveExtension, faAnyFile, F) = 0 then try
     repeat
       if wbContainerHandler.ContainerExists(DataPath + F.Name) then
@@ -1160,11 +1273,13 @@ begin
   finally
     FindClose(F);
   end;
+{$ENDIF}
 
   if modIni then
     Result := Result + FindBSAs(DataPath+ChangeFileExt(ModName, '.ini'), DataPath, bsaNames, bsaMissing);
 end;
 
+{$IFNDEF FPC}
 function wbDDSDataToBitmap(aData: TBytes; Bitmap: TBitmap): Boolean;
 var
   img: TImageData;
@@ -1262,6 +1377,7 @@ begin
   SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nil, nil);
 end;
 
+{$ENDIF}
 function wbFormVerDecider(aBasePtr: Pointer; aEndPtr: Pointer; const aElement: IwbElement; aMinimum: Integer): Integer;
 var
   FormVer    : Integer;
@@ -1286,6 +1402,7 @@ begin
   Result := wbFormVerDecider(aBasePtr, aEndPtr, aElement, 78);
 end;
 
+{$IFNDEF FPC}
 function ExecuteCaptureConsoleOutput(const aCommandLine: string): Cardinal;
 type
   OemString = type AnsiString(CP_OEMCP);
@@ -1367,6 +1484,7 @@ end;
 
 
 
+{$ENDIF}
 initialization
   CRCInit;
 

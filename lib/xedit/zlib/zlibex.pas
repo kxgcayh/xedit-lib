@@ -101,6 +101,9 @@
 *    2012.12.14  moacir schmidt                                                                  *
 *    2013.05.23  roman ganz                                                                      *
 *************************************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from ZLibEx by Brent Sherwood / base2 technologies and Borland Software Corporation.
+  Changes are documented in macos/CHANGES.md; permissive terms in lib/xedit/zlib/README.txt. }
 
 unit ZLibEx;
 
@@ -928,7 +931,7 @@ begin
   result := param^.InSize - param^.InPosition;
   if result > size then result := size;
 
-  Move(Pointer(Integer(param^.InBuffer) + param^.InPosition)^, buffer, result);
+  Move(Pointer(NativeUInt(param^.InBuffer) + param^.InPosition)^, buffer, result); // PORT FIX (both compilers): NativeUInt avoids 64-bit pointer truncation on Win64
 
   Inc(param^.InPosition, result);
 end;
@@ -946,7 +949,7 @@ begin
     ReallocMem(Pointer(param^.OutBuffer), param^.OutSize);
   end;
 
-  Move(buffer, Pointer(Integer(param^.OutBuffer) + param^.OutPosition)^, size);
+  Move(buffer, Pointer(NativeUInt(param^.OutBuffer) + param^.OutPosition)^, size); // PORT FIX (both compilers): NativeUInt avoids 64-bit pointer truncation on Win64
 
   Inc(param^.OutPosition, size);
 
@@ -980,7 +983,7 @@ begin
   end;
 end;
 
-procedure ZInternalDecompressEx(zstream: TZStreamRec; const inBuffer: Pointer;
+procedure ZInternalDecompressEx(var zstream: TZStreamRec; const inBuffer: Pointer; // PORT FIX (both compilers): var avoids copy where zlib state->strm points to caller stream
   inSize: Integer; out outBuffer: Pointer; out outSize: Integer;
   outEstimate: Integer);
 var
@@ -1066,7 +1069,7 @@ begin
   end;
 end;
 
-procedure ZInternalDecompress(zstream: TZStreamRec; const inBuffer: Pointer;
+procedure ZInternalDecompress(var zstream: TZStreamRec; const inBuffer: Pointer; // PORT FIX (both compilers): var avoids copy where zlib state->strm points to caller stream
   inSize: Integer; out outBuffer: Pointer; out outSize: Integer;
   outEstimate: Integer);
 var
@@ -1524,7 +1527,7 @@ begin
   result := param^.OutStream.Write(buffer, size);
 end;
 
-procedure ZInternalCompressStreamEx(zstream: TZStreamRec; inStream,
+procedure ZInternalCompressStreamEx(var zstream: TZStreamRec; inStream, // PORT FIX (both compilers): var avoids copy where zlib state->strm points to caller stream
   outStream: TStream);
 var
   param: TZStreamParam;
@@ -1539,7 +1542,7 @@ begin
   ZCompressCheck(ZDeflateEnd(zstream));
 end;
 
-procedure ZInternalDecompressStreamEx(zstream: TZStreamRec; inStream,
+procedure ZInternalDecompressStreamEx(var zstream: TZStreamRec; inStream, // PORT FIX (both compilers): var avoids copy where zlib state->strm points to caller stream
   outStream: TStream);
 var
   param: TZStreamParam;
@@ -1554,7 +1557,7 @@ begin
   ZDecompressCheck(ZInflateEnd(zstream));
 end;
 
-procedure ZInternalCompressStream(zstream: TZStreamRec; inStream,
+procedure ZInternalCompressStream(var zstream: TZStreamRec; inStream, // PORT FIX (both compilers): var avoids copy where zlib state->strm points to caller stream
   outStream: TStream);
 const
   bufferSize = 32768;
@@ -1601,7 +1604,7 @@ begin
   ZCompressCheck(ZDeflateEnd(zstream));
 end;
 
-procedure ZInternalDecompressStream(zstream: TZStreamRec; inStream,
+procedure ZInternalDecompressStream(var zstream: TZStreamRec; inStream, // PORT FIX (both compilers): var avoids copy where zlib state->strm points to caller stream
   outStream: TStream);
 const
   bufferSize = 32768;
@@ -2102,7 +2105,7 @@ begin
   begin
     BufferCapacity(FBufferSize + size);
 
-    Move(buffer^, Pointer(Integer(FBuffer) + FBufferSize)^, size);
+    Move(buffer^, Pointer(NativeUInt(FBuffer) + FBufferSize)^, size); // PORT FIX (both compilers): NativeUInt avoids 64-bit pointer truncation on Win64
 
     Inc(FBufferSize, size);
   end;
@@ -2114,7 +2117,7 @@ begin
   begin
     Move(FBuffer^, buffer^, size);
 
-    Move(Pointer(Integer(FBuffer) + size)^, FBuffer^, FBufferSize - size);
+    Move(Pointer(NativeUInt(FBuffer) + size)^, FBuffer^, FBufferSize - size); // PORT FIX (both compilers): NativeUInt avoids 64-bit pointer truncation on Win64
 
     Dec(FBufferSize, size);
   end;

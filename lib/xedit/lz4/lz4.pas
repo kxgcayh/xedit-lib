@@ -37,12 +37,16 @@
 
  ******************************************************************************
 *)
+(* Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+   Derived from LZ4 / xxHash by Yann Collet, Pascal port by Jose Pascoa.
+   Changes are documented in macos/CHANGES.md; BSD 2-Clause License. *)
 unit lz4;
+{$I lz4FPC.inc}
 {$POINTERMATH ON}
 
 interface
 
-uses Windows, lz4Common;
+uses {$IFNDEF FPC}Windows,{$ENDIF} lz4Common;
 
 const
     LZ4_VERSION_MAJOR = 1;
@@ -175,9 +179,9 @@ const
     SHL2 = ((MINMATCH * 8) - LZ4_HASHLOG);
 begin
     if (tableType = byU16) then
-        result := (sequence * 2654435761) shr SHL1
+        result := cardinal(sequence * cardinal(2654435761)) shr SHL1
     else
-        result := (sequence * 2654435761) shr SHL2;
+        result := cardinal(sequence * cardinal(2654435761)) shr SHL2;
 end;
 
 function LZ4_hashPosition(const p: pByte; tableType: tableType_t): cardinal; inline;
@@ -221,7 +225,7 @@ begin
 end;
 
 function LZ4_compress_generic(ctx: pointer; const source: pointer; dest: pointer; inputSize: integer; maxOutputSize: integer;
-  outputLimited: limitedOutput_directive; tableType: tableType_t; dict: dict_directive; dictIssue: dictIssue_directive): integer; inline;
+  outputLimited: limitedOutput_directive; tableType: tableType_t; dict: dict_directive; dictIssue: dictIssue_directive): integer; {$IFNDEF FPC}inline;{$ENDIF}
 var
     lowRefLimit: pByte;
     match: pByte;
@@ -509,7 +513,7 @@ end;
 
 function LZ4_decompress_generic(const source: pointer; const dest: pointer; inputSize: integer; outputSize: integer;
   endOnInput: integer; partialDecoding: integer; targetOutputSize: integer; dict: integer;
-  const lowPrefix: pByte; const dictStart: pByte; const dictSize: size_t): integer; inline;
+  const lowPrefix: pByte; const dictStart: pByte; const dictSize: size_t): integer; {$IFNDEF FPC}inline;{$ENDIF}
 var
     ip: pByte;
     iend: pByte;
@@ -784,7 +788,7 @@ begin
 end;
 
 function LZ4_compress_continue_generic(LZ4_stream: pointer; source: pointer; dest: pointer; inputSize: integer; maxOutputSize: integer;
-  limit: limitedOutput_directive): integer; inline;
+  limit: limitedOutput_directive): integer; {$IFNDEF FPC}inline;{$ENDIF}
 var
     streamPtr: PLZ4_stream_t_internal;
     dictEnd: pByte;
@@ -1027,7 +1031,7 @@ begin
 end;
 
 function LZ4_decompress_usingDict_generic(source: pAnsiChar; dest: pAnsiChar; compressedSize: integer; maxOutputSize: integer;
-  safe: integer; dictStart: pAnsiChar; dictSize: integer): integer; inline;
+  safe: integer; dictStart: pAnsiChar; dictSize: integer): integer; {$IFNDEF FPC}inline;{$ENDIF}
 begin
     if dictSize = 0 then
         exit(LZ4_decompress_generic(source, dest, compressedSize, maxOutputSize, safe, integer(full), 0, integer(noDict),

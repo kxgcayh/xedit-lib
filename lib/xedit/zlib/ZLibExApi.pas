@@ -38,6 +38,9 @@
 *    roman ganz                                                                                  *
 *      2013.05.23  informing me about the zlib 1.2.8 update                                      *
 *************************************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from ZLibEx by Brent Sherwood / base2 technologies and Borland Software Corporation.
+  Changes are documented in macos/CHANGES.md; permissive terms in lib/xedit/zlib/README.txt. }
 
 unit ZLibExApi;
 
@@ -135,6 +138,17 @@ type
 
   {** TZStreamRec *******************************************************************************}
 
+  {$ifdef FPC}
+  // FPC: C layout of z_stream (uLong is 64-bit on LP64), so no 'packed'
+  TZStreamRec = record
+    next_in  : PByte;
+    avail_in : Cardinal;
+    total_in : NativeUInt;
+
+    next_out : PByte;
+    avail_out: Cardinal;
+    total_out: NativeUInt;
+  {$else}
   TZStreamRec = packed record
     next_in  : PByte;     // next input byte
     avail_in : Cardinal;  // number of bytes available at next_in
@@ -143,6 +157,7 @@ type
     next_out : PByte;     // next output byte should be put here
     avail_out: Cardinal;  // remaining free space at next_out
     total_out: Longword;  // total nb of bytes output so far
+  {$endif}
 
     msg      : PAnsiChar; // last error message, NULL if no error
     state    : Pointer;   // not visible by applications
@@ -152,8 +167,8 @@ type
     opaque   : Pointer;   // private data object passed to zalloc and zfree
 
     data_type: Integer;   // best guess about the data type: ascii or binary
-    adler    : Longword;  // adler32 value of the uncompressed data
-    reserved : Longword;  // reserved for future use
+    adler    : {$ifdef FPC} NativeUInt {$else} Longword {$endif};  // adler32 value of the uncompressed data
+    reserved : {$ifdef FPC} NativeUInt {$else} Longword {$endif};  // reserved for future use
   end;
 
 {** macros **************************************************************************************}
@@ -175,31 +190,43 @@ function inflateInit2(var strm: TZStreamRec; windowBits: Integer): Integer;
 
 function deflateInit_(var strm: TZStreamRec; level: Integer;
   version: PAnsiChar; recsize: Integer): Integer;
+  {$ifdef FPC} cdecl; {$endif}
 
 function deflateInit2_(var strm: TZStreamRec; level, method, windowBits,
   memLevel, strategy: Integer; version: PAnsiChar; recsize: Integer): Integer;
+  {$ifdef FPC} cdecl; {$endif}
 
 function deflate(var strm: TZStreamRec; flush: Integer): Integer;
+  {$ifdef FPC} cdecl; {$endif}
 
 function deflateEnd(var strm: TZStreamRec): Integer;
+  {$ifdef FPC} cdecl; {$endif}
 
 function deflateReset(var strm: TZStreamRec): Integer;
+  {$ifdef FPC} cdecl; {$endif}
 
 function inflateInit_(var strm: TZStreamRec; version: PAnsiChar;
   recsize: Integer): Integer;
+  {$ifdef FPC} cdecl; {$endif}
 
 function inflateInit2_(var strm: TZStreamRec; windowBits: Integer;
   version: PAnsiChar; recsize: Integer): Integer;
+  {$ifdef FPC} cdecl; {$endif}
 
 function inflate(var strm: TZStreamRec; flush: Integer): Integer;
+  {$ifdef FPC} cdecl; {$endif}
 
 function inflateEnd(var strm: TZStreamRec): Integer;
+  {$ifdef FPC} cdecl; {$endif}
 
 function inflateReset(var strm: TZStreamRec): Integer;
+  {$ifdef FPC} cdecl; {$endif}
 
-function adler32(adler: Longint; const buf; len: Integer): Longint;
+function adler32(adler: {$ifdef FPC} NativeUInt {$else} Longint {$endif}; const buf; len: Cardinal): {$ifdef FPC} NativeUInt {$else} Longint {$endif}; // PORT FIX (both compilers): len is unsigned uInt in zlib, Cardinal avoids 32-bit signed truncation
+  {$ifdef FPC} cdecl; {$endif}
 
-function crc32(crc: Longint; const buf; len: Integer): Longint;
+function crc32(crc: {$ifdef FPC} NativeUInt {$else} Longint {$endif}; const buf; len: Cardinal): {$ifdef FPC} NativeUInt {$else} Longint {$endif}; // PORT FIX (both compilers): len is unsigned uInt in zlib, Cardinal avoids 32-bit signed truncation
+  {$ifdef FPC} cdecl; {$endif}
 
 implementation
 
@@ -213,6 +240,10 @@ implementation
 *  functions being undefined                                                                     *
 *************************************************************************************************}
 
+{$ifdef FPC}
+// FPC: the shipped .obj files are Windows-only; use the system libz (zlib 1.x, libz.dylib on macOS)
+{$linklib z}
+{$else}
 {$ifdef WIN64}
 {$L win64\deflate.obj}
 {$L win64\inflate.obj}
@@ -233,6 +264,7 @@ implementation
 {$L win32\compress.obj}
 {$L win32\adler32.obj}
 {$L win32\crc32.obj}
+{$endif}
 {$endif}
 
 {** macros **************************************************************************************}
@@ -264,44 +296,45 @@ end;
 
 function deflateInit_(var strm: TZStreamRec; level: Integer;
   version: PAnsiChar; recsize: Integer): Integer;
-  external;
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
 function deflateInit2_(var strm: TZStreamRec; level, method, windowBits,
   memLevel, strategy: Integer; version: PAnsiChar; recsize: Integer): Integer;
-  external;
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
 function deflate(var strm: TZStreamRec; flush: Integer): Integer;
-  external;
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
 function deflateEnd(var strm: TZStreamRec): Integer;
-  external;
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
 function deflateReset(var strm: TZStreamRec): Integer;
-  external;
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
 function inflateInit_(var strm: TZStreamRec; version: PAnsiChar;
   recsize: Integer): Integer;
-  external;
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
 function inflateInit2_(var strm: TZStreamRec; windowBits: Integer;
   version: PAnsiChar; recsize: Integer): Integer;
-  external;
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
 function inflate(var strm: TZStreamRec; flush: Integer): Integer;
-  external;
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
 function inflateEnd(var strm: TZStreamRec): Integer;
-  external;
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
 function inflateReset(var strm: TZStreamRec): Integer;
-  external;
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
-function adler32(adler: Longint; const buf; len: Integer): Longint;
-  external;
+function adler32(adler: {$ifdef FPC} NativeUInt {$else} Longint {$endif}; const buf; len: Cardinal): {$ifdef FPC} NativeUInt {$else} Longint {$endif}; // PORT FIX (both compilers): len is unsigned uInt in zlib, Cardinal avoids 32-bit signed truncation
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
-function crc32(crc: Longint; const buf; len: Integer): Longint;
-  external;
+function crc32(crc: {$ifdef FPC} NativeUInt {$else} Longint {$endif}; const buf; len: Cardinal): {$ifdef FPC} NativeUInt {$else} Longint {$endif}; // PORT FIX (both compilers): len is unsigned uInt in zlib, Cardinal avoids 32-bit signed truncation
+  {$ifdef FPC} cdecl; external 'z'; {$else} external; {$endif}
 
+{$ifndef FPC}
 {** zlib function implementations ***************************************************************}
 
 function zcalloc(opaque: Pointer; items, size: Integer): Pointer;
@@ -333,6 +366,7 @@ procedure _llmod;
 asm
   jmp System.@_llmod;
 end;
+{$endif}
 {$endif}
 
 end.

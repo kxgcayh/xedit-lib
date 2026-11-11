@@ -11,6 +11,9 @@
      under the License.
 
 *******************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from xEdit Original Code by ElminsterAU and contributors.
+  Changes are documented in macos/CHANGES.md; distributed under MPL 1.1. }
 
 unit wbLocalization;
 
@@ -427,7 +430,7 @@ end;
 
 function TwbLocalizationHandler.GetStringsPath: string;
 begin
-  Result := wbDataPath + 'Strings\';
+  Result := wbDataPath + 'Strings' + PathDelim;
 end;
 
 function TwbLocalizationHandler.AvailableLanguages: TStringList;
@@ -437,6 +440,28 @@ var
   s: string;
 begin
   Result := TStringList.Create;
+{$IFDEF FPC}
+  if FindFirst(StringsPath + '*', faAnyFile, F) = 0 then try
+    repeat
+      if (F.Name = '.') or (F.Name = '..') then Continue;
+      if not (SameText(ExtractFileExt(F.Name), '.strings') or
+              SameText(ExtractFileExt(F.Name), '.ilstrings') or
+              SameText(ExtractFileExt(F.Name), '.dlstrings')) then
+        Continue;
+      s := LowerCase(ChangeFileExt(F.Name, ''));
+      p := LastDelimiter('_', s);
+      if p > 0 then begin
+        s := Copy(s, p + 1, length(s));
+        if s = '' then Continue;
+        s := AnsiUpperCase(s[1]) + Copy(s, 2, Length(s));
+        if Result.IndexOf(s) = -1 then
+          Result.Add(s);
+      end;
+    until FindNext(F) <> 0;
+  finally
+    FindClose(F);
+  end;
+{$ELSE}
   if FindFirst(StringsPath + '*.*STRINGS', faAnyFile, F) = 0 then try
     repeat
       s := LowerCase(ChangeFileExt(F.Name, ''));
@@ -452,6 +477,7 @@ begin
   finally
     FindClose(F);
   end;
+{$ENDIF}
 end;
 
 function TwbLocalizationHandler.AvailableLocalizationFiles: TStringList;
@@ -459,6 +485,19 @@ var
   F: TSearchRec;
 begin
   Result := TStringList.Create;
+{$IFDEF FPC}
+  if FindFirst(StringsPath + '*', faAnyFile, F) = 0 then try
+    repeat
+      if (F.Name = '.') or (F.Name = '..') then Continue;
+      if SameText(ExtractFileExt(F.Name), '.strings') or
+         SameText(ExtractFileExt(F.Name), '.ilstrings') or
+         SameText(ExtractFileExt(F.Name), '.dlstrings') then
+        Result.Add(F.Name);
+    until FindNext(F) <> 0;
+  finally
+    FindClose(F);
+  end;
+{$ELSE}
   if FindFirst(StringsPath + '*.*STRINGS', faAnyFile, F) = 0 then try
     repeat
       Result.Add(F.Name);
@@ -466,6 +505,7 @@ begin
   finally
     FindClose(F);
   end;
+{$ENDIF}
 end;
 
 procedure TwbLocalizationHandler.LoadForFile(aFileName: string);

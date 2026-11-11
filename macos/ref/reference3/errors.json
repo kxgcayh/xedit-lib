@@ -1,0 +1,193 @@
+{
+  "group": "errors",
+  "schema": 1,
+  "steps": {
+    "01_build_unresolved_reference_plugin": {
+      "book": {
+        "DATA - Data": {
+          "Flags": {},
+          "Teaches": 0,
+          "Type": 0,
+          "Unused": "00 00",
+          "Value": 0,
+          "Weight": 0
+        },
+        "DESC - Book Text": "",
+        "EDID - Editor ID": "ErrBook",
+        "KSIZ - Keyword Count": 2,
+        "KWDA - Keywords": [
+          "ErrRef.esp:000800",
+          2457
+        ],
+        "OBND - Object Bounds": {
+          "X1": 0,
+          "X2": 0,
+          "Y1": 0,
+          "Y2": 0,
+          "Z1": 0,
+          "Z2": 0
+        },
+        "Record Header": {
+          "FormID": "ErrRef.esp:000800",
+          "Record Flags": {},
+          "Signature": "BOOK"
+        }
+      },
+      "file": "10c9e3271abe902e498aedc2c39e0b06fb76887c485415d27907609228b58e55",
+      "itm": {
+        "EDID - Editor ID": "FixtureFirst",
+        "Record Header": {
+          "FormID": "ErrRef.esp:000800",
+          "Record Flags": {},
+          "Signature": "KYWD"
+        }
+      },
+      "list": {
+        "EDID - Editor ID": "ErrList",
+        "FormIDs": [
+          40960
+        ],
+        "Record Header": {
+          "FormID": "ErrRef.esp:000801",
+          "Record Flags": {},
+          "Signature": "FLST"
+        }
+      }
+    },
+    "02_checkForErrors_in_memory_file": {
+      "done": true,
+      "errors": [
+        {
+          "errors": [
+            {
+              "data": "0000A000",
+              "form_id": 16779265,
+              "group": 4,
+              "name": "ErrList [FLST:04000801]",
+              "path": "LNAM\\[0]",
+              "signature": "FLST"
+            },
+            {
+              "data": "00000999",
+              "form_id": 16779264,
+              "group": 4,
+              "name": "ErrBook [BOOK:04000800]",
+              "path": "KWDA\\[1]",
+              "signature": "BOOK"
+            }
+          ]
+        }
+      ]
+    },
+    "03_getErrors_again": [
+      {
+        "errors": [
+          {
+            "data": "0000A000",
+            "form_id": 16779265,
+            "group": 4,
+            "name": "ErrList [FLST:04000801]",
+            "path": "LNAM\\[0]",
+            "signature": "FLST"
+          },
+          {
+            "data": "00000999",
+            "form_id": 16779264,
+            "group": 4,
+            "name": "ErrBook [BOOK:04000800]",
+            "path": "KWDA\\[1]",
+            "signature": "BOOK"
+          }
+        ]
+      }
+    ],
+    "04_checkForErrors_loaded_clean_file": {
+      "done": true,
+      "errors": [
+        {
+          "errors": [
+            {
+              "data": "<Unknown: 18>",
+              "form_id": 2050,
+              "group": 6,
+              "name": "FixtureCompressed \"Compressed fixture\" [BOOK:00000802]",
+              "path": "Record Header\\Record Flags",
+              "signature": "BOOK"
+            }
+          ]
+        }
+      ]
+    },
+    "05_checkForErrors_reloaded_saved_file": "loaded",
+    "05b_loaded_name_clash": "ErrRef.esp",
+    "06_checkForErrors_second_override_chain": {
+      "done": true,
+      "errors": [
+        {
+          "errors": []
+        }
+      ]
+    },
+    "07_checkForErrors_on_record": false,
+    "08_removeIdenticalRecords": {
+      "after": 3,
+      "before": 3,
+      "overrides": 1
+    },
+    "09_removeIdenticalRecords_no_itm_flag": 3,
+    "10_exception_getElement_bad_path": {
+      "message": "Failed to resolve element at path: NOPE\\NOPE",
+      "messageAfterRead": "",
+      "returned": 0
+    },
+    "11_exception_fileByName_missing": {
+      "message": "Failed to find file with name: Missing.esp",
+      "messageAfterRead": "",
+      "returned": 0
+    },
+    "12_exception_addElement_bad_signature": {
+      "message": "Failed to add element at path: ZZZZ\\ZZZZ",
+      "messageAfterRead": "",
+      "returned": 0
+    },
+    "13_exception_setValue_on_file": {
+      "message": "Failed to resolve element at path: NOPE",
+      "messageAfterRead": "",
+      "returned": 0
+    },
+    "14_exception_invalid_handle": {
+      "message": "List index out of bounds (8388607)",
+      "messageAfterRead": "",
+      "returned": 0
+    },
+    "15_exception_released_handle": {
+      "message": "Interface is not an element.",
+      "messageAfterRead": "",
+      "returned": 0
+    },
+    "16_exception_zero_handle": {
+      "message": "ERROR: Cannot resolve NULL reference.",
+      "messageAfterRead": "",
+      "returned": 0
+    },
+    "17_exception_getRecord_missing": {
+      "message": "Failed to find record with FormID: 00ABCDEF",
+      "messageAfterRead": "",
+      "returned": 0
+    },
+    "18_exception_setGameMode_bad": {
+      "message": "Game mode already set to: Skyrim",
+      "messageAfterRead": "",
+      "returned": 0
+    },
+    "20_exception_addMaster_self": {
+      "message": "",
+      "messageAfterRead": "",
+      "returned": 65535
+    },
+    "22_messages": {
+      "after": "",
+      "before": true
+    }
+  }
+}

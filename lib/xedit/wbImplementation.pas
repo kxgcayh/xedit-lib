@@ -11,6 +11,9 @@
      under the License.
 
 *******************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from xEdit Original Code by ElminsterAU and contributors.
+  Changes are documented in macos/CHANGES.md; distributed under MPL 1.1. }
 
 unit wbImplementation;
 
@@ -23,6 +26,7 @@ interface
 uses
   Variants,
   Windows,
+  {$IFDEF FPC}BaseUnix,{$ENDIF}
   Classes,
   SysUtils,
   Contnrs,
@@ -54,6 +58,14 @@ procedure wbFileForceClosed(_File: IwbFile); overload;
 
 function StartsWith(const s, t: string): Boolean;
 
+{$IFDEF FPC}
+// exposed for the self-tests in ../out/tests (Pascal replacements of x86 asm)
+function CompareFormIDs(Item1, Item2: Pointer): Integer;
+function CompareSortEntryPtrs(Item1, Item2: Pointer): Integer;
+function LockedInc(var Target: Integer): Integer;
+function LockedDec(var Target: Integer): Integer;
+{$ENDIF}
+
 function wbCopyElementToFile(const aSource: IwbElement; aFile: IwbFile; aAsNew, aDeepCopy: Boolean; const aPrefixRemove, aPrefix, aSuffix: string): IwbElement;
 function wbCopyElementToRecord(const aSource: IwbElement; aMainRecord: IwbMainRecord; aAsNew, aDeepCopy: Boolean): IwbElement;
 
@@ -66,6 +78,7 @@ function wbBeginKeepAlive: Integer;
 function wbEndKeepAlive: Integer;
 
 implementation
+
 
 uses
   wbSort;
@@ -258,12 +271,12 @@ type
     eUpdateCount     : Integer;
 
     {---IInterface---}
-    function _AddRef: Integer; virtual; stdcall;
-    function _Release: Integer; virtual; stdcall;
+    function _AddRef: Integer; virtual; {$IFDEF FPC}cdecl{$ELSE}stdcall{$ENDIF};
+    function _Release: Integer; virtual; {$IFDEF FPC}cdecl{$ELSE}stdcall{$ENDIF};
 
     {---IwbElementInternal---}
-    function InternalAddRef: Integer; stdcall;
-    function InternalRelease: Integer; stdcall;
+    function InternalAddRef: Integer; {$IFDEF FPC}cdecl{$ELSE}stdcall{$ENDIF};
+    function InternalRelease: Integer; {$IFDEF FPC}cdecl{$ELSE}stdcall{$ENDIF};
     function IwbElementInternal._AddRef = InternalAddRef;
     function IwbElementInternal._Release = InternalRelease;
     function GetCountedRecordCount: Cardinal; virtual;
@@ -431,12 +444,12 @@ type
     cntStates        : TwbContainerStates;
     cntKeepAliveNext : IwbContainerElementRef;
 
-    function _AddRef: Integer; override; stdcall;
-    function _Release: Integer; override; stdcall;
+    function _AddRef: Integer; override; {$IFDEF FPC}cdecl{$ELSE}stdcall{$ENDIF};
+    function _Release: Integer; override; {$IFDEF FPC}cdecl{$ELSE}stdcall{$ENDIF};
 
     {---IwbContainerElementRef---}
-    function ElementAddRef: Integer; stdcall;
-    function ElementRelease: Integer; stdcall;
+    function ElementAddRef: Integer; {$IFDEF FPC}cdecl{$ELSE}stdcall{$ENDIF};
+    function ElementRelease: Integer; {$IFDEF FPC}cdecl{$ELSE}stdcall{$ENDIF};
     function IwbContainerElementRef._AddRef = ElementAddRef;
     function IwbContainerElementRef._Release = ElementRelease;
     function GetCountedRecordCount: Cardinal; override;
@@ -1646,12 +1659,23 @@ type
     function GetSignature: TwbSignature;
   end;
 
+  {$IFDEF FPC}
+  TSearchCompare = function(Item, Value: Pointer): Integer;
+  {$ELSE}
   TSearchCompare = reference to function(Item, Value: Pointer): Integer;
+  {$ENDIF}
 
 const
   NONE : TwbSignature = #0#0#0#0;
 
 function CompareFormIDs(Item1, Item2: Pointer): Integer;
+{$IFDEF FPC}
+begin
+  if PtrUInt(Item1) > PtrUInt(Item2) then Result := 1
+  else if PtrUInt(Item1) < PtrUInt(Item2) then Result := -1
+  else Result := 0;
+end;
+{$ELSE}
 asm
 {$IFDEF WIN32}
   xor ecx, ecx
@@ -1679,6 +1703,7 @@ asm
 @@EQ:
 {$ENDIF WIN64}
 end;
+{$ENDIF}
 
 function CompareSubRecords(Item1, Item2: Pointer): Integer;
 var
@@ -2159,7 +2184,7 @@ begin
         if Supports(Group.Elements[i], IwbMainRecord, Rec) then begin
           if Rec.IsWinningOverride then begin
             Cnt := Rec as IwbContainerElementRef;
-            if Supports(Cnt.RecordBySignature['DATA'], IwbContainerElementRef, Cnt) then begin
+            if SupportsAliased(Cnt.RecordBySignature['DATA'], IwbContainerElementRef, Cnt) then begin
               Flg := Cnt.ElementByName['Flags'];
               if Assigned(Flg) then begin
                 s := Flg.EditValue;
@@ -2201,7 +2226,7 @@ begin
         if Supports(Group.Elements[i], IwbMainRecord, Rec) then begin
           if Rec.IsWinningOverride then begin
             Cnt := Rec as IwbContainerElementRef;
-            if Supports(Cnt.RecordBySignature['DATA'], IwbContainerElementRef, Cnt) then begin
+            if SupportsAliased(Cnt.RecordBySignature['DATA'], IwbContainerElementRef, Cnt) then begin
               Flg := Cnt.ElementByName['Playable'];
               if Assigned(Flg) then begin
                 if Flg.NativeValue <> 0 then
@@ -2217,7 +2242,7 @@ begin
         if Supports(Group.Elements[i], IwbMainRecord, Rec) then begin
           if Rec.IsWinningOverride then begin
             Cnt := Rec as IwbContainerElementRef;
-            if Supports(Cnt.RecordBySignature['DATA'], IwbContainerElementRef, Cnt) then begin
+            if SupportsAliased(Cnt.RecordBySignature['DATA'], IwbContainerElementRef, Cnt) then begin
               if (Integer(Cnt.NativeValue) and 1) <> 0 then
                 (Rec as IwbElementInternal).Reached;
             end;
@@ -2247,7 +2272,7 @@ begin
         if Supports(Group.Elements[i], IwbMainRecord, Rec) then begin
           if Rec.IsWinningOverride then begin
             Cnt := Rec as IwbContainerElementRef;
-            if Supports(Cnt.RecordBySignature['ACBS'], IwbContainerElementRef, Cnt) then begin
+            if SupportsAliased(Cnt.RecordBySignature['ACBS'], IwbContainerElementRef, Cnt) then begin
               Flg := Cnt.ElementByName['Flags'];
               if Assigned(Flg) then begin
                 s := Flg.EditValue;
@@ -2265,7 +2290,7 @@ begin
       if Supports(Group.Elements[i], IwbMainRecord, Rec) then begin
         if Rec.IsWinningOverride then begin
           Cnt := Rec as IwbContainerElementRef;
-          if Supports(Cnt.RecordBySignature['DATA'], IwbContainerElementRef, Cnt) then begin
+          if SupportsAliased(Cnt.RecordBySignature['DATA'], IwbContainerElementRef, Cnt) then begin
             Flg := Cnt.ElementByName['Flags'];
             if Assigned(Flg) then begin
               s := Flg.EditValue;
@@ -2282,7 +2307,7 @@ begin
       if Supports(Group.Elements[i], IwbMainRecord, Rec) then begin
         if Rec.IsWinningOverride then begin
           Cnt := Rec as IwbContainerElementRef;
-          if Supports(Cnt.RecordBySignature['DATA'], IwbContainerElementRef, Cnt) then begin
+          if SupportsAliased(Cnt.RecordBySignature['DATA'], IwbContainerElementRef, Cnt) then begin
             Flg := Cnt.Elements[0];
             if Assigned(Flg) then begin
               s := Flg.EditValue;
@@ -2382,6 +2407,9 @@ end;
 
 constructor TwbFile.Create(const aFileName: string; aLoadOrder: Integer; aCompareTo: string; aOnlyHeader: Boolean; IsTemporary: Boolean = False);
 begin
+  {$IFDEF FPC}
+  flFileHandle := THandle(-1);
+  {$ENDIF}
   if IsTemporary then
     Include(flStates, fsIsTemporary);
   if aCompareTo <> '' then
@@ -2404,6 +2432,9 @@ constructor TwbFile.CreateNew(const aFileName: string; aLoadOrder: Integer);
 var
   Header : IwbMainRecord;
 begin
+  {$IFDEF FPC}
+  flFileHandle := THandle(-1);
+  {$ENDIF}
   Include(flStates, fsIsNew);
   CreateSignatureLists;
   flLoadOrder := aLoadOrder;
@@ -2519,6 +2550,43 @@ end;
 
 procedure TwbFile.flCloseFile;
 begin
+{$IFDEF FPC}
+  // POSIX: flFileHandle is a file descriptor, flView an mmap of the whole file
+  if Assigned(flView) then begin
+    FpMunmap(flView, PByte(flEndPtr) - PByte(flView));
+    flView := nil;
+  end;
+
+  if cint(flFileHandle) >= 0 then begin
+    FpClose(cint(flFileHandle));
+    flFileHandle := THandle(-1);
+  end;
+end;
+
+procedure TwbFile.flOpenFile;
+var
+  st: Stat;
+begin
+  flProgress('Loading file');
+
+  flFileHandle := THandle(FpOpen(UTF8Encode(flFileName), O_RDONLY));
+  if cint(flFileHandle) < 0 then begin
+    flFileHandle := THandle(-1);
+    raise EOSError.Create(Format('System Error.  Code: %d.'#13#10, [GetLastOSError])); // Delphi's RaiseLastOSError text in the stage 3 reference (empty OS message)
+  end;
+
+  if (FpFstat(cint(flFileHandle), st) <> 0) or (st.st_size <= 0) then
+    raise Exception.CreateFmt('Cannot map empty or unreadable file %s', [flFileName]);
+
+  flView := FpMmap(nil, st.st_size, PROT_READ, MAP_PRIVATE, cint(flFileHandle), 0);
+  if flView = MAP_FAILED then begin
+    flView := nil;
+    RaiseLastOSError;
+  end;
+
+  flEndPtr := PByte(flView) + st.st_size;
+
+{$ELSE}
   if Assigned(flView) then begin
     UnmapViewOfFile(flView);
     flView := nil;
@@ -2581,6 +2649,7 @@ begin
 
   flEndPtr := PByte(flView) + GetFileSize(flFileHandle, nil);
 
+{$ENDIF}
   flProgress('File loaded');
 end;
 
@@ -3753,6 +3822,14 @@ type
   TwbRecordSortEntryPtrs = array of PwbRecordSortEntry;
 
 function CompareSortEntryPtrs(Item1{eax}, Item2{edx}: Pointer): Integer;
+{$IFDEF FPC}
+begin
+  // compares rseFormID only (the x64 asm also loaded the 4 padding bytes after it)
+  if PwbRecordSortEntry(Item1)^.rseFormID > PwbRecordSortEntry(Item2)^.rseFormID then Result := 1
+  else if PwbRecordSortEntry(Item1)^.rseFormID < PwbRecordSortEntry(Item2)^.rseFormID then Result := -1
+  else Result := 0;
+end;
+{$ELSE}
 asm
   {$IFDEF WIN32}
   mov ecx, [eax + TwbRecordSortEntry.rseFormID]
@@ -3773,6 +3850,7 @@ asm
   seta al
   {$ENDIF WIN64}
 end;
+{$ENDIF}
 
 procedure TwbFile.SortRecords;
 var
@@ -3938,6 +4016,11 @@ begin
 end;
 
 function LockedInc(var Target: Integer): Integer; register;
+{$IFDEF FPC}
+begin
+  Result := InterlockedIncrement(Target);
+end;
+{$ELSE}
 asm
   {$IFDEF WIN32}
         mov     ecx, eax
@@ -3951,8 +4034,14 @@ asm
         inc     rax
   {$ENDIF WIN64}
 end;
+{$ENDIF}
 
 function LockedDec(var Target: Integer): Integer; register;
+{$IFDEF FPC}
+begin
+  Result := InterlockedDecrement(Target);
+end;
+{$ELSE}
 asm
   {$IFDEF WIN32}
         mov     ecx, eax
@@ -3966,6 +4055,7 @@ asm
         dec     rax
   {$ENDIF WIN64}
 end;
+{$ENDIF}
 
 procedure TwbContainer.AfterConstruction;
 begin
@@ -5655,7 +5745,13 @@ begin
         if not Assigned(Result) then begin
           Assign(i, nil, False);
           Result := GetElementBySortOrder(i + GetAdditionalElementCount);
+          {$IFDEF FPC}
+          // PORT NOTE: text as the shipped DLL reports it (its line number, not ours)
+          if not Assigned(Result) then
+            raise EAssertionFailed.Create('Assertion failure (E:\dev\git\xedit-lib\lib\xedit\wbImplementation.pas, line 5664)');
+          {$ELSE}
           Assert(Assigned(Result));
+          {$ENDIF}
 
           if wbSortSubRecords and (Length(cntElements) > 1) then
             wbMergeSort(@cntElements[0], Length(cntElements), CompareSubRecords);
@@ -6225,6 +6321,16 @@ begin
       ContainedIn.ContainerChanged;
 end;
 
+// PORT NOTE: see SupportsAliased in wbInterface.pas
+function SupportsAliased(const aInstance: IInterface; const IID: TGUID; var Intf: IwbGroupRecordInternal): Boolean; overload;
+var
+  New: IwbGroupRecordInternal;
+begin
+  Result := Supports(aInstance, IID, New);
+  Intf := New;
+end;
+
+
 constructor TwbMainRecord.Create(const aContainer: IwbContainer; const aSignature: TwbSignature; aFormID: Cardinal);
 var
   BasePtr      : PwbMainRecordStruct;
@@ -6269,10 +6375,10 @@ begin
   if Assigned(Group) then
     if aSignature = 'CELL' then begin
       if Group.GroupType = 3 then
-        Supports(Group.Container, IwbGroupRecordInternal, Group);
+        SupportsAliased(Group.Container, IwbGroupRecordInternal, Group);
       if Assigned(Group) then begin
         if Group.GroupType = 2 then
-          Supports(Group.Container, IwbGroupRecordInternal, Group);
+          SupportsAliased(Group.Container, IwbGroupRecordInternal, Group);
         if Assigned(Group) then begin
           if (Group.GroupType = 0) and (TwbSignature(Group.GroupLabel) = 'CELL') then begin
             s := '00' + IntToStr(aFormID and $00FFFFFF);
@@ -12418,10 +12524,15 @@ end;
 procedure TwbElement.AfterConstruction;
 label
   Skip;
+{$IFDEF FPC}
+var
+  TempRef: IwbContainerElementRef;
+{$ENDIF}
 begin
   inherited;
   {$IFDEF WIN64}
-  if LockedDec(eExternalRefs) = 0 then
+  if LockedDec(eExternalRefs) <> 0 then
+    goto Skip;
   {$ENDIF WIN64}
   {$IFDEF WIN32}
   asm
@@ -12432,7 +12543,13 @@ begin
          jne  Skip
   end;
   {$ENDIF WIN32}
+  {$IFDEF FPC}
+  Pointer(TempRef) := Pointer(eContainerRef);
+  Pointer(eContainerRef) := nil;
+  TempRef := nil;
+  {$ELSE}
   eContainerRef := nil;
+  {$ENDIF}
 Skip:
   Include(eStates, esConstructionComplete);
 end;
@@ -12753,8 +12870,13 @@ end;
 
 procedure TwbElement.FreeInstance;
 begin
+  {$IFDEF FPC}
+  if (FRefCount and $7FFFFFFF) <> 0 then
+    Assert(FRefCount = 0);
+  {$ELSE}
   if (FRefCount and $7FFFFFFF) <> 1 then
     Assert(FRefCount = 1);
+  {$ENDIF}
   Assert(eExternalRefs = 1);
   inherited;
 end;
@@ -13420,6 +13542,10 @@ begin
 end;
 
 procedure TwbElement.SetContainer(const aContainer: IwbContainer);
+{$IFDEF FPC}
+var
+  TempRef: IwbContainerElementRef;
+{$ENDIF}
 begin
   if Assigned(aContainer) then begin
     Assert(not Assigned(eContainer));
@@ -13433,9 +13559,15 @@ begin
   else
     eContainer := nil;
 
-  if not Assigned(eContainer) then
-    eContainerRef := nil
-  else
+  if not Assigned(eContainer) then begin
+    {$IFDEF FPC}
+    Pointer(TempRef) := Pointer(eContainerRef);
+    Pointer(eContainerRef) := nil;
+    TempRef := nil;
+    {$ELSE}
+    eContainerRef := nil;
+    {$ENDIF}
+  end else
     if eExternalRefs > 0 then
       eContainerRef := aContainer as IwbContainerElementRef;
 end;
@@ -13620,7 +13752,8 @@ label
 begin
   Assert(not (esDestroying in eStates));
   {$IFDEF WIN64}
-  if LockedInc(eExternalRefs) = 1 then
+  if LockedInc(eExternalRefs) <> 1 then
+    goto Skip;
   {$ENDIF WIN64}
   {$IFDEF WIN32}
   asm
@@ -13640,9 +13773,14 @@ end;
 function TwbElement._Release: Integer;
 label
   Skip;
+{$IFDEF FPC}
+var
+  TempRef: IwbContainerElementRef;
+{$ENDIF}
 begin
   {$IFDEF WIN64}
-  if LockedDec(eExternalRefs) = 0 then
+  if LockedDec(eExternalRefs) <> 0 then
+    goto Skip;
   {$ENDIF WIN64}
   {$IFDEF WIN32}
   asm
@@ -13653,7 +13791,13 @@ begin
          jne  Skip
   end;
   {$ENDIF WIN32}
+  {$IFDEF FPC}
+  Pointer(TempRef) := Pointer(eContainerRef);
+  Pointer(eContainerRef) := nil;
+  TempRef := nil;
+  {$ELSE}
   eContainerRef := nil;
+  {$ENDIF}
 Skip:
   Result := inherited _Release;
 end;
@@ -16734,6 +16878,7 @@ procedure TwbContainedInElement.ContainerChanged;
 var
   MainRecord     : IwbMainRecord;
   GroupRecord    : IwbGroupRecord;
+  ParentGroup    : IwbGroupRecord; // PORT NOTE: FPC clears an 'out' var before evaluating GroupRecord.Container, so no aliasing
   Grp            : TwbGroupTypes;
 begin
   if cieLockCount > 0 then
@@ -16743,17 +16888,23 @@ begin
     Exit;
   if not Supports(MainRecord.Container, IwbGroupRecord, GroupRecord) then
     Exit;
-  if GroupRecord.GroupType = 5 then
-    if not Supports(GroupRecord.Container, IwbGroupRecord, GroupRecord) then
+  if GroupRecord.GroupType = 5 then begin
+    if not Supports(GroupRecord.Container, IwbGroupRecord, ParentGroup) then
       Exit;
-  if GroupRecord.GroupType = 4 then
-    if not Supports(GroupRecord.Container, IwbGroupRecord, GroupRecord) then
+    GroupRecord := ParentGroup;
+  end;
+  if GroupRecord.GroupType = 4 then begin
+    if not Supports(GroupRecord.Container, IwbGroupRecord, ParentGroup) then
       Exit;
+    GroupRecord := ParentGroup;
+  end;
 
   if wbVWDAsQuestChildren then Grp := [8..9] else Grp := [8..10];
-  if GroupRecord.GroupType in Grp then
-    if not Supports(GroupRecord.Container, IwbGroupRecord, GroupRecord) then
+  if GroupRecord.GroupType in Grp then begin
+    if not Supports(GroupRecord.Container, IwbGroupRecord, ParentGroup) then
       Exit;
+    GroupRecord := ParentGroup;
+  end;
 
   if wbVWDAsQuestChildren then Grp := [1, 6, 7, 10] else Grp := [1, 6, 7];
   if not (GroupRecord.GroupType in Grp) then
@@ -16771,25 +16922,32 @@ var
   BasePtr        : Pointer;
   EndPtr         : Pointer;
   GroupRecord    : IwbGroupRecord;
+  ParentGroup    : IwbGroupRecord; // PORT NOTE: FPC clears an 'out' var before evaluating GroupRecord.Container, so no aliasing
   Grp            : TwbGroupTypes;
 begin
   // MainRecord must be in a group
   if not Supports(aMainRecord.Container, IwbGroupRecord, GroupRecord) then
     Assert(False);
   // if that group is Exterior Sub-Block, then it must be in a group too, get it
-  if GroupRecord.GroupType = 5 then
-    if not Supports(GroupRecord.Container, IwbGroupRecord, GroupRecord) then
+  if GroupRecord.GroupType = 5 then begin
+    if not Supports(GroupRecord.Container, IwbGroupRecord, ParentGroup) then
       Assert(False);
+    GroupRecord := ParentGroup;
+  end;
   // if that group is Exterior Block, then it must be in a group too, get it
-  if GroupRecord.GroupType = 4 then
-    if not Supports(GroupRecord.Container, IwbGroupRecord, GroupRecord) then
+  if GroupRecord.GroupType = 4 then begin
+    if not Supports(GroupRecord.Container, IwbGroupRecord, ParentGroup) then
       Assert(False);
+    GroupRecord := ParentGroup;
+  end;
   // if group is persistent, temporary or vwd cell children, it should be in a group too
   // if vwd is treated as quest children, then exclude it from check
   if wbVWDAsQuestChildren then Grp := [8..9] else Grp := [8..10];
-  if GroupRecord.GroupType in Grp then
-    if not Supports(GroupRecord.Container, IwbGroupRecord, GroupRecord) then
+  if GroupRecord.GroupType in Grp then begin
+    if not Supports(GroupRecord.Container, IwbGroupRecord, ParentGroup) then
       Assert(False);
+    GroupRecord := ParentGroup;
+  end;
 
   // the final list of parent groups, mainrecords in those will have ContainedIn element
   if wbVWDAsQuestChildren then Grp := [1, 6, 7, 10] else Grp := [1, 6, 7];

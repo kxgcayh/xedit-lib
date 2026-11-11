@@ -11,6 +11,9 @@
      under the License.
 
 *******************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from xEdit Original Code by ElminsterAU and contributors.
+  Changes are documented in macos/CHANGES.md; distributed under MPL 1.1. }
 
 unit wbBSA;
 
@@ -412,7 +415,7 @@ begin
     fn := aPathOut
   // destination path is provided
   else
-    fn := IncludeTrailingPathDelimiter(aPathOut) + aFileName;
+    fn := IncludeTrailingPathDelimiter(aPathOut) + {$IFDEF FPC}StringReplace(aFileName, '\', '/', [rfReplaceAll]){$ELSE}aFileName{$ENDIF};
 
   // create distination directory
   dir := ExtractFilePath(fn);
@@ -422,7 +425,7 @@ begin
 
   // direct copy if file is loose, with overwriting
   if ExtractFileExt(res[residx].Container.Name) = '' then begin
-    TFile.Copy(res[residx].Container.Name + aFileName, fn, True);
+    TFile.Copy(res[residx].Container.Name + {$IFDEF FPC}StringReplace(aFileName, '\', '/', [rfReplaceAll]){$ELSE}aFileName{$ENDIF}, fn, True);
   end
   // otherwise extract from BSA
   else begin
@@ -939,14 +942,14 @@ function TwbFolder.OpenResource(const aFileName: string): IwbResource;
 var
   s: string;
 begin
-  s := fPath + aFileName;
+  s := fPath + {$IFDEF FPC}StringReplace(aFileName, '\', '/', [rfReplaceAll]){$ELSE}aFileName{$ENDIF};
   if FileExists(s) then
     Result := TwbFolderResource.Create(Self, s);
 end;
 
 function TwbFolder.ResourceExists(const aFileName: string): Boolean;
 begin
-  Result := FileExists(fPath + aFileName);
+  Result := FileExists(fPath + {$IFDEF FPC}StringReplace(aFileName, '\', '/', [rfReplaceAll]){$ELSE}aFileName{$ENDIF});
 end;
 
 procedure TwbFolder.ResourceList(const aList: TStrings; const aFolder: string = '');
@@ -955,9 +958,15 @@ var
 begin
   if not Assigned(aList) then
     Exit;
+  {$IFDEF FPC}
+  if TDirectory.Exists(fPath + StringReplace(aFolder, '\', '/', [rfReplaceAll])) then
+    for FileName in TDirectory.GetFiles(fPath + StringReplace(aFolder, '\', '/', [rfReplaceAll]), '*.*', TSearchOption.soAllDirectories) do
+      aList.Add(StringReplace(LowerCase(Copy(FileName, Length(fPath) + 1, Length(FileName))), '/', '\', [rfReplaceAll]));
+  {$ELSE}
   if TDirectory.Exists(fPath + aFolder) then
     for FileName in TDirectory.GetFiles(fPath + aFolder, '*.*', TSearchOption.soAllDirectories) do
       aList.Add(LowerCase(Copy(FileName, Length(fPath) + 1, Length(FileName))));
+  {$ENDIF}
 end;
 
 procedure TwbFolder.ResolveHash(const aHash: Int64; var Results: TDynStrings);
@@ -996,3 +1005,4 @@ begin
 end;
 
 end.
+

@@ -18,7 +18,20 @@
 *    iztok kacin                                                                                 *
 *      2009.04.11  CONDITIONALEXPRESSIONS and CompilerVersion changes                            *
 *************************************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from ZLibEx by Brent Sherwood / base2 technologies and Borland Software Corporation.
+  Changes are documented in macos/CHANGES.md; permissive terms in lib/xedit/zlib/README.txt. }
 
+{** FPC port: every Delphi version flag is on; the version probing below is Delphi-only **}
+{$ifdef FPC}
+  {$define Version6Plus}
+  {$define Version2005Plus}
+  {$define Version2009Plus}
+  {$define Version2010Plus}
+  {$define Version2011Plus}
+  {$define Version2012Plus}
+  {$define Version2013Plus}
+{$else}
 {$ifndef CONDITIONALEXPRESSIONS}
 
   {** delphi ************************************************************************************}
@@ -179,4 +192,5 @@
     {$define Version2013Plus}
   {$ifend}
 
+{$endif}
 {$endif}

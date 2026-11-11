@@ -1,3 +1,6 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from XEditLib Original Code provided by Initial Developer matortheeternal.
+// Changes are documented in macos/CHANGES.md; distributed under MPL 1.1.
 unit xeElements;
 
 interface
@@ -1476,6 +1479,7 @@ begin
     sl := TStringList.Create;
     try
       NativeGetDefNames(element, sl);
+      {$IFDEF FPC}sl.LineBreak := #13#10;{$ENDIF}
       resultStr := sl.Text;
       Delete(resultStr, Length(resultStr) - 1, 2);
       len^ := Length(resultStr);
@@ -1607,13 +1611,22 @@ end;
 function GetElementGroup(_id: Cardinal; _res: PCardinal): WordBool; cdecl;
 var
   element: IwbElement;
+  {$IFDEF FPC}parentElement: IwbElement;{$ENDIF}
 begin
   Result := False;
   try
     if not Supports(Resolve(_id), IwbElement, element) then
       raise Exception.Create('Interface is not an element.');
     while not Supports(element, IwbGroupRecord) do
+      {$IFDEF FPC}
+      begin
+        { FPC clears the out interface before evaluating the input expression. }
+        Supports(NativeContainer(element), IwbElement, parentElement);
+        element := parentElement;
+      end;
+      {$ELSE}
       Supports(NativeContainer(element), IwbElement, element);
+      {$ENDIF}
     _res^ := Store(element);
     Result := True;
   except

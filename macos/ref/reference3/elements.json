@@ -1,0 +1,1721 @@
+{
+  "group": "elements",
+  "schema": 1,
+  "steps": {
+    "00_setup": {
+      "book": {
+        "DATA - Data": {
+          "Flags": {
+            "Teaches Spell": true
+          },
+          "Teaches": 0,
+          "Type": 0,
+          "Unused": "00 00",
+          "Value": 42,
+          "Weight": 0
+        },
+        "DESC - Book Text": "",
+        "EDID - Editor ID": "ElemBook",
+        "FULL - Name": "Elem Book",
+        "KSIZ - Keyword Count": 2,
+        "KWDA - Keywords": [
+          "Fixture.esm:000800",
+          "Elem1.esp:000800"
+        ],
+        "OBND - Object Bounds": {
+          "X1": 0,
+          "X2": 0,
+          "Y1": 0,
+          "Y2": 0,
+          "Z1": 0,
+          "Z2": 0
+        },
+        "Record Header": {
+          "FormID": "Elem1.esp:000801",
+          "Record Flags": {},
+          "Signature": "BOOK"
+        }
+      }
+    },
+    "01_getElements_variants": {
+      "array KWDA sort=0 filter=0 sparse=0": [
+        "Keyword",
+        "Keyword"
+      ],
+      "array KWDA sort=0 filter=1 sparse=0": [],
+      "array KWDA sort=1 filter=0 sparse=0": [
+        "Keyword",
+        "Keyword"
+      ],
+      "array KWDA sort=1 filter=1 sparse=0": [],
+      "file sort=0 filter=0 sparse=0": [
+        "File Header",
+        "Keyword",
+        "Book",
+        "FormID List"
+      ],
+      "file sort=0 filter=1 sparse=0": [],
+      "file sort=1 filter=0 sparse=0": [
+        "File Header",
+        "Keyword",
+        "Book",
+        "FormID List"
+      ],
+      "file sort=1 filter=1 sparse=0": [],
+      "flags sort=0 filter=0 sparse=0": [
+        "Teaches Spell"
+      ],
+      "flags sort=0 filter=1 sparse=0": [],
+      "flags sort=1 filter=0 sparse=0": [
+        "Teaches Spell"
+      ],
+      "flags sort=1 filter=1 sparse=0": [],
+      "group sort=0 filter=0 sparse=0": [
+        "Elem Book"
+      ],
+      "group sort=0 filter=1 sparse=0": [],
+      "group sort=1 filter=0 sparse=0": [
+        "Elem Book"
+      ],
+      "group sort=1 filter=1 sparse=0": [],
+      "header sort=0 filter=0 sparse=0": [
+        "Signature",
+        "Data Size",
+        "Record Flags",
+        "FormID",
+        "Version Control Info 1",
+        "Form Version",
+        "Version Control Info 2"
+      ],
+      "header sort=0 filter=1 sparse=0": [],
+      "header sort=1 filter=0 sparse=0": [
+        "Signature",
+        "Data Size",
+        "Record Flags",
+        "FormID",
+        "Version Control Info 1",
+        "Form Version",
+        "Version Control Info 2"
+      ],
+      "header sort=1 filter=1 sparse=0": [],
+      "loaded file sort=0 filter=0 sparse=0": [
+        "File Header",
+        "Keyword",
+        "Book"
+      ],
+      "loaded file sort=0 filter=1 sparse=0": [],
+      "loaded file sort=1 filter=0 sparse=0": [
+        "File Header",
+        "Keyword",
+        "Book"
+      ],
+      "loaded file sort=1 filter=1 sparse=0": [],
+      "record sort=0 filter=0 sparse=0": [
+        "Record Header",
+        "EDID - Editor ID",
+        "OBND - Object Bounds",
+        "FULL - Name",
+        "DESC - Book Text",
+        "KSIZ - Keyword Count",
+        "KWDA - Keywords",
+        "DATA - Data"
+      ],
+      "record sort=0 filter=1 sparse=0": [],
+      "record sort=1 filter=0 sparse=0": [
+        "Record Header",
+        "EDID - Editor ID",
+        "OBND - Object Bounds",
+        "FULL - Name",
+        "DESC - Book Text",
+        "KSIZ - Keyword Count",
+        "KWDA - Keywords",
+        "DATA - Data"
+      ],
+      "record sort=1 filter=1 sparse=0": [],
+      "struct DATA sort=0 filter=0 sparse=0": [
+        "Flags",
+        "Type",
+        "Unused",
+        "Teaches",
+        "Value",
+        "Weight"
+      ],
+      "struct DATA sort=0 filter=1 sparse=0": [],
+      "struct DATA sort=1 filter=0 sparse=0": [
+        "Flags",
+        "Type",
+        "Unused",
+        "Teaches",
+        "Value",
+        "Weight"
+      ],
+      "struct DATA sort=1 filter=1 sparse=0": []
+    },
+    "02_getDefNames": {
+      "array": [
+        "Keyword"
+      ],
+      "file": {
+        "error": "GetDefNames failed | Interface cannot be a file or group."
+      },
+      "flst": [
+        "Record Header",
+        "EDID - Editor ID",
+        "FormIDs"
+      ],
+      "group": {
+        "error": "GetDefNames failed | Interface cannot be a file or group."
+      },
+      "kywd": [
+        "Record Header",
+        "EDID - Editor ID",
+        "CNAM - Color"
+      ],
+      "record": [
+        "Record Header",
+        "EDID - Editor ID",
+        "VMAD - Virtual Machine Adapter",
+        "OBND - Object Bounds",
+        "FULL - Name",
+        "Model",
+        "Icon",
+        "DESC - Book Text",
+        "Destructible",
+        "YNAM - Sound - Pick Up",
+        "ZNAM - Sound - Put Down",
+        "KSIZ - Keyword Count",
+        "KWDA - Keywords",
+        "DATA - Data",
+        "INAM - Inventory Art",
+        "CNAM - Description"
+      ],
+      "struct": [
+        "Flags",
+        "Type",
+        "Unused",
+        "Teaches",
+        "Value",
+        "Weight"
+      ]
+    },
+    "03_getAddList": {
+      "fileCount": 116,
+      "fileFirst": [
+        "AACT - Action",
+        "ACTI - Activator",
+        "ADDN - Addon Node",
+        "ALCH - Ingestible",
+        "AMMO - Ammunition",
+        "ANIO - Animated Object",
+        "APPA - Alchemical Apparatus",
+        "ARMA - Armor Addon",
+        "ARMO - Armor",
+        "ARTO - Art Object",
+        "ASPC - Acoustic Space",
+        "ASTP - Association Type"
+      ],
+      "fileHasBook": false,
+      "group": [
+        "BOOK - Book"
+      ],
+      "loadedGroup": [
+        "KYWD - Keyword"
+      ]
+    },
+    "04_types": {
+      "array": {
+        "canAdd": true,
+        "defType": 14,
+        "displayName": "KWDA - Keywords",
+        "elementType": 3,
+        "isEditable": false,
+        "isFixed": false,
+        "isRemoveable": true,
+        "isSorted": true,
+        "longName": "KWDA - Keywords",
+        "name": "KWDA - Keywords",
+        "pathLocal": "KWDA",
+        "pathName": "KWDA",
+        "pathNameShort": "KWDA",
+        "pathShort": "Elem1.esp\\04000801\\KWDA",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\KWDA",
+        "smashType": 9,
+        "sortKey": "",
+        "valueType": 9
+      },
+      "arrayItem": {
+        "canAdd": true,
+        "defType": 9,
+        "displayName": "Keyword",
+        "elementType": 9,
+        "isEditable": true,
+        "isFixed": false,
+        "isRemoveable": true,
+        "isSorted": false,
+        "longName": "Keyword",
+        "name": "Keyword",
+        "pathLocal": "KWDA\\[0]",
+        "pathName": "[0]",
+        "pathNameShort": "<00000800>",
+        "pathShort": "Elem1.esp\\04000801\\KWDA\\[0]",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\KWDA\\<00000800>",
+        "smashType": 3,
+        "sortKey": "00000800",
+        "valueType": 5
+      },
+      "bounds": {
+        "canAdd": true,
+        "defType": 15,
+        "displayName": "OBND - Object Bounds",
+        "elementType": 3,
+        "isEditable": false,
+        "isFixed": false,
+        "isRemoveable": false,
+        "isSorted": false,
+        "longName": "OBND - Object Bounds",
+        "name": "OBND - Object Bounds",
+        "pathLocal": "OBND",
+        "pathName": "OBND",
+        "pathNameShort": "OBND",
+        "pathShort": "Elem1.esp\\04000801\\OBND",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\OBND",
+        "smashType": 6,
+        "sortKey": "08000|08000|08000|08000|08000|08000",
+        "valueType": 10
+      },
+      "edid": {
+        "canAdd": true,
+        "defType": 5,
+        "displayName": "EDID - Editor ID",
+        "elementType": 3,
+        "isEditable": true,
+        "isFixed": false,
+        "isRemoveable": true,
+        "isSorted": false,
+        "longName": "EDID - Editor ID",
+        "name": "EDID - Editor ID",
+        "pathLocal": "EDID",
+        "pathName": "EDID",
+        "pathNameShort": "EDID",
+        "pathShort": "Elem1.esp\\04000801\\EDID",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\EDID",
+        "smashType": 2,
+        "sortKey": "ELEMBOOK",
+        "valueType": 3
+      },
+      "enum": {
+        "canAdd": true,
+        "defType": 9,
+        "displayName": "Type",
+        "elementType": 9,
+        "isEditable": true,
+        "isFixed": false,
+        "isRemoveable": false,
+        "isSorted": false,
+        "longName": "Type",
+        "name": "Type",
+        "pathLocal": "DATA\\Type",
+        "pathName": "Type",
+        "pathNameShort": "Type",
+        "pathShort": "Elem1.esp\\04000801\\DATA\\Type",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\DATA\\Type",
+        "smashType": 3,
+        "sortKey": "000",
+        "valueType": 7
+      },
+      "file": {
+        "canAdd": true,
+        "defType": "SKIPPED_HAZARD",
+        "displayName": "[04] Elem1.esp",
+        "elementType": 0,
+        "isEditable": true,
+        "isFixed": false,
+        "isRemoveable": false,
+        "isSorted": false,
+        "longName": "[04] Elem1.esp",
+        "name": "Elem1.esp",
+        "pathLocal": "Elem1.esp",
+        "pathName": "Elem1.esp",
+        "pathNameShort": "Elem1.esp",
+        "pathShort": "Elem1.esp",
+        "pathSort": "Elem1.esp",
+        "smashType": "SKIPPED_HAZARD",
+        "sortKey": "00000000|00KYWD|00BOOK|00FLST",
+        "valueType": {
+          "error": "ValueType failed | Interface cannot be a file, group, or main record."
+        }
+      },
+      "flags": {
+        "canAdd": true,
+        "defType": 9,
+        "displayName": "Flags",
+        "elementType": 9,
+        "isEditable": true,
+        "isFixed": false,
+        "isRemoveable": false,
+        "isSorted": true,
+        "longName": "Flags",
+        "name": "Flags",
+        "pathLocal": "DATA\\Flags",
+        "pathName": "Flags",
+        "pathNameShort": "Flags",
+        "pathShort": "Elem1.esp\\04000801\\DATA\\Flags",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\DATA\\Flags",
+        "smashType": 3,
+        "sortKey": "0010000000000000000000000000000000000000000000000000000000000000",
+        "valueType": 6
+      },
+      "float": {
+        "canAdd": true,
+        "defType": 13,
+        "displayName": "Weight",
+        "elementType": 9,
+        "isEditable": true,
+        "isFixed": false,
+        "isRemoveable": false,
+        "isSorted": false,
+        "longName": "Weight",
+        "name": "Weight",
+        "pathLocal": "DATA\\Weight",
+        "pathName": "Weight",
+        "pathNameShort": "Weight",
+        "pathShort": "Elem1.esp\\04000801\\DATA\\Weight",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\DATA\\Weight",
+        "smashType": 5,
+        "sortKey": "+000000000000000.000000",
+        "valueType": 2
+      },
+      "flstArray": {
+        "canAdd": true,
+        "defType": 2,
+        "displayName": "FormIDs",
+        "elementType": 5,
+        "isEditable": false,
+        "isFixed": false,
+        "isRemoveable": true,
+        "isSorted": false,
+        "longName": "FormIDs",
+        "name": "FormIDs",
+        "pathLocal": "LNAM",
+        "pathName": "LNAM",
+        "pathNameShort": "LNAM",
+        "pathShort": "Elem1.esp\\04000802\\LNAM",
+        "pathSort": "Elem1.esp\\FLST\\04000802\\LNAM",
+        "smashType": 8,
+        "sortKey": "00000801|00000800",
+        "valueType": 9
+      },
+      "formid": {
+        "canAdd": false,
+        "defType": 9,
+        "displayName": "FormID",
+        "elementType": 9,
+        "isEditable": false,
+        "isFixed": false,
+        "isRemoveable": false,
+        "isSorted": false,
+        "longName": "FormID",
+        "name": "FormID",
+        "pathLocal": "Record Header\\FormID",
+        "pathName": "FormID",
+        "pathNameShort": "FormID",
+        "pathShort": "Elem1.esp\\04000801\\Record Header\\FormID",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\Record Header\\FormID",
+        "smashType": 3,
+        "sortKey": "04000801",
+        "valueType": 5
+      },
+      "full": {
+        "canAdd": true,
+        "defType": 6,
+        "displayName": "FULL - Name",
+        "elementType": 3,
+        "isEditable": true,
+        "isFixed": false,
+        "isRemoveable": true,
+        "isSorted": false,
+        "longName": "FULL - Name",
+        "name": "FULL - Name",
+        "pathLocal": "FULL",
+        "pathName": "FULL",
+        "pathNameShort": "FULL",
+        "pathShort": "Elem1.esp\\04000801\\FULL",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\FULL",
+        "smashType": 2,
+        "sortKey": "Elem Book",
+        "valueType": 3
+      },
+      "group": {
+        "canAdd": true,
+        "defType": "SKIPPED_HAZARD",
+        "displayName": "GRUP Top \"BOOK\"",
+        "elementType": 2,
+        "isEditable": false,
+        "isFixed": false,
+        "isRemoveable": true,
+        "isSorted": false,
+        "longName": "GRUP Top \"BOOK\"",
+        "name": "Book",
+        "pathLocal": "Elem1.esp\\BOOK",
+        "pathName": "BOOK",
+        "pathNameShort": "BOOK",
+        "pathShort": "Elem1.esp\\BOOK",
+        "pathSort": "Elem1.esp\\BOOK",
+        "smashType": "SKIPPED_HAZARD",
+        "sortKey": "00BOOK",
+        "valueType": {
+          "error": "ValueType failed | Interface cannot be a file, group, or main record."
+        }
+      },
+      "header": {
+        "canAdd": true,
+        "defType": 15,
+        "displayName": "Record Header",
+        "elementType": 8,
+        "isEditable": false,
+        "isFixed": false,
+        "isRemoveable": true,
+        "isSorted": false,
+        "longName": "Record Header",
+        "name": "Record Header",
+        "pathLocal": "Record Header",
+        "pathName": "Record Header",
+        "pathNameShort": "Record Header",
+        "pathShort": "Elem1.esp\\04000801\\Record Header",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\Record Header",
+        "smashType": 6,
+        "sortKey": "BOOK|000000000|0000000000000000000000000000000000000000000000000000000000000000|04000801|00 00 00 00|0002C|00 00",
+        "valueType": 10
+      },
+      "int": {
+        "canAdd": true,
+        "defType": 9,
+        "displayName": "Value",
+        "elementType": 9,
+        "isEditable": true,
+        "isFixed": false,
+        "isRemoveable": false,
+        "isSorted": false,
+        "longName": "Value",
+        "name": "Value",
+        "pathLocal": "DATA\\Value",
+        "pathName": "Value",
+        "pathNameShort": "Value",
+        "pathShort": "Elem1.esp\\04000801\\DATA\\Value",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\DATA\\Value",
+        "smashType": 3,
+        "sortKey": "00000002A",
+        "valueType": 2
+      },
+      "loadedRec": {
+        "canAdd": true,
+        "defType": 0,
+        "displayName": "Compressed fixture",
+        "elementType": 1,
+        "isEditable": true,
+        "isFixed": false,
+        "isRemoveable": true,
+        "isSorted": false,
+        "longName": "FixtureCompressed \"Compressed fixture\" [BOOK:00000802]",
+        "name": "Compressed fixture",
+        "pathLocal": "Fixture.esm\\BOOK\\00000802",
+        "pathName": "00000802",
+        "pathNameShort": "00000802",
+        "pathShort": "Fixture.esm\\00000802",
+        "pathSort": "Fixture.esm\\BOOK\\00000802",
+        "smashType": 1,
+        "sortKey": "00000802",
+        "valueType": {
+          "error": "ValueType failed | Interface cannot be a file, group, or main record."
+        }
+      },
+      "record": {
+        "canAdd": true,
+        "defType": 0,
+        "displayName": "Elem Book",
+        "elementType": 1,
+        "isEditable": true,
+        "isFixed": false,
+        "isRemoveable": true,
+        "isSorted": false,
+        "longName": "ElemBook \"Elem Book\" [BOOK:04000801]",
+        "name": "Elem Book",
+        "pathLocal": "Elem1.esp\\BOOK\\04000801",
+        "pathName": "04000801",
+        "pathNameShort": "04000801",
+        "pathShort": "Elem1.esp\\04000801",
+        "pathSort": "Elem1.esp\\BOOK\\04000801",
+        "smashType": 1,
+        "sortKey": "01000801",
+        "valueType": {
+          "error": "ValueType failed | Interface cannot be a file, group, or main record."
+        }
+      },
+      "sigElem": {
+        "canAdd": false,
+        "defType": 5,
+        "displayName": "Signature",
+        "elementType": 9,
+        "isEditable": false,
+        "isFixed": false,
+        "isRemoveable": false,
+        "isSorted": false,
+        "longName": "Signature",
+        "name": "Signature",
+        "pathLocal": "Record Header\\Signature",
+        "pathName": "Signature",
+        "pathNameShort": "Signature",
+        "pathShort": "Elem1.esp\\04000801\\Record Header\\Signature",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\Record Header\\Signature",
+        "smashType": 2,
+        "sortKey": "BOOK",
+        "valueType": 3
+      },
+      "struct": {
+        "canAdd": true,
+        "defType": 15,
+        "displayName": "DATA - Data",
+        "elementType": 3,
+        "isEditable": false,
+        "isFixed": false,
+        "isRemoveable": false,
+        "isSorted": false,
+        "longName": "DATA - Data",
+        "name": "DATA - Data",
+        "pathLocal": "DATA",
+        "pathName": "DATA",
+        "pathNameShort": "DATA",
+        "pathShort": "Elem1.esp\\04000801\\DATA",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\DATA",
+        "smashType": 6,
+        "sortKey": "0010000000000000000000000000000000000000000000000000000000000000|000|00 00|00000000|00000002A|+000000000000000.000000",
+        "valueType": 10
+      },
+      "unused": {
+        "canAdd": true,
+        "defType": 8,
+        "displayName": "Unused",
+        "elementType": 9,
+        "isEditable": true,
+        "isFixed": false,
+        "isRemoveable": false,
+        "isSorted": false,
+        "longName": "Unused",
+        "name": "Unused",
+        "pathLocal": "DATA\\Unused",
+        "pathName": "Unused",
+        "pathNameShort": "Unused",
+        "pathShort": "Elem1.esp\\04000801\\DATA\\Unused",
+        "pathSort": "Elem1.esp\\BOOK\\04000801\\DATA\\Unused",
+        "smashType": 11,
+        "sortKey": "00 00",
+        "valueType": 1
+      }
+    },
+    "05_getLinksTo": {
+      "badPath": {
+        "error": "GetLinksTo failed | Failed to resolve element at path: NOPE"
+      },
+      "flstItem": {
+        "edid": "FixtureUnique",
+        "file": "Fixture.esm",
+        "formId": "00000801",
+        "sig": "KYWD"
+      },
+      "item0": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "item1": {
+        "edid": "ElemKywd",
+        "file": "Elem1.esp",
+        "formId": "04000800",
+        "sig": "KYWD"
+      },
+      "nonRef": {
+        "error": "GetLinksTo failed | Element cannot hold references."
+      },
+      "recordItself": {
+        "error": "GetLinksTo failed | Element cannot hold references."
+      },
+      "viaElement": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      }
+    },
+    "06_setLinksTo": {
+      "item1": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "json": [
+        "Fixture.esm:000800",
+        "Fixture.esm:000800"
+      ]
+    },
+    "07_getRefValue_getValue": {
+      "refFlst": "{Elem1.esp:000800}",
+      "refItem0": "{Elem1.esp:000800}",
+      "refItem1": "{Elem1.esp:000800}",
+      "refNonRef": {
+        "error": "GetRefValue failed | Element must be a main record or form ID element."
+      },
+      "valFormID": "ElemBook \"Elem Book\" [BOOK:04000801]",
+      "valFull": "Elem Book",
+      "valItem0": "FixtureChain [KYWD:00000800]",
+      "valItem1": "FixtureChain [KYWD:00000800]",
+      "valRecord": "04000801",
+      "valSig": "BOOK",
+      "valStruct": ""
+    },
+    "08_signature_allowed": {
+      "flstBOOK": true,
+      "flstKYWD": true,
+      "kwdaBOOK": false,
+      "kwdaKYWD": true,
+      "listFlst": "ACHR\r\nACTI\r\nTACT\r\nALCH\r\nAMMO\r\nANIO\r\nARMO\r\nARMA\r\nBOOK\r\nPARW\r\nPBAR\r\nPBEA\r\nPCON\r\nPFLA\r\nPGRE\r\nPHZD\r\nPMIS\r\nCELL\r\nCLAS\r\nCLMT\r\nSPGD\r\nRFCT\r\nCONT\r\nCSTY\r\nDIAL\r\nDOOR\r\nEFSH\r\nENCH\r\nEYES\r\nFACT\r\nFURN\r\nGLOB\r\nGMST\r\nKYWD\r\nLCRT\r\nAACT\r\nTXST\r\nHDPT\r\nASPC\r\nMSTT\r\nIDLM\r\nPROJ\r\nHAZD\r\nSLGM\r\nNAVM\r\nNAVI\r\nEXPL\r\nDEBR\r\nIMGS\r\nIMAD\r\nFLST\r\nPERK\r\nBPTD\r\nADDN\r\nAVIF\r\nCAMS\r\nCPTH\r\nVTYP\r\nMATT\r\nIPCT\r\nIPDS\r\nECZN\r\nLCTN\r\nMESG\r\nDOBJ\r\nLGTM\r\nMUSC\r\nFSTP\r\nFSTS\r\nSMBN\r\nSMQN\r\nSMEN\r\nDLBR\r\nMUST\r\nDLVW\r\nWOOP\r\nSHOU\r\nEQUP\r\nRELA\r\nSCEN\r\nASTP\r\nOTFT\r\nARTO\r\nMATO\r\nMOVT\r\nSNDR\r\nDUAL\r\nSNCT\r\nSOPM\r\nCOLL\r\nCLFM\r\nREVB\r\nGRAS\r\nIDLE\r\nINFO\r\nINGR\r\nKEYM\r\nLAND\r\nLIGH\r\nLSCR\r\nLTEX\r\nLVLN\r\nLVLI\r\nLVSP\r\nMGEF\r\nMISC\r\nAPPA\r\nCOBJ\r\nNPC_\r\nPACK\r\nQUST\r\nRACE\r\nREFR\r\nREGN\r\nSOUN\r\nSPEL\r\nSCRL\r\nSTAT\r\nTES4\r\nTREE\r\nFLOR\r\nWATR\r\nWEAP\r\nWRLD\r\nWTHR\r\nVOLI\r\nLENS\r\nCLDC\r\nHAIR\r\nPWAT\r\nRGDL\r\nSCOL\r\nSCPT",
+      "listKwda": "KYWD\r\nNULL",
+      "listRecord": {
+        "error": "GetAllowedSignatures failed"
+      },
+      "listStruct": {
+        "error": "GetAllowedSignatures failed"
+      },
+      "recordKYWD": {
+        "error": "GetSignatureAllowed failed"
+      }
+    },
+    "09_path_syntax": {
+      "file|BOOK": {
+        "has": true,
+        "name": "Book",
+        "path": "Elem1.esp\\BOOK"
+      },
+      "file|BOOK\\00000800": {
+        "error": "GetElement failed: BOOK\\00000800 | Failed to resolve element at path: BOOK\\00000800"
+      },
+      "file|BOOK\\BOOK": {
+        "error": "GetElement failed: BOOK\\BOOK | Failed to resolve element at path: BOOK\\BOOK"
+      },
+      "file|BOOK\\ElemBook": {
+        "has": true,
+        "name": "Elem Book",
+        "path": "Elem1.esp\\BOOK\\04000801"
+      },
+      "file|BOOK\\Nope": {
+        "error": "GetElement failed: BOOK\\Nope | Failed to resolve element at path: BOOK\\Nope"
+      },
+      "file|BOOK\\[0]": {
+        "has": true,
+        "name": "Elem Book",
+        "path": "Elem1.esp\\BOOK\\04000801"
+      },
+      "file|ElemBook": {
+        "has": true,
+        "name": "Elem Book",
+        "path": "Elem1.esp\\BOOK\\04000801"
+      },
+      "file|ElemKywd": {
+        "has": true,
+        "name": "ElemKywd",
+        "path": "Elem1.esp\\KYWD\\04000800"
+      },
+      "file|FLST\\ElemList": {
+        "has": true,
+        "name": "ElemList",
+        "path": "Elem1.esp\\FLST\\04000802"
+      },
+      "file|FLST\\[0]\\FormIDs": {
+        "has": true,
+        "name": "FormIDs",
+        "path": "Elem1.esp\\FLST\\04000802\\LNAM"
+      },
+      "file|FLST\\[0]\\FormIDs\\[0]": {
+        "has": true,
+        "name": "LNAM - FormID",
+        "path": "Elem1.esp\\FLST\\04000802\\LNAM\\[0]"
+      },
+      "file|File Header": {
+        "has": true,
+        "name": "File Header",
+        "path": "Elem1.esp\\File Header"
+      },
+      "file|File Header\\HEDR": {
+        "has": true,
+        "name": "HEDR - Header",
+        "path": "Elem1.esp\\File Header\\HEDR"
+      },
+      "file|File Header\\Master Files": {
+        "has": true,
+        "name": "Master Files",
+        "path": "Elem1.esp\\File Header"
+      },
+      "file|File Header\\Master Files\\[0]": {
+        "has": true,
+        "name": "Master File",
+        "path": "Elem1.esp\\File Header\\\\[0]"
+      },
+      "file|File Header\\Record Header\\Signature": {
+        "has": true,
+        "name": "Signature",
+        "path": "Elem1.esp\\File Header\\Record Header\\Signature"
+      },
+      "file|KYWD\\ElemKywd": {
+        "has": true,
+        "name": "ElemKywd",
+        "path": "Elem1.esp\\KYWD\\04000800"
+      },
+      "file|KYWD\\[0]": {
+        "has": true,
+        "name": "ElemKywd",
+        "path": "Elem1.esp\\KYWD\\04000800"
+      },
+      "file|KYWD\\[1]": {
+        "error": "GetElement failed: KYWD\\[1] | Failed to resolve element at path: KYWD\\[1]"
+      },
+      "file|NOPE": {
+        "error": "GetElement failed: NOPE | Failed to resolve element at path: NOPE"
+      },
+      "file|Record Header": {
+        "error": "GetElement failed: Record Header | Failed to resolve element at path: Record Header"
+      },
+      "file|XXXX": {
+        "error": "GetElement failed: XXXX | Failed to resolve element at path: XXXX"
+      },
+      "file|[0]": {
+        "has": true,
+        "name": "File Header",
+        "path": "Elem1.esp\\File Header"
+      },
+      "file|[1]": {
+        "has": true,
+        "name": "Keyword",
+        "path": "Elem1.esp\\KYWD"
+      },
+      "loadedFile|00000800": {
+        "has": true,
+        "name": "FixtureChain",
+        "path": "Fixture.esm\\KYWD\\00000800"
+      },
+      "loadedFile|00000802": {
+        "has": true,
+        "name": "Compressed fixture",
+        "path": "Fixture.esm\\BOOK\\00000802"
+      },
+      "loadedFile|BOOK\\FixtureCompressed": {
+        "has": true,
+        "name": "Compressed fixture",
+        "path": "Fixture.esm\\BOOK\\00000802"
+      },
+      "loadedFile|BOOK\\[0]\\FULL": {
+        "has": true,
+        "name": "FULL - Name",
+        "path": "Fixture.esm\\BOOK\\00000802\\FULL"
+      },
+      "loadedFile|File Header\\CNAM": {
+        "has": true,
+        "name": "CNAM - Author",
+        "path": "Fixture.esm\\File Header\\CNAM"
+      },
+      "loadedFile|File Header\\HEDR\\Version": {
+        "has": true,
+        "name": "Version",
+        "path": "Fixture.esm\\File Header\\HEDR\\Version"
+      },
+      "loadedFile|File Header\\Record Header\\Record Flags\\ESM": {
+        "has": true,
+        "name": "ESM",
+        "path": "Fixture.esm\\File Header\\Record Header\\Record Flags\\ESM"
+      },
+      "loadedFile|Fixture.esm\\KYWD": {
+        "error": "GetElement failed: Fixture.esm\\KYWD | Failed to resolve element at path: Fixture.esm\\KYWD"
+      },
+      "loadedFile|FixtureChain": {
+        "has": true,
+        "name": "FixtureChain",
+        "path": "Fixture.esm\\KYWD\\00000800"
+      },
+      "loadedFile|FixtureCompressed": {
+        "has": true,
+        "name": "Compressed fixture",
+        "path": "Fixture.esm\\BOOK\\00000802"
+      },
+      "loadedFile|KYWD": {
+        "has": true,
+        "name": "Keyword",
+        "path": "Fixture.esm\\KYWD"
+      },
+      "loadedFile|KYWD\\00000801": {
+        "has": true,
+        "name": "FixtureUnique",
+        "path": "Fixture.esm\\KYWD\\00000801"
+      },
+      "loadedFile|KYWD\\FixtureChain": {
+        "has": true,
+        "name": "FixtureChain",
+        "path": "Fixture.esm\\KYWD\\00000800"
+      },
+      "loadedFile|KYWD\\FixtureUnique\\EDID": {
+        "has": true,
+        "name": "EDID - Editor ID",
+        "path": "Fixture.esm\\KYWD\\00000801\\EDID"
+      },
+      "loadedFile|KYWD\\[1]": {
+        "has": true,
+        "name": "FixtureUnique",
+        "path": "Fixture.esm\\KYWD\\00000801"
+      },
+      "loadedFile|[0]": {
+        "has": true,
+        "name": "File Header",
+        "path": "Fixture.esm\\File Header"
+      },
+      "loadedFile|[2]": {
+        "has": true,
+        "name": "Book",
+        "path": "Fixture.esm\\BOOK"
+      },
+      "record|": {
+        "has": true,
+        "name": "Elem Book",
+        "path": "Elem1.esp\\BOOK\\04000801"
+      },
+      "record|DATA": {
+        "has": true,
+        "name": "DATA - Data",
+        "path": "Elem1.esp\\BOOK\\04000801\\DATA"
+      },
+      "record|DATA - Data\\Value": {
+        "has": true,
+        "name": "Value",
+        "path": "Elem1.esp\\BOOK\\04000801\\DATA\\Value"
+      },
+      "record|DATA\\Nope": {
+        "error": "GetElement failed: DATA\\Nope | Failed to resolve element at path: DATA\\Nope"
+      },
+      "record|DATA\\Value": {
+        "has": true,
+        "name": "Value",
+        "path": "Elem1.esp\\BOOK\\04000801\\DATA\\Value"
+      },
+      "record|DATA\\[0]": {
+        "has": true,
+        "name": "Flags",
+        "path": "Elem1.esp\\BOOK\\04000801\\DATA\\Flags"
+      },
+      "record|DATA\\[3]": {
+        "has": true,
+        "name": "Teaches",
+        "path": "Elem1.esp\\BOOK\\04000801\\DATA\\Teaches"
+      },
+      "record|DESC": {
+        "has": true,
+        "name": "DESC - Book Text",
+        "path": "Elem1.esp\\BOOK\\04000801\\DESC"
+      },
+      "record|EDID": {
+        "has": true,
+        "name": "EDID - Editor ID",
+        "path": "Elem1.esp\\BOOK\\04000801\\EDID"
+      },
+      "record|EDID - Editor ID": {
+        "has": true,
+        "name": "EDID - Editor ID",
+        "path": "Elem1.esp\\BOOK\\04000801\\EDID"
+      },
+      "record|EDID\\": {
+        "has": true,
+        "name": "EDID - Editor ID",
+        "path": "Elem1.esp\\BOOK\\04000801\\EDID"
+      },
+      "record|FULL": {
+        "has": true,
+        "name": "FULL - Name",
+        "path": "Elem1.esp\\BOOK\\04000801\\FULL"
+      },
+      "record|KWDA": {
+        "has": true,
+        "name": "KWDA - Keywords",
+        "path": "Elem1.esp\\BOOK\\04000801\\KWDA"
+      },
+      "record|KWDA - Keywords": {
+        "has": true,
+        "name": "KWDA - Keywords",
+        "path": "Elem1.esp\\BOOK\\04000801\\KWDA"
+      },
+      "record|KWDA\\0": {
+        "error": "GetElement failed: KWDA\\0 | Failed to resolve element at path: KWDA\\0"
+      },
+      "record|KWDA\\KWDA - Keyword": {
+        "error": "GetElement failed: KWDA\\KWDA - Keyword | Failed to resolve element at path: KWDA\\KWDA - Keyword"
+      },
+      "record|KWDA\\[-1]": {
+        "error": "GetElement failed: KWDA\\[-1] | Failed to resolve element at path: KWDA\\[-1]"
+      },
+      "record|KWDA\\[00000800]": {
+        "error": "GetElement failed: KWDA\\[00000800] | Failed to resolve element at path: KWDA\\[00000800]"
+      },
+      "record|KWDA\\[0]": {
+        "has": true,
+        "name": "Keyword",
+        "path": "Elem1.esp\\BOOK\\04000801\\KWDA\\[0]"
+      },
+      "record|KWDA\\[1]": {
+        "has": true,
+        "name": "Keyword",
+        "path": "Elem1.esp\\BOOK\\04000801\\KWDA\\[1]"
+      },
+      "record|KWDA\\[2]": {
+        "error": "GetElement failed: KWDA\\[2] | Failed to resolve element at path: KWDA\\[2]"
+      },
+      "record|NOPE": {
+        "error": "GetElement failed: NOPE | Failed to resolve element at path: NOPE"
+      },
+      "record|OBND\\X1": {
+        "has": true,
+        "name": "X1",
+        "path": "Elem1.esp\\BOOK\\04000801\\OBND\\X1"
+      },
+      "record|Record Header": {
+        "has": true,
+        "name": "Record Header",
+        "path": "Elem1.esp\\BOOK\\04000801\\Record Header"
+      },
+      "record|Record Header\\FormID": {
+        "has": true,
+        "name": "FormID",
+        "path": "Elem1.esp\\BOOK\\04000801\\Record Header\\FormID"
+      },
+      "record|Record Header\\Record Flags": {
+        "has": true,
+        "name": "Record Flags",
+        "path": "Elem1.esp\\BOOK\\04000801\\Record Header\\Record Flags"
+      },
+      "record|Record Header\\Signature": {
+        "has": true,
+        "name": "Signature",
+        "path": "Elem1.esp\\BOOK\\04000801\\Record Header\\Signature"
+      },
+      "record|[0]": {
+        "has": true,
+        "name": "Record Header",
+        "path": "Elem1.esp\\BOOK\\04000801\\Record Header"
+      },
+      "record|[1]": {
+        "has": true,
+        "name": "EDID - Editor ID",
+        "path": "Elem1.esp\\BOOK\\04000801\\EDID"
+      },
+      "record|[99]": {
+        "error": "GetElement failed: [99] | Failed to resolve element at path: [99]"
+      },
+      "record|\\": {
+        "error": "GetElement failed: \\ | Failed to resolve element at path: \\"
+      },
+      "record|\\EDID": {
+        "error": "GetElement failed: \\EDID | Failed to resolve element at path: \\EDID"
+      },
+      "record|edid": {
+        "error": "GetElement failed: edid | Failed to resolve element at path: edid"
+      },
+      "root|Elem1.esp": {
+        "name": "Elem1.esp",
+        "path": "Elem1.esp"
+      },
+      "root|Elem1.esp\\BOOK\\ElemBook": {
+        "name": "Elem Book",
+        "path": "Elem1.esp\\BOOK\\04000801"
+      },
+      "root|First.esp\\00000800": {
+        "name": "FixtureFirst",
+        "path": "First.esp\\KYWD\\00000800"
+      },
+      "root|First.esp\\KYWD\\00000800": {
+        "name": "FixtureFirst",
+        "path": "First.esp\\KYWD\\00000800"
+      },
+      "root|Fixture.esm": {
+        "name": "Fixture.esm",
+        "path": "Fixture.esm"
+      },
+      "root|Fixture.esm\\00000800": {
+        "name": "FixtureChain",
+        "path": "Fixture.esm\\KYWD\\00000800"
+      },
+      "root|Fixture.esm\\FixtureChain": {
+        "name": "FixtureChain",
+        "path": "Fixture.esm\\KYWD\\00000800"
+      },
+      "root|Fixture.esm\\KYWD": {
+        "name": "Keyword",
+        "path": "Fixture.esm\\KYWD"
+      },
+      "root|Fixture.esm\\KYWD\\00000800": {
+        "name": "FixtureChain",
+        "path": "Fixture.esm\\KYWD\\00000800"
+      },
+      "root|Fixture.esm\\KYWD\\FixtureChain": {
+        "name": "FixtureChain",
+        "path": "Fixture.esm\\KYWD\\00000800"
+      },
+      "root|Fixture.esm\\KYWD\\[0]": {
+        "name": "FixtureChain",
+        "path": "Fixture.esm\\KYWD\\00000800"
+      },
+      "root|Light.esp\\00000800": {
+        "error": "GetElement failed: Light.esp\\00000800 | Load order FormID [00000800] can not be mapped to file FormID for file \"Light.esp\""
+      },
+      "root|Light.esp\\03000800": {
+        "name": "FixtureLight",
+        "path": "Light.esp\\KYWD\\03000800"
+      },
+      "root|Light.esp\\KYWD\\[0]": {
+        "name": "FixtureLight",
+        "path": "Light.esp\\KYWD\\03000800"
+      },
+      "root|Nope.esp": {
+        "error": "GetElement failed: Nope.esp | Failed to resolve element at path: Nope.esp"
+      },
+      "root|Second.esp\\KYWD\\FixtureSecond": {
+        "name": "FixtureSecond",
+        "path": "Second.esp\\KYWD\\00000800"
+      },
+      "root|[0]": {
+        "name": "Fixture.esm",
+        "path": "Fixture.esm"
+      },
+      "root|[4]": {
+        "name": "Elem1.esp",
+        "path": "Elem1.esp"
+      },
+      "root|[5]": {
+        "error": "GetElement failed: [5] | Failed to resolve element at path: [5]"
+      }
+    },
+    "10_hasElement_elementCount_equals_matches": {
+      "countFile": 4,
+      "countGroup": 1,
+      "countKwda": 2,
+      "countLoaded": 3,
+      "countRecord": 8,
+      "equalsLoaded": true,
+      "equalsOther": false,
+      "equalsReget": true,
+      "equalsSelf": true,
+      "hasEdid": true,
+      "hasFileBook": true,
+      "hasKwda": true,
+      "hasNope": false,
+      "matchBadPath": {
+        "error": "ElementMatches failed | Failed to resolve element at path: NOPE"
+      },
+      "matchEdid": true,
+      "matchEdidWrong": false,
+      "matchRef": true,
+      "matchRefHex": true,
+      "matchValue": true
+    },
+    "11_arrays_lookup": {
+      "flstHas": true,
+      "get": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "getMissing": {
+        "error": "GetArrayItem failed | Could not find matching array element."
+      },
+      "hasBadPath": {
+        "error": "HasArrayItem failed | Failed to resolve element at path: NOPE"
+      },
+      "hasChain": true,
+      "hasHex": true,
+      "hasUnique": false
+    },
+    "12_navigation": {
+      "containerOfEdid": {
+        "count": 8,
+        "elementType": 1,
+        "name": "Elem Book",
+        "path": "Elem1.esp\\BOOK\\04000801",
+        "shortPath": "Elem1.esp\\04000801"
+      },
+      "containerOfFile": {
+        "error": "GetContainer failed | Cannot call GetContainer on files."
+      },
+      "containerOfItem": {
+        "count": 2,
+        "elementType": 3,
+        "name": "KWDA - Keywords",
+        "path": "Elem1.esp\\BOOK\\04000801\\KWDA",
+        "shortPath": "Elem1.esp\\04000801\\KWDA"
+      },
+      "containerOfRecord": {
+        "count": 1,
+        "elementType": 2,
+        "name": "Book",
+        "path": "Elem1.esp\\BOOK",
+        "shortPath": "Elem1.esp\\BOOK"
+      },
+      "fileOfItem": "Elem1.esp",
+      "fileOfLoaded": "Fixture.esm",
+      "groupOfEdid": {
+        "count": 1,
+        "elementType": 2,
+        "name": "Book",
+        "path": "Elem1.esp\\BOOK",
+        "shortPath": "Elem1.esp\\BOOK"
+      },
+      "groupOfRecord": {
+        "count": 1,
+        "elementType": 2,
+        "name": "Book",
+        "path": "Elem1.esp\\BOOK",
+        "shortPath": "Elem1.esp\\BOOK"
+      },
+      "recordOfFile": {
+        "error": "GetElementRecord failed | Element is not contained in a record"
+      },
+      "recordOfRecord": {
+        "edid": "ElemBook",
+        "file": "Elem1.esp",
+        "formId": "04000801",
+        "sig": "BOOK"
+      },
+      "recordOfVal": {
+        "edid": "ElemBook",
+        "file": "Elem1.esp",
+        "formId": "04000801",
+        "sig": "BOOK"
+      }
+    },
+    "13_records_by_signature_edid_formid": {
+      "Elem1.esp|\"\"|ov=0": [
+        {
+          "edid": "ElemKywd",
+          "file": "Elem1.esp",
+          "formId": "04000800",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "ElemBook",
+          "file": "Elem1.esp",
+          "formId": "04000801",
+          "sig": "BOOK"
+        },
+        {
+          "edid": "ElemList",
+          "file": "Elem1.esp",
+          "formId": "04000802",
+          "sig": "FLST"
+        }
+      ],
+      "Elem1.esp|\"\"|ov=1": [
+        {
+          "edid": "ElemKywd",
+          "file": "Elem1.esp",
+          "formId": "04000800",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "ElemBook",
+          "file": "Elem1.esp",
+          "formId": "04000801",
+          "sig": "BOOK"
+        },
+        {
+          "edid": "ElemList",
+          "file": "Elem1.esp",
+          "formId": "04000802",
+          "sig": "FLST"
+        }
+      ],
+      "Elem1.esp|\"BOOK\"|ov=0": [
+        {
+          "edid": "ElemBook",
+          "file": "Elem1.esp",
+          "formId": "04000801",
+          "sig": "BOOK"
+        }
+      ],
+      "Elem1.esp|\"BOOK\"|ov=1": [
+        {
+          "edid": "ElemBook",
+          "file": "Elem1.esp",
+          "formId": "04000801",
+          "sig": "BOOK"
+        }
+      ],
+      "Elem1.esp|\"FLST\"|ov=0": [
+        {
+          "edid": "ElemList",
+          "file": "Elem1.esp",
+          "formId": "04000802",
+          "sig": "FLST"
+        }
+      ],
+      "Elem1.esp|\"FLST\"|ov=1": [
+        {
+          "edid": "ElemList",
+          "file": "Elem1.esp",
+          "formId": "04000802",
+          "sig": "FLST"
+        }
+      ],
+      "Elem1.esp|\"FixtureChain\"|ov=0": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureChain"
+      },
+      "Elem1.esp|\"FixtureChain\"|ov=1": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureChain"
+      },
+      "Elem1.esp|\"FixtureCompressed\"|ov=0": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureCompressed"
+      },
+      "Elem1.esp|\"FixtureCompressed\"|ov=1": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureCompressed"
+      },
+      "Elem1.esp|\"KYWD\"|ov=0": [
+        {
+          "edid": "ElemKywd",
+          "file": "Elem1.esp",
+          "formId": "04000800",
+          "sig": "KYWD"
+        }
+      ],
+      "Elem1.esp|\"KYWD\"|ov=1": [
+        {
+          "edid": "ElemKywd",
+          "file": "Elem1.esp",
+          "formId": "04000800",
+          "sig": "KYWD"
+        }
+      ],
+      "Elem1.esp|\"KYWD,BOOK\"|ov=0": [
+        {
+          "edid": "ElemKywd",
+          "file": "Elem1.esp",
+          "formId": "04000800",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "ElemBook",
+          "file": "Elem1.esp",
+          "formId": "04000801",
+          "sig": "BOOK"
+        }
+      ],
+      "Elem1.esp|\"KYWD,BOOK\"|ov=1": [
+        {
+          "edid": "ElemKywd",
+          "file": "Elem1.esp",
+          "formId": "04000800",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "ElemBook",
+          "file": "Elem1.esp",
+          "formId": "04000801",
+          "sig": "BOOK"
+        }
+      ],
+      "Elem1.esp|\"KYWD\\r\\nBOOK\"|ov=0": {
+        "error": "GetRecords failed | Could not find signature for name: KYWD\r"
+      },
+      "Elem1.esp|\"KYWD\\r\\nBOOK\"|ov=1": {
+        "error": "GetRecords failed | Could not find signature for name: KYWD\r"
+      },
+      "Elem1.esp|\"NOPE\"|ov=0": [],
+      "Elem1.esp|\"NOPE\"|ov=1": [],
+      "Elem1.esp|\"kywd\"|ov=0": [],
+      "Elem1.esp|\"kywd\"|ov=1": [],
+      "Fixture.esm|\"\"|ov=0": [
+        {
+          "edid": "FixtureChain",
+          "file": "Fixture.esm",
+          "formId": "00000800",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "FixtureUnique",
+          "file": "Fixture.esm",
+          "formId": "00000801",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "FixtureCompressed",
+          "file": "Fixture.esm",
+          "formId": "00000802",
+          "sig": "BOOK"
+        }
+      ],
+      "Fixture.esm|\"\"|ov=1": [
+        {
+          "edid": "FixtureChain",
+          "file": "Fixture.esm",
+          "formId": "00000800",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "FixtureUnique",
+          "file": "Fixture.esm",
+          "formId": "00000801",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "FixtureCompressed",
+          "file": "Fixture.esm",
+          "formId": "00000802",
+          "sig": "BOOK"
+        }
+      ],
+      "Fixture.esm|\"BOOK\"|ov=0": [
+        {
+          "edid": "FixtureCompressed",
+          "file": "Fixture.esm",
+          "formId": "00000802",
+          "sig": "BOOK"
+        }
+      ],
+      "Fixture.esm|\"BOOK\"|ov=1": [
+        {
+          "edid": "FixtureCompressed",
+          "file": "Fixture.esm",
+          "formId": "00000802",
+          "sig": "BOOK"
+        }
+      ],
+      "Fixture.esm|\"FLST\"|ov=0": [],
+      "Fixture.esm|\"FLST\"|ov=1": [],
+      "Fixture.esm|\"FixtureChain\"|ov=0": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureChain"
+      },
+      "Fixture.esm|\"FixtureChain\"|ov=1": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureChain"
+      },
+      "Fixture.esm|\"FixtureCompressed\"|ov=0": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureCompressed"
+      },
+      "Fixture.esm|\"FixtureCompressed\"|ov=1": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureCompressed"
+      },
+      "Fixture.esm|\"KYWD\"|ov=0": [
+        {
+          "edid": "FixtureChain",
+          "file": "Fixture.esm",
+          "formId": "00000800",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "FixtureUnique",
+          "file": "Fixture.esm",
+          "formId": "00000801",
+          "sig": "KYWD"
+        }
+      ],
+      "Fixture.esm|\"KYWD\"|ov=1": [
+        {
+          "edid": "FixtureChain",
+          "file": "Fixture.esm",
+          "formId": "00000800",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "FixtureUnique",
+          "file": "Fixture.esm",
+          "formId": "00000801",
+          "sig": "KYWD"
+        }
+      ],
+      "Fixture.esm|\"KYWD,BOOK\"|ov=0": [
+        {
+          "edid": "FixtureChain",
+          "file": "Fixture.esm",
+          "formId": "00000800",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "FixtureUnique",
+          "file": "Fixture.esm",
+          "formId": "00000801",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "FixtureCompressed",
+          "file": "Fixture.esm",
+          "formId": "00000802",
+          "sig": "BOOK"
+        }
+      ],
+      "Fixture.esm|\"KYWD,BOOK\"|ov=1": [
+        {
+          "edid": "FixtureChain",
+          "file": "Fixture.esm",
+          "formId": "00000800",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "FixtureUnique",
+          "file": "Fixture.esm",
+          "formId": "00000801",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "FixtureCompressed",
+          "file": "Fixture.esm",
+          "formId": "00000802",
+          "sig": "BOOK"
+        }
+      ],
+      "Fixture.esm|\"KYWD\\r\\nBOOK\"|ov=0": {
+        "error": "GetRecords failed | Could not find signature for name: KYWD\r"
+      },
+      "Fixture.esm|\"KYWD\\r\\nBOOK\"|ov=1": {
+        "error": "GetRecords failed | Could not find signature for name: KYWD\r"
+      },
+      "Fixture.esm|\"NOPE\"|ov=0": [],
+      "Fixture.esm|\"NOPE\"|ov=1": [],
+      "Fixture.esm|\"kywd\"|ov=0": [],
+      "Fixture.esm|\"kywd\"|ov=1": [],
+      "Second.esp|\"\"|ov=0": [],
+      "Second.esp|\"\"|ov=1": [
+        {
+          "edid": "FixtureSecond",
+          "file": "Second.esp",
+          "formId": "00000800",
+          "sig": "KYWD"
+        }
+      ],
+      "Second.esp|\"BOOK\"|ov=0": [],
+      "Second.esp|\"BOOK\"|ov=1": [],
+      "Second.esp|\"FLST\"|ov=0": [],
+      "Second.esp|\"FLST\"|ov=1": [],
+      "Second.esp|\"FixtureChain\"|ov=0": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureChain"
+      },
+      "Second.esp|\"FixtureChain\"|ov=1": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureChain"
+      },
+      "Second.esp|\"FixtureCompressed\"|ov=0": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureCompressed"
+      },
+      "Second.esp|\"FixtureCompressed\"|ov=1": {
+        "error": "GetRecords failed | Could not find signature for name: FixtureCompressed"
+      },
+      "Second.esp|\"KYWD\"|ov=0": [],
+      "Second.esp|\"KYWD\"|ov=1": [
+        {
+          "edid": "FixtureSecond",
+          "file": "Second.esp",
+          "formId": "00000800",
+          "sig": "KYWD"
+        }
+      ],
+      "Second.esp|\"KYWD,BOOK\"|ov=0": [],
+      "Second.esp|\"KYWD,BOOK\"|ov=1": [
+        {
+          "edid": "FixtureSecond",
+          "file": "Second.esp",
+          "formId": "00000800",
+          "sig": "KYWD"
+        }
+      ],
+      "Second.esp|\"KYWD\\r\\nBOOK\"|ov=0": {
+        "error": "GetRecords failed | Could not find signature for name: KYWD\r"
+      },
+      "Second.esp|\"KYWD\\r\\nBOOK\"|ov=1": {
+        "error": "GetRecords failed | Could not find signature for name: KYWD\r"
+      },
+      "Second.esp|\"NOPE\"|ov=0": [],
+      "Second.esp|\"NOPE\"|ov=1": [],
+      "Second.esp|\"kywd\"|ov=0": [],
+      "Second.esp|\"kywd\"|ov=1": []
+    },
+    "14_getRecord_by_formid": {
+      "bookById": {
+        "edid": "FixtureCompressed",
+        "file": "Fixture.esm",
+        "formId": "00000802",
+        "sig": "BOOK"
+      },
+      "elem": {
+        "edid": "ElemBook",
+        "file": "Elem1.esp",
+        "formId": "04000801",
+        "sig": "BOOK"
+      },
+      "fixtureChain": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "fixtureChainFullId": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "inSecondNoMasters": {
+        "error": "GetRecord failed | Failed to find record with FormID: 00000801"
+      },
+      "inSecondOverride": {
+        "edid": "FixtureSecond",
+        "file": "Second.esp",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "inSecondViaMasters": {
+        "edid": "FixtureUnique",
+        "file": "Fixture.esm",
+        "formId": "00000801",
+        "sig": "KYWD"
+      },
+      "light": {
+        "edid": "FixtureLight",
+        "file": "Light.esp",
+        "formId": "03000800",
+        "sig": "KYWD"
+      },
+      "missing": {
+        "error": "GetRecord failed | Failed to find record with FormID: 00000900"
+      },
+      "uniq": {
+        "edid": "FixtureUnique",
+        "file": "Fixture.esm",
+        "formId": "00000801",
+        "sig": "KYWD"
+      }
+    },
+    "15_find_next_previous": {
+      "nextElemNone": {
+        "error": "FindNextElement failed"
+      },
+      "nextElemPath": {
+        "count": 0,
+        "elementType": 9,
+        "name": "Data Size",
+        "path": "Elem1.esp\\BOOK\\04000801\\Record Header\\Data Size",
+        "shortPath": "Elem1.esp\\04000801\\Record Header\\Data Size"
+      },
+      "nextElemValue": {
+        "count": 0,
+        "elementType": 9,
+        "name": "FormID",
+        "path": "Elem1.esp\\BOOK\\04000801\\Record Header\\FormID",
+        "shortPath": "Elem1.esp\\04000801\\Record Header\\FormID"
+      },
+      "nextRecEdid": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "nextRecEdidNoMatch": {
+        "error": "FindNextRecord failed"
+      },
+      "nextRecFromRecord": {
+        "edid": "FixtureUnique",
+        "file": "Fixture.esm",
+        "formId": "00000801",
+        "sig": "KYWD"
+      },
+      "nextRecName": {
+        "edid": "FixtureCompressed",
+        "file": "Fixture.esm",
+        "formId": "00000802",
+        "sig": "BOOK"
+      },
+      "prevElemPath": {
+        "count": 0,
+        "elementType": 3,
+        "name": "EDID - Editor ID",
+        "path": "Elem1.esp\\BOOK\\04000801\\EDID",
+        "shortPath": "Elem1.esp\\04000801\\EDID"
+      },
+      "prevRecEdid": {
+        "edid": "FixtureCompressed",
+        "file": "Fixture.esm",
+        "formId": "00000802",
+        "sig": "BOOK"
+      },
+      "prevRecFromRecord": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      }
+    },
+    "16_files_lookup": {
+      "byAuthor": "Fixture.esm",
+      "byAuthorMissing": {
+        "error": "FileByAuthor failed | Failed to find file with author: nobody"
+      },
+      "byIndex": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        "Light.esp",
+        "Elem1.esp"
+      ],
+      "byLoadOrder": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        "Light.esp",
+        "Elem1.esp",
+        {
+          "error": "FileByLoadOrder failed | Failed to find file with load order: 05"
+        }
+      ],
+      "byName": "First.esp",
+      "missing": {
+        "error": "FileByName(Nope.esp) failed | Failed to find file with name: Nope.esp"
+      }
+    },
+    "17_filter": {
+      "afterBothKywd": [
+        "ElemKywd"
+      ],
+      "afterFilterElementsFile": [
+        "Book"
+      ],
+      "afterFilterGroup": [
+        "Elem Book"
+      ],
+      "afterFilterKywdGroup": [],
+      "afterFilterUnfiltered": [
+        "ElemKywd"
+      ],
+      "afterReset": [],
+      "before": [],
+      "markBook": null,
+      "markKywd": null,
+      "reset": null
+    },
+    "18_modified_editable": {
+      "fileModified": true,
+      "loadedFileEditable": true,
+      "loadedModified": false,
+      "loadedRecEditable": true,
+      "recEditable": true,
+      "setBackEditableOnFile": [
+        true,
+        true
+      ],
+      "setNotEditableOnFile": [
+        true,
+        true
+      ],
+      "setNotEditableOnRecord": {
+        "error": "SetIsEditable failed | Interface is not a file."
+      }
+    }
+  }
+}

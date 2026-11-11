@@ -1,0 +1,722 @@
+{
+  "group": "write",
+  "schema": 1,
+  "steps": {
+    "01_addFile": {
+      "json": {
+        "File Header": {
+          "CNAM - Author": "",
+          "HEDR - Header": {
+            "Next Object ID": 2048,
+            "Number of Records": 0,
+            "Version": 1.69999999570791
+          },
+          "Record Header": {
+            "FormID": "Write1.esp:000000",
+            "Record Flags": {},
+            "Signature": "TES4"
+          }
+        },
+        "Filename": "Write1.esp",
+        "Groups": {}
+      },
+      "loadOrder": 4,
+      "masters": [],
+      "name": "Write1.esp",
+      "records": 0
+    },
+    "02_addFile_duplicate_no_ignore": {
+      "error": "AddFile failed | <ROOT>/runtime/suite3/write/data/Write1.esp exists already"
+    },
+    "03_addFile_duplicate_ignore": {
+      "error": "AddFile failed | <ROOT>/runtime/suite3/write/data/Write1.esp exists already"
+    },
+    "04_addFile_existing_loaded_plugin": {
+      "error": "AddFile failed | File with name First.esp already exists."
+    },
+    "05_addMaster": [
+      "Fixture.esm"
+    ],
+    "06_addMaster_duplicate": [
+      "Fixture.esm"
+    ],
+    "07_addMaster_unknown": {
+      "error": "AddMaster failed | Failed to find file with name: Nope.esm"
+    },
+    "08_addElement_record": {
+      "formId": "04000800",
+      "json": {
+        "EDID - Editor ID": "WriteKywd",
+        "Record Header": {
+          "FormID": "Write1.esp:000800",
+          "Record Flags": {},
+          "Signature": "KYWD"
+        }
+      }
+    },
+    "09_addElement_record_book": {
+      "formId": "04000801",
+      "json": {
+        "DATA - Data": {
+          "Flags": {},
+          "Teaches": 0,
+          "Type": 0,
+          "Unused": "00 00",
+          "Value": 0,
+          "Weight": 0
+        },
+        "DESC - Book Text": "",
+        "EDID - Editor ID": "WriteBook",
+        "FULL - Name": "Write Book",
+        "OBND - Object Bounds": {
+          "X1": 0,
+          "X2": 0,
+          "Y1": 0,
+          "Y2": 0,
+          "Z1": 0,
+          "Z2": 0
+        },
+        "Record Header": {
+          "FormID": "Write1.esp:000801",
+          "Record Flags": {},
+          "Signature": "BOOK"
+        }
+      }
+    },
+    "10_setValue_string": "Some text",
+    "11_setValue_enum": {
+      "int": 255,
+      "value": "Note/Scroll"
+    },
+    "12_setIntValue": {
+      "value": 150,
+      "valueStr": "150",
+      "x1": -12
+    },
+    "13_setUIntValue": {
+      "s": "Two Handed",
+      "u": 7
+    },
+    "14_setFloatValue": {
+      "f": 1.499999996212864,
+      "s": "1.500000"
+    },
+    "15_setFlag": {
+      "all": [
+        "Teaches Skill,Can't be Taken,Teaches Spell,Unknown 4,Unknown 5,Unknown 6,Unknown 7,Unknown 8"
+      ],
+      "cant": false,
+      "enabled": [
+        "Teaches Spell"
+      ],
+      "teaches": true
+    },
+    "16_setFlag_record_header": {
+      "error": "SetFlag failed | Flag \"ESM\" not found."
+    },
+    "17_setValue_bad_path": {
+      "error": "SetValue failed | Failed to resolve element at path: DATA\\Nope"
+    },
+    "18_setIntValue_bad_value_string": {
+      "error": "SetValue failed | 'abc' is not a valid integer value"
+    },
+    "19_addElement_array_container": {
+      "isSorted": true,
+      "json": {
+        "DATA - Data": {
+          "Flags": {
+            "Teaches Spell": true
+          },
+          "Teaches": 7,
+          "Type": 255,
+          "Unused": "00 00",
+          "Value": 150,
+          "Weight": 1.49999999621286
+        },
+        "DESC - Book Text": "Some text",
+        "EDID - Editor ID": "WriteBook",
+        "FULL - Name": "Write Book",
+        "KSIZ - Keyword Count": 1,
+        "KWDA - Keywords": [
+          0
+        ],
+        "OBND - Object Bounds": {
+          "X1": -12,
+          "X2": 0,
+          "Y1": 0,
+          "Y2": 0,
+          "Z1": 0,
+          "Z2": 0
+        },
+        "Record Header": {
+          "FormID": "Write1.esp:000801",
+          "Record Flags": {},
+          "Signature": "BOOK"
+        }
+      }
+    },
+    "20_addArrayItem_keywords": {
+      "has": true,
+      "hasMissing": false,
+      "json": {
+        "DATA - Data": {
+          "Flags": {
+            "Teaches Spell": true
+          },
+          "Teaches": 7,
+          "Type": 255,
+          "Unused": "00 00",
+          "Value": 150,
+          "Weight": 1.49999999621286
+        },
+        "DESC - Book Text": "Some text",
+        "EDID - Editor ID": "WriteBook",
+        "FULL - Name": "Write Book",
+        "KSIZ - Keyword Count": 2,
+        "KWDA - Keywords": [
+          "Fixture.esm:000800",
+          "Write1.esp:000800"
+        ],
+        "OBND - Object Bounds": {
+          "X1": -12,
+          "X2": 0,
+          "Y1": 0,
+          "Y2": 0,
+          "Z1": 0,
+          "Z2": 0
+        },
+        "Record Header": {
+          "FormID": "Write1.esp:000801",
+          "Record Flags": {},
+          "Signature": "BOOK"
+        }
+      }
+    },
+    "21_removeArrayItem": [
+      "Fixture.esm:000800"
+    ],
+    "22_moveArrayItem_sorted_array_error": {
+      "error": "MoveArrayItem failed | Cannot move elements in sorted arrays."
+    },
+    "23_flst_array_add_move": {
+      "after": [
+        "Fixture.esm:000801",
+        "Write1.esp:000800",
+        "Fixture.esm:000800"
+      ],
+      "before": [
+        "Write1.esp:000800",
+        "Fixture.esm:000800",
+        "Fixture.esm:000801"
+      ],
+      "mid": [
+        "Fixture.esm:000801",
+        "Write1.esp:000800",
+        "Fixture.esm:000800"
+      ]
+    },
+    "24_flst_move_out_of_range": [
+      "Write1.esp:000800",
+      "Fixture.esm:000800",
+      "Fixture.esm:000801"
+    ],
+    "25_flst_removeArrayItem": [
+      "Write1.esp:000800",
+      "Fixture.esm:000801"
+    ],
+    "26_removeElement_path": {
+      "has": false,
+      "json": {
+        "DATA - Data": {
+          "Flags": {
+            "Teaches Spell": true
+          },
+          "Teaches": 7,
+          "Type": 255,
+          "Unused": "00 00",
+          "Value": 150,
+          "Weight": 1.49999999621286
+        },
+        "EDID - Editor ID": "WriteBook",
+        "FULL - Name": "Write Book",
+        "KSIZ - Keyword Count": 1,
+        "KWDA - Keywords": [
+          "Fixture.esm:000800"
+        ],
+        "OBND - Object Bounds": {
+          "X1": -12,
+          "X2": 0,
+          "Y1": 0,
+          "Y2": 0,
+          "Z1": 0,
+          "Z2": 0
+        },
+        "Record Header": {
+          "FormID": "Write1.esp:000801",
+          "Record Flags": {},
+          "Signature": "BOOK"
+        }
+      }
+    },
+    "27_removeElement_missing": {
+      "error": "RemoveElement failed | Interface is not an element."
+    },
+    "28_removeElementOrParent": null,
+    "29_copyElement_override_into_same_file": {
+      "isOverride": true,
+      "masters": [
+        "Fixture.esm"
+      ],
+      "rec": {
+        "formId": "00000800",
+        "json": {
+          "EDID - Editor ID": "FixtureFirst",
+          "Record Header": {
+            "FormID": "Write1.esp:000800",
+            "Record Flags": {},
+            "Signature": "KYWD"
+          }
+        }
+      }
+    },
+    "30_copyElement_new_record": {
+      "isMaster": true,
+      "isOverride": false,
+      "rec": {
+        "formId": "04000803",
+        "json": {
+          "DATA - Data": {
+            "Flags": {},
+            "Teaches": 0,
+            "Type": 0,
+            "Unused": "00 00",
+            "Value": 0,
+            "Weight": 0
+          },
+          "DESC - Book Text": "",
+          "EDID - Editor ID": "FixtureCompressed",
+          "FULL - Name": "Compressed fixture",
+          "OBND - Object Bounds": {
+            "X1": 0,
+            "X2": 0,
+            "Y1": 0,
+            "Y2": 0,
+            "Z1": 0,
+            "Z2": 0
+          },
+          "Record Header": {
+            "FormID": "Write1.esp:000803",
+            "Record Flags": {},
+            "Signature": "BOOK"
+          }
+        }
+      }
+    },
+    "31_copyElement_override_into_new_plugin_no_master": {
+      "error": "CopyElement failed | Load order FormID [00000800] can not be mapped to file FormID for file \"WriteOvr.esp\""
+    },
+    "31b_copyElement_override_after_addMaster": {
+      "count": 1,
+      "masters": [
+        "Fixture.esm"
+      ],
+      "overrides": 1,
+      "rec": {
+        "formId": "00000800",
+        "json": {
+          "EDID - Editor ID": "FixtureSecond",
+          "Record Header": {
+            "FormID": "WriteOvr.esp:000800",
+            "Record Flags": {},
+            "Signature": "KYWD"
+          }
+        }
+      }
+    },
+    "32_copyElement_override_twice": {
+      "count": 1,
+      "rec": {
+        "formId": "00000800",
+        "json": {
+          "EDID - Editor ID": "FixtureSecond",
+          "Record Header": {
+            "FormID": "WriteOvr.esp:000800",
+            "Record Flags": {},
+            "Signature": "KYWD"
+          }
+        }
+      }
+    },
+    "33_copyElement_new_into_plugin_no_master": {
+      "masters": [
+        "Fixture.esm"
+      ],
+      "rec": {
+        "formId": "05000800",
+        "json": {
+          "EDID - Editor ID": "FixtureLight",
+          "Record Header": {
+            "FormID": "WriteOvr.esp:000800",
+            "Record Flags": {},
+            "Signature": "KYWD"
+          }
+        }
+      }
+    },
+    "34_addRequiredMasters": [
+      "Fixture.esm"
+    ],
+    "35_addMasters_list_and_sort": {
+      "after": [
+        "Fixture.esm",
+        "First.esp",
+        "Light.esp"
+      ],
+      "before": [
+        "Fixture.esm",
+        "First.esp",
+        "Light.esp"
+      ]
+    },
+    "36_cleanMasters": [
+      "Fixture.esm"
+    ],
+    "37_getMasters_requiredBy": {
+      "masters": 1,
+      "requiredByFixture": 5
+    },
+    "38_isModified": {
+      "file": true,
+      "rec": true
+    },
+    "39_renameFile": {
+      "byName": "WriteMain.esp",
+      "name": "WriteMain.esp"
+    },
+    "40_renameFile_to_existing": {
+      "error": "RenameFile failed | Cannot set filename to \"First.esp\", file already exists with this name at \"<ROOT>/runtime/suite3/write/data/First.esp\""
+    },
+    "41_saveFile_main": {
+      "exists": true,
+      "hex": [
+        "000000  54 45 53 34 39 00 00 00 00 00 00 00 00 00 00 00  TES49...........",
+        "000010  00 00 00 00 2c 00 00 00 48 45 44 52 0c 00 9a 99  ....,...HEDR....",
+        "000020  d9 3f 08 00 00 00 04 08 00 00 43 4e 41 4d 01 00  .?........CNAM..",
+        "000030  00 4d 41 53 54 0c 00 46 69 78 74 75 72 65 2e 65  .MAST..Fixture.e",
+        "000040  73 6d 00 44 41 54 41 08 00 00 00 00 00 00 00 00  sm.DATA.........",
+        "000050  00 47 52 55 50 6b 00 00 00 4b 59 57 44 00 00 00  .GRUPk...KYWD...",
+        "000060  00 00 00 00 00 00 00 00 00 4b 59 57 44 13 00 00  .........KYWD...",
+        "000070  00 00 00 00 00 00 08 00 00 00 00 00 00 2c 00 00  .............,..",
+        "000080  00 45 44 49 44 0d 00 46 69 78 74 75 72 65 46 69  .EDID..FixtureFi",
+        "000090  72 73 74 00 4b 59 57 44 10 00 00 00 00 00 00 00  rst.KYWD........",
+        "0000a0  00 08 00 01 00 00 00 00 2c 00 00 00 45 44 49 44  ........,...EDID",
+        "0000b0  0a 00 57 72 69 74 65 4b 79 77 64 00 47 52 55 50  ..WriteKywd.GRUP",
+        "0000c0  de 00 00 00 42 4f 4f 4b 00 00 00 00 00 00 00 00  ....BOOK........",
+        "0000d0  00 00 00 00 42 4f 4f 4b 4f 00 00 00 00 00 00 00  ....BOOKO.......",
+        "0000e0  01 08 00 01 00 00 00 00 2c 00 00 00 45 44 49 44  ........,...EDID",
+        "0000f0  0a 00 57 72 69 74 65 42 6f 6f 6b 00 4f 42 4e 44  ..WriteBook.OBND",
+        "000100  0c 00 f4 ff 00 00 00 00 00 00 00 00 00 00 46 55  ..............FU",
+        "000110  4c 4c 0b 00 57 72 69 74 65 20 42 6f 6f 6b 00 4b  LL..Write Book.K",
+        "000120  57 44 41 00 00 44 41 54 41 10 00 04 ff 00 00 07  WDA..DATA.......",
+        "000130  00 00 00 96 00 00 00 00 00 c0 3f 42 4f 4f 4b 47  ..........?BOOKG",
+        "000140  00 00 00 00 00 04 00 03 08 00 01 00 00 00 00 2c  ...............,",
+        "000150  00 00 00 60 00 00 00 78 9c 73 75 f1 74 11 62 70  ...`...x.su.t.bp",
+        "000160  cb ac 28 29 2d 4a 75 ce cf 2d 28 4a 2d 2e 4e 4d  ..()-Ju..-(J-.NM",
+        "000170  61 f0 77 f2 73 e1 61 40 06 6e a1 3e 3e c2 0c 08  a.w.s.a@.n.>>...",
+        "000180  25 0a 69 10 4d 0c 2e ae c1 ce 8c 0c 0c 2e 8e 21  %.i.M..........!",
+        "000190  8e 02 0c e8 00 00 93 0b 14 20 47 52 55 50 54 00  ......... GRUPT.",
+        "0001a0  00 00 46 4c 53 54 00 00 00 00 00 00 00 00 00 00  ..FLST..........",
+        "0001b0  00 00 46 4c 53 54 24 00 00 00 00 00 00 00 02 08  ..FLST$.........",
+        "0001c0  00 01 00 00 00 00 2c 00 00 00 45 44 49 44 0a 00  ......,...EDID..",
+        "0001d0  57 72 69 74 65 4c 69 73 74 00 4c 4e 41 4d 04 00  WriteList.LNAM..",
+        "0001e0  00 08 00 01 4c 4e 41 4d 04 00 01 08 00 00  ....LNAM......"
+      ],
+      "sha256": "9ef988b456b4f457385ecbeb830a5a59246542268a0e1b71c52e3cfc10bc0064",
+      "size": 494
+    },
+    "42_saveFile_override": {
+      "exists": true,
+      "hex": [
+        "000000  54 45 53 34 39 00 00 00 00 00 00 00 00 00 00 00  TES49...........",
+        "000010  00 00 00 00 2c 00 00 00 48 45 44 52 0c 00 9a 99  ....,...HEDR....",
+        "000020  d9 3f 03 00 00 00 01 08 00 00 43 4e 41 4d 01 00  .?........CNAM..",
+        "000030  00 4d 41 53 54 0c 00 46 69 78 74 75 72 65 2e 65  .MAST..Fixture.e",
+        "000040  73 6d 00 44 41 54 41 08 00 00 00 00 00 00 00 00  sm.DATA.........",
+        "000050  00 47 52 55 50 6f 00 00 00 4b 59 57 44 00 00 00  .GRUPo...KYWD...",
+        "000060  00 00 00 00 00 00 00 00 00 4b 59 57 44 14 00 00  .........KYWD...",
+        "000070  00 00 00 00 00 00 08 00 00 00 00 00 00 2c 00 00  .............,..",
+        "000080  00 45 44 49 44 0e 00 46 69 78 74 75 72 65 53 65  .EDID..FixtureSe",
+        "000090  63 6f 6e 64 00 4b 59 57 44 13 00 00 00 00 00 00  cond.KYWD.......",
+        "0000a0  00 00 08 00 01 00 00 00 00 2c 00 00 00 45 44 49  .........,...EDI",
+        "0000b0  44 0d 00 46 69 78 74 75 72 65 4c 69 67 68 74 00  D..FixtureLight."
+      ],
+      "sha256": "30705f1f21566a3cdff5d336c2167d4c033a9cd1f6501a17af253fdbc7116e74",
+      "size": 192
+    },
+    "43_saveFile_default_path_exists_in_data": {
+      "data": {
+        "exists": false
+      }
+    },
+    "43b_saveFile_loaded_fixture_roundtrip": {
+      "originalSha": "7a017660a0bf2dac8c652243495675813e5c4ddf82682319dae75525066152ad",
+      "resavedHex": [
+        "000000  54 45 53 34 19 00 00 00 01 00 00 00 00 00 00 00  TES4............",
+        "000010  00 00 00 00 2c 00 00 00 48 45 44 52 0c 00 9a 99  ....,...HEDR....",
+        "000020  d9 3f 05 00 00 00 03 08 00 00 43 4e 41 4d 01 00  .?........CNAM..",
+        "000030  00 47 52 55 50 6f 00 00 00 4b 59 57 44 00 00 00  .GRUPo...KYWD...",
+        "000040  00 00 00 00 00 00 00 00 00 4b 59 57 44 13 00 00  .........KYWD...",
+        "000050  00 00 00 00 00 00 08 00 00 00 00 00 00 2c 00 00  .............,..",
+        "000060  00 45 44 49 44 0d 00 46 69 78 74 75 72 65 43 68  .EDID..FixtureCh",
+        "000070  61 69 6e 00 4b 59 57 44 14 00 00 00 00 00 00 00  ain.KYWD........",
+        "000080  01 08 00 00 00 00 00 00 2c 00 00 00 45 44 49 44  ........,...EDID",
+        "000090  0e 00 46 69 78 74 75 72 65 55 6e 69 71 75 65 00  ..FixtureUnique.",
+        "0000a0  47 52 55 50 77 00 00 00 42 4f 4f 4b 00 00 00 00  GRUPw...BOOK....",
+        "0000b0  00 00 00 00 00 00 00 00 42 4f 4f 4b 47 00 00 00  ........BOOKG...",
+        "0000c0  00 00 04 00 02 08 00 00 00 00 00 00 2c 00 00 00  ............,...",
+        "0000d0  60 00 00 00 78 9c 73 75 f1 74 11 62 70 cb ac 28  `...x.su.t.bp..(",
+        "0000e0  29 2d 4a 75 ce cf 2d 28 4a 2d 2e 4e 4d 61 f0 77  )-Ju..-(J-.NMa.w",
+        "0000f0  f2 73 e1 61 40 06 6e a1 3e 3e c2 0c 08 25 0a 69  .s.a@.n.>>...%.i",
+        "000100  10 4d 0c 2e ae c1 ce 8c 0c 0c 2e 8e 21 8e 02 0c  .M..........!...",
+        "000110  e8 00 00 93 0b 14 20  ...... "
+      ],
+      "resavedSha": "7a017660a0bf2dac8c652243495675813e5c4ddf82682319dae75525066152ad",
+      "resavedSize": 279,
+      "sameBytes": true
+    },
+    "44_saveFile_bad_dir": null,
+    "45_reload_main": {
+      "json": {
+        "File Header": {
+          "CNAM - Author": "",
+          "HEDR - Header": {
+            "Next Object ID": 2052,
+            "Number of Records": 8,
+            "Version": 1.69999999570791
+          },
+          "Master Files": [
+            {
+              "DATA - Unknown": "00 00 00 00 00 00 00 00",
+              "MAST - Filename": "Fixture.esm"
+            }
+          ],
+          "Record Header": {
+            "FormID": "WriteSaved.esp:000000",
+            "Record Flags": {},
+            "Signature": "TES4"
+          }
+        },
+        "Filename": "WriteSaved.esp",
+        "Groups": {
+          "BOOK": [
+            {
+              "DATA - Data": {
+                "Flags": {
+                  "Teaches Spell": true
+                },
+                "Teaches": 7,
+                "Type": 255,
+                "Unused": "00 00",
+                "Value": 150,
+                "Weight": 1.49999999621286
+              },
+              "DESC - Book Text": "",
+              "EDID - Editor ID": "WriteBook",
+              "FULL - Name": "Write Book",
+              "KWDA - Keywords": "",
+              "OBND - Object Bounds": {
+                "X1": -12,
+                "X2": 0,
+                "Y1": 0,
+                "Y2": 0,
+                "Z1": 0,
+                "Z2": 0
+              },
+              "Record Header": {
+                "FormID": "WriteSaved.esp:000801",
+                "Record Flags": {},
+                "Signature": "BOOK"
+              }
+            },
+            {
+              "DATA - Data": {
+                "Flags": {},
+                "Teaches": 0,
+                "Type": 0,
+                "Unused": "00 00",
+                "Value": 0,
+                "Weight": 0
+              },
+              "DESC - Book Text": "",
+              "EDID - Editor ID": "FixtureCompressed",
+              "FULL - Name": "Compressed fixture",
+              "OBND - Object Bounds": {
+                "X1": 0,
+                "X2": 0,
+                "Y1": 0,
+                "Y2": 0,
+                "Z1": 0,
+                "Z2": 0
+              },
+              "Record Header": {
+                "FormID": "WriteSaved.esp:000803",
+                "Record Flags": {},
+                "Signature": "BOOK"
+              }
+            }
+          ],
+          "FLST": [
+            {
+              "EDID - Editor ID": "WriteList",
+              "FormIDs": [
+                "WriteSaved.esp:000800",
+                "Fixture.esm:000801"
+              ],
+              "Record Header": {
+                "FormID": "WriteSaved.esp:000802",
+                "Record Flags": {},
+                "Signature": "FLST"
+              }
+            }
+          ],
+          "KYWD": [
+            {
+              "EDID - Editor ID": "FixtureFirst",
+              "Record Header": {
+                "FormID": "WriteSaved.esp:000800",
+                "Record Flags": {},
+                "Signature": "KYWD"
+              }
+            },
+            {
+              "EDID - Editor ID": "WriteKywd",
+              "Record Header": {
+                "FormID": "WriteSaved.esp:000800",
+                "Record Flags": {},
+                "Signature": "KYWD"
+              }
+            }
+          ]
+        }
+      },
+      "loadOrder": 8,
+      "masters": [
+        "Fixture.esm"
+      ],
+      "overrides": 1,
+      "records": 5
+    },
+    "46_reload_override": {
+      "json": {
+        "File Header": {
+          "CNAM - Author": "",
+          "HEDR - Header": {
+            "Next Object ID": 2049,
+            "Number of Records": 3,
+            "Version": 1.69999999570791
+          },
+          "Master Files": [
+            {
+              "DATA - Unknown": "00 00 00 00 00 00 00 00",
+              "MAST - Filename": "Fixture.esm"
+            }
+          ],
+          "Record Header": {
+            "FormID": "WriteOvr.esp:000000",
+            "Record Flags": {},
+            "Signature": "TES4"
+          }
+        },
+        "Filename": "WriteOvr.esp",
+        "Groups": {
+          "KYWD": [
+            {
+              "EDID - Editor ID": "FixtureSecond",
+              "Record Header": {
+                "FormID": "WriteOvr.esp:000800",
+                "Record Flags": {},
+                "Signature": "KYWD"
+              }
+            },
+            {
+              "EDID - Editor ID": "FixtureLight",
+              "Record Header": {
+                "FormID": "WriteOvr.esp:000800",
+                "Record Flags": {},
+                "Signature": "KYWD"
+              }
+            }
+          ]
+        }
+      },
+      "loadOrder": 5,
+      "masters": [
+        "Fixture.esm"
+      ],
+      "overrides": 1,
+      "records": 2
+    },
+    "47_reloaded_records_by_form": [
+      {
+        "edid": "FixtureFirst",
+        "formId": "00000800",
+        "override": true,
+        "sig": "KYWD"
+      },
+      {
+        "edid": "WriteKywd",
+        "formId": "08000800",
+        "override": false,
+        "sig": "KYWD"
+      },
+      {
+        "edid": "WriteBook",
+        "formId": "08000801",
+        "override": false,
+        "sig": "BOOK"
+      },
+      {
+        "edid": "WriteList",
+        "formId": "08000802",
+        "override": false,
+        "sig": "FLST"
+      },
+      {
+        "edid": "FixtureCompressed",
+        "formId": "08000803",
+        "override": false,
+        "sig": "BOOK"
+      }
+    ],
+    "48_late_check_default_path_save": {
+      "data": {
+        "exists": false
+      },
+      "listing": [
+        "First.esp",
+        "Fixture.esm",
+        "FixtureResaved.esm",
+        "Light.esp",
+        "Second.esp",
+        "WriteDefault.esp.save",
+        "WriteOvr.esp",
+        "WriteSaved.esp",
+        "no_such_dir"
+      ],
+      "saveLeftover": {
+        "exists": true,
+        "hex": [
+          "000000  54 45 53 34 19 00 00 00 00 00 00 00 00 00 00 00  TES4............",
+          "000010  00 00 00 00 2c 00 00 00 48 45 44 52 0c 00 9a 99  ....,...HEDR....",
+          "000020  d9 3f 02 00 00 00 01 08 00 00 43 4e 41 4d 01 00  .?........CNAM..",
+          "000030  00 47 52 55 50 30 00 00 00 4b 59 57 44 00 00 00  .GRUP0...KYWD...",
+          "000040  00 00 00 00 00 00 00 00 00 4b 59 57 44 00 00 00  .........KYWD...",
+          "000050  00 00 00 00 00 00 08 00 00 00 00 00 00 2c 00 00  .............,..",
+          "000060  00  ."
+        ],
+        "sha256": "ad332c764e8fae6e269e61a7e1febd2b4cd0aeb91a69075986dfbb1d267bc594",
+        "size": 97
+      }
+    }
+  }
+}

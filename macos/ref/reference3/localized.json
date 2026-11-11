@@ -1,0 +1,189 @@
+{
+  "group": "localized",
+  "schema": 1,
+  "steps": {
+    "01_write_localized_plugin": {
+      "file": {
+        "exists": true,
+        "hex": [
+          "000000  54 45 53 34 19 00 00 00 80 00 00 00 00 00 00 00  TES4............",
+          "000010  00 00 00 00 2c 00 00 00 48 45 44 52 0c 00 9a 99  ....,...HEDR....",
+          "000020  d9 3f 02 00 00 00 01 08 00 00 43 4e 41 4d 01 00  .?........CNAM..",
+          "000030  00 47 52 55 50 7a 00 00 00 42 4f 4f 4b 00 00 00  .GRUPz...BOOK...",
+          "000040  00 00 00 00 00 00 00 00 00 42 4f 4f 4b 4a 00 00  .........BOOKJ..",
+          "000050  00 00 00 00 00 00 08 00 00 00 00 00 00 2c 00 00  .............,..",
+          "000060  00 45 44 49 44 08 00 4c 6f 63 42 6f 6f 6b 00 4f  .EDID..LocBook.O",
+          "000070  42 4e 44 0c 00 00 00 00 00 00 00 00 00 00 00 00  BND.............",
+          "000080  00 46 55 4c 4c 04 00 01 00 00 00 44 45 53 43 04  .FULL......DESC.",
+          "000090  00 02 00 00 00 44 41 54 41 10 00 00 00 00 00 00  .....DATA.......",
+          "0000a0  00 00 00 00 00 00 00 00 00 00 00  ..........."
+        ],
+        "sha256": "f7f27ddcefad5343eac6630a3c6eb24e0c0b65db494e4ead99b4900767a1471c",
+        "size": 171
+      },
+      "flags": [
+        "Localized"
+      ],
+      "stringsDirWritten": false
+    },
+    "02_hand_built_string_tables": {
+      "LocFix_English.DLSTRINGS": {
+        "sha256": "cfa203f76c6c30f5b4b7928eaab67f807731e999e3443a410e740bd9cbc52420",
+        "size": 47
+      },
+      "LocFix_English.ILSTRINGS": {
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "size": 8
+      },
+      "LocFix_English.STRINGS": {
+        "sha256": "9edd63a3390d04d197fc79766fe508e507336c2a26173732b4871657c183f73f",
+        "size": 32
+      }
+    },
+    "03_load_localized_with_strings": {
+      "desc": "Long localized description",
+      "fileJson": {
+        "File Header": {
+          "CNAM - Author": "",
+          "HEDR - Header": {
+            "Next Object ID": 2049,
+            "Number of Records": 2,
+            "Version": 1.69999999570791
+          },
+          "Record Header": {
+            "FormID": "LocFix.esp:000000",
+            "Record Flags": {
+              "Localized": true
+            },
+            "Signature": "TES4"
+          }
+        },
+        "Filename": "LocFix.esp",
+        "Groups": {
+          "BOOK": [
+            {
+              "DATA - Data": {
+                "Flags": {},
+                "Teaches": 0,
+                "Type": 0,
+                "Unused": "00 00",
+                "Value": 0,
+                "Weight": 0
+              },
+              "DESC - Book Text": "Long localized description",
+              "EDID - Editor ID": "LocBook",
+              "FULL - Name": "Hello localized",
+              "OBND - Object Bounds": {
+                "X1": 0,
+                "X2": 0,
+                "Y1": 0,
+                "Y2": 0,
+                "Z1": 0,
+                "Z2": 0
+              },
+              "Record Header": {
+                "FormID": "LocFix.esp:000800",
+                "Record Flags": {},
+                "Signature": "BOOK"
+              }
+            }
+          ]
+        }
+      },
+      "flags": [
+        "Localized"
+      ],
+      "full": "Hello localized",
+      "json": {
+        "DATA - Data": {
+          "Flags": {},
+          "Teaches": 0,
+          "Type": 0,
+          "Unused": "00 00",
+          "Value": 0,
+          "Weight": 0
+        },
+        "DESC - Book Text": "Long localized description",
+        "EDID - Editor ID": "LocBook",
+        "FULL - Name": "Hello localized",
+        "OBND - Object Bounds": {
+          "X1": 0,
+          "X2": 0,
+          "Y1": 0,
+          "Y2": 0,
+          "Z1": 0,
+          "Z2": 0
+        },
+        "Record Header": {
+          "FormID": "LocFix.esp:000800",
+          "Record Flags": {},
+          "Signature": "BOOK"
+        }
+      }
+    },
+    "04_load_localized_without_strings": {
+      "desc": "<Error: No strings file for lstring ID 00000002>",
+      "full": "<Error: No strings file for lstring ID 00000001>",
+      "json": {
+        "DATA - Data": {
+          "Flags": {},
+          "Teaches": 0,
+          "Type": 0,
+          "Unused": "00 00",
+          "Value": 0,
+          "Weight": 0
+        },
+        "DESC - Book Text": "<Error: No strings file for lstring ID 00000002>",
+        "EDID - Editor ID": "LocBook",
+        "FULL - Name": "<Error: No strings file for lstring ID 00000001>",
+        "OBND - Object Bounds": {
+          "X1": 0,
+          "X2": 0,
+          "Y1": 0,
+          "Y2": 0,
+          "Z1": 0,
+          "Z2": 0
+        },
+        "Record Header": {
+          "FormID": "LocNoStr.esp:000800",
+          "Record Flags": {},
+          "Signature": "BOOK"
+        }
+      }
+    },
+    "05_edit_localized_string": {
+      "full": "Edited name",
+      "json": "Edited name"
+    },
+    "06_save_edited_localized": {
+      "file": {
+        "exists": true,
+        "hex": [
+          "000000  54 45 53 34 19 00 00 00 80 00 00 00 00 00 00 00  TES4............",
+          "000010  00 00 00 00 2c 00 00 00 48 45 44 52 0c 00 9a 99  ....,...HEDR....",
+          "000020  d9 3f 02 00 00 00 01 08 00 00 43 4e 41 4d 01 00  .?........CNAM..",
+          "000030  00 47 52 55 50 7a 00 00 00 42 4f 4f 4b 00 00 00  .GRUPz...BOOK...",
+          "000040  00 00 00 00 00 00 00 00 00 42 4f 4f 4b 4a 00 00  .........BOOKJ..",
+          "000050  00 00 00 00 00 00 08 00 00 00 00 00 00 2c 00 00  .............,..",
+          "000060  00 45 44 49 44 08 00 4c 6f 63 42 6f 6f 6b 00 4f  .EDID..LocBook.O",
+          "000070  42 4e 44 0c 00 00 00 00 00 00 00 00 00 00 00 00  BND.............",
+          "000080  00 46 55 4c 4c 04 00 01 00 00 00 44 45 53 43 04  .FULL......DESC.",
+          "000090  00 02 00 00 00 44 41 54 41 10 00 00 00 00 00 00  .....DATA.......",
+          "0000a0  00 00 00 00 00 00 00 00 00 00 00  ..........."
+        ],
+        "sha256": "f7f27ddcefad5343eac6630a3c6eb24e0c0b65db494e4ead99b4900767a1471c",
+        "size": 171
+      },
+      "strings": [
+        "LocFix_English.DLSTRINGS",
+        "LocFix_English.ILSTRINGS",
+        "LocFix_English.STRINGS"
+      ]
+    },
+    "07_language_roundtrip": {
+      "lang": {
+        "error": "GetGameLanguage failed"
+      }
+    }
+  }
+}

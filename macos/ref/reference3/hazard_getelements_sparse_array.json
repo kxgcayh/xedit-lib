@@ -1,0 +1,13 @@
+{
+  "group": "hazard_getelements_sparse_array",
+  "schema": 1,
+  "steps": {
+    "01_GetElements_sparse_array_count": 1,
+    "02_GetElements_sparse_then_names": {
+      "error": "Name failed | ERROR: Cannot resolve NULL reference."
+    },
+    "99_session_survives": {
+      "records": 1
+    }
+  }
+}

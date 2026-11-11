@@ -1,0 +1,16 @@
+{
+  "group": "hazard_json_record_formid",
+  "schema": 1,
+  "steps": {
+    "01_ElementFromJson_record_header_formid_file_hex6": {
+      "error": "ElementFromJson failed | Access violation at address <ADDR> in module 'XEditLib.dll'. Read of address <ADDR>"
+    },
+    "99_session_survives": {
+      "fileName": "Hazard1.esp",
+      "masters": [
+        "Fixture.esm"
+      ],
+      "records": 1
+    }
+  }
+}

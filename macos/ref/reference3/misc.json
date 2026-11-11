@@ -1,0 +1,734 @@
+{
+  "group": "misc",
+  "schema": 1,
+  "steps": {
+    "01_GetGlobals": {
+      "keys": [
+        "AppDataPath",
+        "AppName",
+        "DataPath",
+        "FileCount",
+        "GameIniPath",
+        "GameName",
+        "LongGameName",
+        "MyGamesPath",
+        "ProgramPath",
+        "Version"
+      ],
+      "values": {
+        "AppDataPath": "<MACHINE-SPECIFIC length>0=true",
+        "AppName": "SSE",
+        "DataPath": "<ROOT>/runtime/suite3/misc/data/",
+        "FileCount": "4",
+        "GameIniPath": "<MACHINE-SPECIFIC length>0=true",
+        "GameName": "Skyrim",
+        "LongGameName": "Skyrim Special Edition",
+        "MyGamesPath": "<MACHINE-SPECIFIC length>0=true",
+        "ProgramPath": "<MACHINE-SPECIFIC length>0=true",
+        "Version": "0.6.0.0"
+      }
+    },
+    "02_GetGlobal": {
+      "gameName": "Skyrim",
+      "missing": {
+        "error": "GetGlobal(NoSuchKey) failed"
+      },
+      "programPathNonEmpty": true,
+      "version": "0.6.0.0"
+    },
+    "03_SetSortMode": {
+      "0/0": [
+        "00000800",
+        "00000801"
+      ],
+      "1/0": [
+        "00000800",
+        "00000801"
+      ],
+      "1/1": [
+        "00000800",
+        "00000801"
+      ],
+      "2/0": [
+        "00000800",
+        "00000801"
+      ],
+      "3/0": [
+        "00000800",
+        "00000801"
+      ],
+      "3/1": [
+        "00000800",
+        "00000801"
+      ],
+      "4/0": {
+        "error": "SetSortMode failed | Invalid sort mode."
+      },
+      "elementsByEdid": [
+        "FixtureChain",
+        "FixtureUnique"
+      ]
+    },
+    "04_Release_and_use_released": {
+      "afterNameOnReleased": {
+        "error": "Name failed | Interface is not an element."
+      },
+      "before": "Keyword"
+    },
+    "05_ReleaseNodes_without_nodes": null,
+    "06_GetDuplicateHandles": {
+      "dups": 2,
+      "sameHandle": false
+    },
+    "07_Switch_handles": {
+      "afterA": "FixtureUnique",
+      "afterB": {
+        "error": "GetValue failed | Failed to resolve element at path: EDID"
+      },
+      "afterNameA": "FixtureUnique",
+      "before": [
+        "FixtureChain",
+        "FixtureUnique"
+      ],
+      "switched": null
+    },
+    "08_GetGamePath": {
+      "mode0": {
+        "error": "GetGamePath failed"
+      },
+      "mode3": {
+        "error": "GetGamePath failed"
+      },
+      "mode4": {
+        "error": "GetGamePath failed | Argument out of range"
+      }
+    },
+    "09_GetLoadOrder_and_active": {
+      "active": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        "Light.esp"
+      ],
+      "loadOrder": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        "Light.esp"
+      ]
+    },
+    "10_SetGameMode_same_again": {
+      "error": "SetGameMode failed | Game mode already set to: Skyrim"
+    },
+    "11_SetBackupPath_SetLanguage_roundtrip": {
+      "backup": null,
+      "badLang": null,
+      "lang": null,
+      "langBack": null
+    },
+    "12_LoadPluginHeader": {
+      "header": {
+        "Next Object ID": 2048,
+        "Number of Records": 2,
+        "Version": 1.69999999570791
+      },
+      "loadOrder": 2,
+      "masters": [
+        "Fixture.esm"
+      ],
+      "name": "Second.esp",
+      "records": 1,
+      "sameAsLoaded": false
+    },
+    "13_LoadPluginHeader_missing": {
+      "error": "LoadPluginHeader failed | Failed to load file header Nope.esp, System Error.  Code: 2.\r"
+    },
+    "14_GetLoaderStatus": 2,
+    "15_BuildReferences_and_GetReferencedBy": {
+      "bookRefs": 0,
+      "byEdid": [],
+      "chainRefs": 0,
+      "firstOvr": 0
+    },
+    "15b_GetReferencedBy_with_referencing_record": {
+      "book": [],
+      "buildAsync": "started",
+      "buildFixture": null,
+      "buildRefBy": null,
+      "chain": [
+        "RefByBook"
+      ],
+      "unique": []
+    },
+    "15c_wait_after_async_build": 2,
+    "16_MD5Hash_CRCHash": {
+      "crcFirst": "297927F1",
+      "crcFixture": "DFC63CC7",
+      "crcLight": "1D31F8D7",
+      "md5Record": {
+        "error": "MD5Hash failed"
+      },
+      "onDisk": {
+        "first": "39d18d635c419f53c9f33cda68f72fce0b1ab831d74f0b9447c467317071017e",
+        "fixture": "7a017660a0bf2dac8c652243495675813e5c4ddf82682319dae75525066152ad"
+      }
+    },
+    "17_SortEditorIDs_SortNames": {
+      "afterEditorIDs": [
+        "zz",
+        "aa",
+        "mm"
+      ],
+      "afterNames": [
+        "zz",
+        "aa",
+        "mm"
+      ],
+      "badSignature": "ok",
+      "before": [
+        "zz",
+        "aa",
+        "mm"
+      ]
+    },
+    "18_NukeFile": {
+      "gone": "Nuke1.esp",
+      "handleAfter": "Nuke1.esp"
+    },
+    "19_NukeFile_loaded": {
+      "names": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        "Light.esp",
+        "RefBy.esp"
+      ]
+    },
+    "20_SetElement": {
+      "copy": {
+        "Flags": {},
+        "Teaches": 0,
+        "Type": 0,
+        "Unused": "00 00",
+        "Value": 0,
+        "Weight": 0
+      },
+      "mismatch": {
+        "error": "SetElement failed | Second element cannot be assigned to the first."
+      }
+    },
+    "21_GetRecordDef_DefToJson": {
+      "defToJsonOnElement": {
+        "error": "DefToJson failed | Interface must be an IwbNamedDef."
+      },
+      "defToJsonOnFile": {
+        "error": "DefToJson failed | Interface must be an IwbNamedDef."
+      },
+      "missing": {
+        "error": "GetRecordDef failed"
+      },
+      "recordDefJsonKeys": {
+        "count": 15,
+        "first": [
+          {
+            "name": "Editor ID",
+            "signatures": [
+              "EDID"
+            ],
+            "type": 2
+          },
+          {
+            "elements": [
+              {
+                "name": "Version",
+                "type": 3
+              },
+              {
+                "name": "Object Format",
+                "type": 3
+              },
+              {
+                "elements": [
+                  {
+                    "elements": [
+                      {
+                        "name": "scriptName",
+                        "type": 2
+                      },
+                      {
+                        "name": "Flags",
+                        "type": 3
+                      },
+                      {
+                        "elements": [
+                          {
+                            "elements": [
+                              {
+                                "name": "propertyName",
+                                "type": 2
+                              },
+                              {
+                                "name": "Type",
+                                "type": 3
+                              },
+                              {
+                                "name": "Flags",
+                                "type": 3
+                              },
+                              {
+                                "elements": [
+                                  {
+                                    "name": "Unused",
+                                    "type": 11
+                                  },
+                                  {
+                                    "elements": [
+                                      {
+                                        "elements": [
+                                          {
+                                            "name": "Unused",
+                                            "type": 3
+                                          },
+                                          {
+                                            "name": "Alias",
+                                            "type": 3
+                                          },
+                                          {
+                                            "name": "FormID",
+                                            "type": 3
+                                          }
+                                        ],
+                                        "name": "Object v2",
+                                        "type": 6
+                                      },
+                                      {
+                                        "elements": [
+                                          {
+                                            "name": "FormID",
+                                            "type": 3
+                                          },
+                                          {
+                                            "name": "Alias",
+                                            "type": 3
+                                          },
+                                          {
+                                            "name": "Unused",
+                                            "type": 3
+                                          }
+                                        ],
+                                        "name": "Object v1",
+                                        "type": 6
+                                      }
+                                    ],
+                                    "name": "Object Union",
+                                    "type": 12
+                                  },
+                                  {
+                                    "name": "String",
+                                    "type": 2
+                                  },
+                                  {
+                                    "name": "Int32",
+                                    "type": 3
+                                  },
+                                  {
+                                    "name": "Float",
+                                    "type": 5
+                                  },
+                                  {
+                                    "name": "Bool",
+                                    "type": 3
+                                  },
+                                  {
+                                    "elements": [
+                                      {
+                                        "elements": [
+                                          {
+                                            "elements": [
+                                              {
+                                                "name": "Unused",
+                                                "type": 3
+                                              },
+                                              {
+                                                "name": "Alias",
+                                                "type": 3
+                                              },
+                                              {
+                                                "name": "FormID",
+                                                "type": 3
+                                              }
+                                            ],
+                                            "name": "Object v2",
+                                            "type": 6
+                                          },
+                                          {
+                                            "elements": [
+                                              {
+                                                "name": "FormID",
+                                                "type": 3
+                                              },
+                                              {
+                                                "name": "Alias",
+                                                "type": 3
+                                              },
+                                              {
+                                                "name": "Unused",
+                                                "type": 3
+                                              }
+                                            ],
+                                            "name": "Object v1",
+                                            "type": 6
+                                          }
+                                        ],
+                                        "name": "Object Union",
+                                        "type": 12
+                                      }
+                                    ],
+                                    "name": "Array of Object",
+                                    "type": 7
+                                  },
+                                  {
+                                    "elements": [
+                                      {
+                                        "name": "Element",
+                                        "type": 2
+                                      }
+                                    ],
+                                    "name": "Array of String",
+                                    "type": 7
+                                  },
+                                  {
+                                    "elements": [
+                                      {
+                                        "name": "Element",
+                                        "type": 3
+                                      }
+                                    ],
+                                    "name": "Array of Int32",
+                                    "type": 7
+                                  },
+                                  {
+                                    "elements": [
+                                      {
+                                        "name": "Element",
+                                        "type": 5
+                                      }
+                                    ],
+                                    "name": "Array of Float",
+                                    "type": 7
+                                  },
+                                  {
+                                    "elements": [
+                                      {
+                                        "name": "Element",
+                                        "type": 3
+                                      }
+                                    ],
+                                    "name": "Array of Bool",
+                                    "type": 7
+                                  }
+                                ],
+                                "name": "Value",
+                                "type": 12
+                              }
+                            ],
+                            "name": "Property",
+                            "type": 6
+                          }
+                        ],
+                        "name": "Properties",
+                        "type": 9
+                      }
+                    ],
+                    "name": "Script",
+                    "type": 6
+                  }
+                ],
+                "name": "Scripts",
+                "type": 9
+              }
+            ],
+            "name": "Virtual Machine Adapter",
+            "signatures": [
+              "VMAD"
+            ],
+            "type": 6
+          },
+          {
+            "elements": [
+              {
+                "name": "X1",
+                "type": 3
+              },
+              {
+                "name": "Y1",
+                "type": 3
+              },
+              {
+                "name": "Z1",
+                "type": 3
+              },
+              {
+                "name": "X2",
+                "type": 3
+              },
+              {
+                "name": "Y2",
+                "type": 3
+              },
+              {
+                "name": "Z2",
+                "type": 3
+              }
+            ],
+            "name": "Object Bounds",
+            "signatures": [
+              "OBND"
+            ],
+            "type": 6
+          },
+          {
+            "name": "Name",
+            "signatures": [
+              "FULL"
+            ],
+            "type": 2
+          }
+        ],
+        "name": "Book"
+      }
+    },
+    "22_GetEnumOptions_flags": {
+      "allFlags": [
+        "Teaches Skill,Can't be Taken,Teaches Spell,Unknown 4,Unknown 5,Unknown 6,Unknown 7,Unknown 8"
+      ],
+      "flags": {
+        "error": "GetEnumOptions failed | Element does not have enumeration"
+      },
+      "notEnum": {
+        "error": "GetEnumOptions failed | Failed to resolve element at path: EDID"
+      },
+      "recFlags": [
+        ",,,,,Deleted,,,,,,,Ignored,,,,,,,,,,,,,,,,,,,"
+      ],
+      "teaches": [
+        "Unknown 1,Unknown 2,Unknown 3,Unknown 4,Unknown 5,Unknown 6,One Handed,Two Handed,Archery,Block,Smithing,Heavy Armor,Light Armor,Pickpocket,Lockpicking,Sneak,Alchemy,Speech,Alteration,Conjuration,Destruction,Illusion,Restoration,Enchanting"
+      ],
+      "type": []
+    },
+    "23_SetEnabledFlags": {
+      "a": [],
+      "b": [
+        "Can't be Taken"
+      ],
+      "c": [],
+      "d": []
+    },
+    "24_signature_name_maps": {
+      "bookName": "Book",
+      "bookSig": "BOOK",
+      "count": 133,
+      "kywd": "Keyword",
+      "lower": {
+        "error": "NameFromSignature failed | Could not find name for signature: book"
+      },
+      "nameBadSig": {
+        "error": "NameFromSignature failed | Could not find name for signature: ZZZZ"
+      },
+      "sample": [
+        "AACT=Action",
+        "ACHR=Placed NPC",
+        "ACTI=Activator",
+        "ADDN=Addon Node",
+        "ALCH=Ingestible",
+        "AMMO=Ammunition",
+        "ANIO=Animated Object",
+        "APPA=Alchemical Apparatus"
+      ],
+      "sigBadName": {
+        "error": "SignatureFromName failed | Could not find signature for name: Nope"
+      }
+    },
+    "25_GetFormID_local": {
+      "global": "00000800",
+      "light": "03000800",
+      "lightLocal": "00000800",
+      "local": "00000800",
+      "overrideGlobal": "00000800",
+      "overrideLocal": "00000800"
+    },
+    "26_SetFormID": {
+      "a": {
+        "error": "SetFormID failed | FormID [04000900] belongs to a file that is not available as master to records in [09] Fid1.esp"
+      },
+      "b": [
+        "00000A00",
+        "00000A00"
+      ],
+      "before": "09000800",
+      "c": {
+        "error": "SetFormID failed | FormID [04000800] belongs to a file that is not available as master to records in [09] Fid1.esp"
+      },
+      "ref": [
+        16779264
+      ]
+    },
+    "27_GetREFRs": {
+      "cellSearch": 0,
+      "file": 0,
+      "flags": 0,
+      "group": 0
+    },
+    "28_GetOverrides_Master_Previous_Winning": {
+      "chain": [
+        {
+          "edid": "FixtureFirst",
+          "file": "First.esp",
+          "formId": "00000800",
+          "sig": "KYWD"
+        },
+        {
+          "edid": "FixtureSecond",
+          "file": "Second.esp",
+          "formId": "00000800",
+          "sig": "KYWD"
+        }
+      ],
+      "isWinning": [
+        false,
+        false,
+        true
+      ],
+      "master": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "overridesOfOverride": 2,
+      "previousInFirst": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "previousInFixture": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "previousLight": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "previousOfMaster": {
+        "edid": "FixtureChain",
+        "file": "Fixture.esm",
+        "formId": "00000800",
+        "sig": "KYWD"
+      },
+      "winning": {
+        "edid": "FixtureSecond",
+        "file": "Second.esp",
+        "formId": "00000800",
+        "sig": "KYWD"
+      }
+    },
+    "29_IsInjected_GetInjectionTarget": {
+      "isInjected": false,
+      "isInjectedOverride": false,
+      "targetHandleNonZero": true
+    },
+    "30_FindValidReferences": {
+      "badSig": {
+        "count": 0
+      },
+      "bookSig": {
+        "count": 0
+      },
+      "kywdAll": {
+        "count": 0
+      },
+      "kywdLimit1": {
+        "count": 0
+      },
+      "kywdSearch": {
+        "count": 59
+      },
+      "zero": {
+        "count": 0
+      }
+    },
+    "31_ExchangeReferences": {
+      "before": [
+        "Fixture.esm:000800"
+      ],
+      "none": [
+        "Fixture.esm:000801"
+      ],
+      "ok": [
+        "Fixture.esm:000801"
+      ]
+    },
+    "32_GetNodes_GetNodeElements": {
+      "elementCount": 3,
+      "node": "handle",
+      "nodeFile": {
+        "error": "GetNodes failed"
+      },
+      "nonZeroElements": 2
+    },
+    "33_GetConflictData_new_records": {
+      "book": {
+        "all": 1,
+        "this": 4
+      },
+      "chain": {
+        "all": 5,
+        "this": 6
+      },
+      "first": {
+        "all": 5,
+        "this": 11
+      },
+      "second": {
+        "all": 5,
+        "this": 10
+      }
+    },
+    "34_UnloadPlugin": {
+      "error": "UnloadPlugin failed | Can only unload last plugin loaded."
+    },
+    "35_CleanStore": {
+      "after": "First.esp"
+    },
+    "36_ResetStore": {
+      "oldHandle": {
+        "error": "Name failed | List index out of bounds (2)"
+      }
+    },
+    "37_GetGameLanguage_modes": {
+      "mode0": {
+        "error": "GetGameLanguage failed"
+      },
+      "mode1": {
+        "error": "GetGameLanguage failed"
+      },
+      "mode2": {
+        "error": "GetGameLanguage failed"
+      },
+      "mode3": {
+        "error": "GetGameLanguage failed"
+      },
+      "mode4": {
+        "error": "GetGameLanguage failed"
+      },
+      "mode5": {
+        "error": "GetGameLanguage failed"
+      }
+    }
+  }
+}

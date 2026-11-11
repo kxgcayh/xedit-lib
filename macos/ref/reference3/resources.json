@@ -1,0 +1,352 @@
+{
+  "group": "resources",
+  "schema": 1,
+  "steps": {
+    "01_build_asset_files": {
+      "meshes\\fixture\\note.txt": {
+        "sha256": "e6cc92fffc548d7ed149e1d2bd6f80002c81d6da6d7b15e8f869c34aa13d0bdb",
+        "size": 19
+      },
+      "scripts\\fixture\\readme.txt": {
+        "sha256": "cb02c4324b49dc2c4d566832fd6694fe0f113c96bec282d5b479fa40eef953d3",
+        "size": 120
+      },
+      "textures\\fixture\\tiny.dds": {
+        "sha256": "88fd0d73744c062b846ea6a459ef1d1c0d4e9ba4ea71798f210923a6f26f056a",
+        "size": 192
+      }
+    },
+    "02_BuildArchive_Fixture_uncompressed": {
+      "exception": "",
+      "file": {
+        "exists": true,
+        "hex": [
+          "000000  42 53 41 00 69 00 00 00 24 00 00 00 03 00 00 00  BSA.i...$.......",
+          "000010  03 00 00 00 03 00 00 00 30 00 00 00 1d 00 00 00  ........0.......",
+          "000020  22 00 00 00 65 72 10 74 c6 cd 36 46 01 00 00 00  \"...er.t..6F....",
+          "000030  00 00 00 00 89 00 00 00 00 00 00 00 65 72 0f 73  ............er.s",
+          "000040  ef 8a d3 4b 01 00 00 00 00 00 00 00 ab 00 00 00  ...K............",
+          "000050  00 00 00 00 65 72 0e 6d c2 97 f3 ca 01 00 00 00  ....er.m........",
+          "000060  00 00 00 00 cc 00 00 00 00 00 00 00 11 74 65 78  .............tex",
+          "000070  74 75 72 65 73 5c 66 69 78 74 75 72 65 00 f9 ee  tures\\fixture...",
+          "000080  04 74 2e aa db 8d c0 00 00 00 ec 00 00 00 10 73  .t.............s",
+          "000090  63 72 69 70 74 73 5c 66 69 78 74 75 72 65 00 65  cripts\\fixture.e",
+          "0000a0  6d 06 72 ea dc ed c7 78 00 00 00 ac 01 00 00 0f  m.r....x........",
+          "0000b0  6d 65 73 68 65 73 5c 66 69 78 74 75 72 65 00 65  meshes\\fixture.e",
+          "0000c0  74 04 6e 31 a7 d0 95 13 00 00 00 24 02 00 00 74  t.n1.......$...t",
+          "0000d0  69 6e 79 2e 64 64 73 00 72 65 61 64 6d 65 2e 74  iny.dds.readme.t",
+          "0000e0  78 74 00 6e 6f 74 65 2e 74 78 74 00 44 44 53 20  xt.note.txt.DDS ",
+          "0000f0  7c 00 00 00 0f 10 00 00 04 00 00 00 04 00 00 00  |...............",
+          "000100  10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................",
+          "000110  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................",
+          "000120  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................",
+          "000130  00 00 00 00 00 00 00 00 20 00 00 00 41 00 00 00  ........ ...A...",
+          "000140  00 00 00 00 20 00 00 00 00 00 ff 00 00 ff 00 00  .... ...........",
+          "000150  ff 00 00 00 00 00 00 ff 00 10 00 00 00 00 00 00  ................",
+          "000160  00 00 00 00 00 00 00 00 00 00 00 00 00 ff 00 ff  ................",
+          "000170  10 f7 04 df 20 ef 08 bf 30 e7 0c 9f 40 df 10 ff  .... ...0...@...",
+          "000180  50 d7 14 df 60 cf 18 bf 70 c7 1c 9f 80 bf 20 ff  P...`...p..... .",
+          "000190  90 b7 24 df a0 af 28 bf b0 a7 2c 9f c0 9f 30 ff  ..$...(...,...0.",
+          "0001a0  d0 97 34 df e0 8f 38 bf f0 87 3c 9f 73 65 63 6f  ..4...8...<.seco",
+          "0001b0  6e 64 20 70 61 79 6c 6f 61 64 20 73 65 63 6f 6e  nd payload secon",
+          "0001c0  64 20 70 61 79 6c 6f 61 64 20 73 65 63 6f 6e 64  d payload second",
+          "0001d0  20 70 61 79 6c 6f 61 64 20 73 65 63 6f 6e 64 20   payload second ",
+          "0001e0  70 61 79 6c 6f 61 64 20 73 65 63 6f 6e 64 20 70  payload second p",
+          "0001f0  61 79 6c 6f 61 64 20 73 65 63 6f 6e 64 20 70 61  ayload second pa",
+          "000200  79 6c 6f 61 64 20 73 65 63 6f 6e 64 20 70 61 79  yload second pay",
+          "000210  6c 6f 61 64 20 73 65 63 6f 6e 64 20 70 61 79 6c  load second payl",
+          "000220  6f 61 64 20 74 69 6e 79 20 74 65 78 74 20 70 61  oad tiny text pa",
+          "000230  79 6c 6f 61 64 0d 0a  yload.."
+        ],
+        "sha256": "406387f1afa2d77a35dc65f27e8bcbe711d3f74940d1371aef9faddf9a7d525c",
+        "size": 567
+      },
+      "ok": 65535
+    },
+    "03_BuildArchive_Extra_compressed": {
+      "exception": "",
+      "file": {
+        "exists": true,
+        "hex": [
+          "000000  42 53 41 00 69 00 00 00 24 00 00 00 07 00 00 00  BSA.i...$.......",
+          "000010  02 00 00 00 02 00 00 00 1f 00 00 00 14 00 00 00  ................",
+          "000020  20 00 00 00 65 72 0f 73 ef 8a d3 4b 01 00 00 00   ...er.s...K....",
+          "000030  00 00 00 00 68 00 00 00 00 00 00 00 65 72 0e 6d  ....h.......er.m",
+          "000040  c2 97 f3 ca 01 00 00 00 00 00 00 00 89 00 00 00  ................",
+          "000050  00 00 00 00 10 73 63 72 69 70 74 73 5c 66 69 78  .....scripts\\fix",
+          "000060  74 75 72 65 00 65 6d 06 72 ea dc ed c7 31 00 00  ture.em.r....1..",
+          "000070  00 a9 00 00 00 0f 6d 65 73 68 65 73 5c 66 69 78  ......meshes\\fix",
+          "000080  74 75 72 65 00 65 74 04 6e 31 a7 d0 95 13 00 00  ture.et.n1......",
+          "000090  40 da 00 00 00 72 65 61 64 6d 65 2e 74 78 74 00  @....readme.txt.",
+          "0000a0  6e 6f 74 65 2e 74 78 74 00 78 00 00 00 04 22 4d  note.txt.x....\"M",
+          "0000b0  18 64 70 b9 1a 00 00 00 ff 00 73 65 63 6f 6e 64  .dp.......second",
+          "0000c0  20 70 61 79 6c 6f 61 64 20 0f 00 51 50 6c 6f 61   payload ..QPloa",
+          "0000d0  64 20 00 00 00 00 ba 69 10 9d 74 69 6e 79 20 74  d .....i..tiny t",
+          "0000e0  65 78 74 20 70 61 79 6c 6f 61 64 0d 0a  ext payload.."
+        ],
+        "sha256": "0921168d0263b87b8294fdba150ff223b13aee5414df46b54809413b99bec0b2",
+        "size": 237
+      },
+      "ok": 65535
+    },
+    "04_BuildArchive_Shared_with_flags": {
+      "exception": "",
+      "file": {
+        "exists": true,
+        "hex": [
+          "000000  42 53 41 00 69 00 00 00 24 00 00 00 03 00 00 00  BSA.i...$.......",
+          "000010  01 00 00 00 01 00 00 00 0f 00 00 00 09 00 00 00  ................",
+          "000020  01 00 00 00 65 72 0e 6d c2 97 f3 ca 01 00 00 00  ....er.m........",
+          "000030  00 00 00 00 45 00 00 00 00 00 00 00 0f 6d 65 73  ....E........mes",
+          "000040  68 65 73 5c 66 69 78 74 75 72 65 00 65 74 04 6e  hes\\fixture.et.n",
+          "000050  31 a7 d0 95 13 00 00 00 65 00 00 00 6e 6f 74 65  1.......e...note",
+          "000060  2e 74 78 74 00 74 69 6e 79 20 74 65 78 74 20 70  .txt.tiny text p",
+          "000070  61 79 6c 6f 61 64 0d 0a  ayload.."
+        ],
+        "sha256": "c6abcd38e841d537ce03cff1bb8fcf48440f39d1159c4a30bcabdb442dba5a96",
+        "size": 120
+      },
+      "ok": 65535
+    },
+    "05_BuildArchive_no_files": {
+      "exception": "No files to compress.",
+      "file": {
+        "exists": false
+      },
+      "ok": 0
+    },
+    "06_BuildArchive_missing_source_file": {
+      "exception": "File packing error \"<ROOT>/runtime/suite3/resources/assets/meshes/fixture/nope.txt\": Cannot open file \"<ROOT>/runtime/suite3/resources/assets/meshes/fixture/nope.txt\". File not found",
+      "file": {
+        "exists": false
+      },
+      "ok": 0
+    },
+    "07_BuildArchive_bad_flags": {
+      "exception": "'$zz' is not a valid integer value",
+      "file": {
+        "exists": false
+      },
+      "ok": 0
+    },
+    "08_load_plugins_autoloads_matching_archive": {
+      "containers": [
+        "<ROOT>/runtime/suite3/resources/data/Fixture.bsa",
+        "<ROOT>/runtime/suite3/resources/data/"
+      ]
+    },
+    "09_GetContainerFiles": {
+      "allContainers": [
+        "extra.bsa",
+        "first.esp",
+        "fixture.bsa",
+        "fixture.esm",
+        "light.esp",
+        "meshes\\fixture\\note.txt",
+        "scripts\\fixture\\readme.txt",
+        "second.esp",
+        "shared.bsa",
+        "textures\\fixture\\tiny.dds"
+      ],
+      "allContainersTextures": [
+        "textures\\fixture\\tiny.dds"
+      ],
+      "fixtureBsa": [
+        "meshes\\fixture\\note.txt",
+        "scripts\\fixture\\readme.txt",
+        "textures\\fixture\\tiny.dds"
+      ],
+      "fixtureBsaMeshes": [
+        "meshes\\fixture\\note.txt"
+      ],
+      "fixtureBsaNoMatch": [],
+      "fixtureBsaShortName": {
+        "error": "GetContainerFiles failed"
+      },
+      "fixtureBsaTextures": [
+        "textures\\fixture\\tiny.dds"
+      ],
+      "unknownContainer": {
+        "error": "GetContainerFiles failed"
+      }
+    },
+    "10_GetFileContainer": {
+      "dds": "<ROOT>/runtime/suite3/resources/data/Fixture.bsa",
+      "forwardSlash": {
+        "error": "GetFileContainer failed"
+      },
+      "missing": {
+        "error": "GetFileContainer failed"
+      },
+      "note": "<ROOT>/runtime/suite3/resources/data/Fixture.bsa",
+      "upper": "<ROOT>/runtime/suite3/resources/data/Fixture.bsa"
+    },
+    "11_LoadContainer_extra_archive": [
+      "<ROOT>/runtime/suite3/resources/data/Fixture.bsa",
+      "<ROOT>/runtime/suite3/resources/Data/Extra.bsa",
+      "<ROOT>/runtime/suite3/resources/data/"
+    ],
+    "12_LoadContainer_already_loaded": null,
+    "13_LoadContainer_folder": [
+      "<ROOT>/runtime/suite3/resources/data/Fixture.bsa",
+      "<ROOT>/runtime/suite3/resources/Data/Extra.bsa",
+      "<ROOT>/runtime/suite3/resources/data/",
+      "<ROOT>/runtime/suite3/resources/assets/"
+    ],
+    "14_LoadContainer_missing_path": {
+      "error": "LoadContainer failed | Failed to load Nope.bsa, path does not exist"
+    },
+    "15_GetFileContainer_after_extra": {
+      "dds": "<ROOT>/runtime/suite3/resources/assets/",
+      "note": "<ROOT>/runtime/suite3/resources/assets/",
+      "readme": "<ROOT>/runtime/suite3/resources/assets/"
+    },
+    "16_ExtractFile": {
+      "Extra.bsa|scripts\\fixture\\readme.txt": {
+        "matchesSource": true,
+        "sha256": "cb02c4324b49dc2c4d566832fd6694fe0f113c96bec282d5b479fa40eef953d3",
+        "size": 120
+      },
+      "Fixture.bsa|meshes\\fixture\\note.txt": {
+        "matchesSource": true,
+        "sha256": "e6cc92fffc548d7ed149e1d2bd6f80002c81d6da6d7b15e8f869c34aa13d0bdb",
+        "size": 19
+      },
+      "Fixture.bsa|textures\\fixture\\tiny.dds": {
+        "matchesSource": true,
+        "sha256": "88fd0d73744c062b846ea6a459ef1d1c0d4e9ba4ea71798f210923a6f26f056a",
+        "size": 192
+      },
+      "emptyContainerName": 19,
+      "missingContainer": null,
+      "missingFile": {
+        "error": "ExtractFile failed | Resource doesn't exist"
+      }
+    },
+    "17_ExtractContainer": {
+      "again_no_replace": null,
+      "again_replace": null,
+      "files": [
+        "meshes/fixture/note.txt:19",
+        "scripts/fixture/readme.txt:120",
+        "textures/fixture/tiny.dds:192"
+      ],
+      "first": null,
+      "unknown": {
+        "error": "ExtractContainer failed | Nope.bsa not loaded."
+      }
+    },
+    "18_GetTextureData_dds": {
+      "gotBytes": 65535,
+      "height": 4,
+      "ok": 65535,
+      "rgba": [
+        [
+          0,
+          255,
+          0,
+          255
+        ],
+        [
+          4,
+          247,
+          16,
+          223
+        ],
+        [
+          8,
+          239,
+          32,
+          191
+        ],
+        [
+          12,
+          231,
+          48,
+          159
+        ],
+        [
+          16,
+          223,
+          64,
+          255
+        ],
+        [
+          20,
+          215,
+          80,
+          223
+        ],
+        [
+          24,
+          207,
+          96,
+          191
+        ],
+        [
+          28,
+          199,
+          112,
+          159
+        ],
+        [
+          32,
+          191,
+          128,
+          255
+        ],
+        [
+          36,
+          183,
+          144,
+          223
+        ],
+        [
+          40,
+          175,
+          160,
+          191
+        ],
+        [
+          44,
+          167,
+          176,
+          159
+        ],
+        [
+          48,
+          159,
+          192,
+          255
+        ],
+        [
+          52,
+          151,
+          208,
+          223
+        ],
+        [
+          56,
+          143,
+          224,
+          191
+        ],
+        [
+          60,
+          135,
+          240,
+          159
+        ]
+      ],
+      "width": 4
+    },
+    "19_GetTextureData_non_image": {
+      "exception": "",
+      "ok": 0
+    },
+    "20_GetTextureData_missing": {
+      "exception": "Assertion failure (E:\\dev\\git\\xedit-lib\\lib\\Imaging\\Imaging.pas, line 1144)",
+      "ok": 0
+    }
+  }
+}

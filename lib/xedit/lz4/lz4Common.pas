@@ -36,13 +36,17 @@
 
  ******************************************************************************
 *)
+(* Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+   Derived from LZ4 / xxHash by Yann Collet, Pascal port by Jose Pascoa.
+   Changes are documented in macos/CHANGES.md; BSD 2-Clause License. *)
 
-unit lz4common;
+unit lz4Common;
+{$I lz4FPC.inc}
 {$POINTERMATH ON}
 
 interface
 
-uses Windows;
+uses {$IFNDEF FPC}Windows{$ELSE}SysUtils{$ENDIF};
 
 type
     ppByte = ^pByte;
@@ -86,10 +90,16 @@ end;
 
 
 function LZ4_NbCommonBytesx64(value: size_t): cardinal;
+{$IFDEF FPC}
+begin
+    result := cardinal(BsfQWord(value)) shr 3; // little-endian: index of lowest differing byte
+end;
+{$ELSE}
 asm
     bsf rax, rcx // value comes in rcx register
     shr eax, 3
 end;
+{$ENDIF}
 {$ENDIF}
 
 

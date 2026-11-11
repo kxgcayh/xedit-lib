@@ -1,3 +1,6 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from mteHelpers by matortheeternal, distributed under project MPL 1.1.
+// Changes are documented in macos/CHANGES.md.
 unit mteHelpers;
 
 interface
@@ -459,7 +462,11 @@ var
 begin
   Result := false;
   for i := 0 to Pred(sl.Count) do
+{$IFDEF FPC}
+    if MatchesMask(UpperCase(s), UpperCase(sl[i])) then begin
+{$ELSE}
     if MatchesMask(s, sl[i]) then begin
+{$ENDIF}
       Result := true;
       break;
     end;
@@ -877,6 +884,21 @@ begin
       sPaths := Copy(sPaths, Pos(';', sPaths) + 1, Length(sPaths));
     end;
     for i := 0 to slPaths.Count - 1 do begin
+{$IFDEF FPC}
+      if FindFirst(IncludeTrailingPathDelimiter(slPaths[i]) + '*', faDirectory, info) = 0 then begin
+        repeat
+          if (info.Name = '.') or (info.Name = '..') then
+            continue;
+          Result := FileSearch(sFileName, IncludeTrailingPathDelimiter(slPaths[i]) + info.Name);
+          if (Result <> '') then
+            break;
+        until FindNext(info) <> 0;
+        FindClose(info);
+        // break if we found it
+        if (Result <> '') then
+          break;
+      end;
+{$ELSE}
       if FindFirst(slPaths[i] + '\*', faDirectory, info) = 0 then begin
         repeat
           Result := FileSearch(sFileName, slPaths[i] + '\' + info.Name);
@@ -888,6 +910,7 @@ begin
         if (Result <> '') then
           break;
       end;
+{$ENDIF}
     end;
   finally
     slPaths.Free;
@@ -948,7 +971,7 @@ begin
       if ((info.attr and faDirectory) = faDirectory) and (maxDepth > 0) then begin
         Result := RecursiveFileSearch(aPath+info.Name, filenames, ignore, maxDepth - 1);
       end
-      else if MatchStr(info.Name, filenames) then
+      else if {$IFDEF FPC}MatchText(info.Name, filenames){$ELSE}MatchStr(info.Name, filenames){$ENDIF} then
         Result := aPath + info.Name;
     end;
     if (Result <> '') then break;

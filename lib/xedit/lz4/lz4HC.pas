@@ -36,13 +36,17 @@
 
  ******************************************************************************
 *)
+(* Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+   Derived from LZ4 / xxHash by Yann Collet, Pascal port by Jose Pascoa.
+   Changes are documented in macos/CHANGES.md; BSD 2-Clause License. *)
 
 unit lz4HC;
+{$I lz4FPC.inc}
 {$POINTERMATH ON}
 
 interface
 
-uses Windows, lz4Common;
+uses {$IFNDEF FPC}Windows,{$ENDIF} lz4Common;
 
 const
     LZ4_STREAMHCSIZE_U64 = 32774;
@@ -131,7 +135,7 @@ end;
 
 function HASH_FUNCTION(i: cardinal): cardinal; inline;
 begin
-    result := (i * 2654435761) shr ((MINMATCH * 8) - HASH_LOG);
+    result := cardinal(i * cardinal(2654435761)) shr ((MINMATCH * 8) - HASH_LOG);
 end;
 
 function LZ4HC_hashPtr(const ptr: pointer): cardinal; inline;

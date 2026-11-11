@@ -1,0 +1,273 @@
+{
+  "files": [
+    {
+      "loadOrder": 1,
+      "masters": [
+        "Fixture.esm"
+      ],
+      "name": "First.esp",
+      "overrideCount": 1,
+      "recordCount": 1,
+      "records": [
+        {
+          "chain": [
+            {
+              "file": "Fixture.esm",
+              "formId": "00000800"
+            },
+            {
+              "file": "First.esp",
+              "formId": "00000800"
+            },
+            {
+              "file": "Second.esp",
+              "formId": "00000800"
+            }
+          ],
+          "conflict": {
+            "all": 5,
+            "this": 11
+          },
+          "element": {
+            "EDID - Editor ID": "FixtureFirst",
+            "Record Header": {
+              "FormID": "First.esp:000800",
+              "Record Flags": {},
+              "Signature": "KYWD"
+            }
+          },
+          "formId": "00000800",
+          "isOverride": true,
+          "isWinningOverride": false,
+          "signature": "KYWD",
+          "winner": {
+            "file": "Second.esp",
+            "formId": "00000800"
+          }
+        }
+      ]
+    },
+    {
+      "loadOrder": 0,
+      "masters": [],
+      "name": "Fixture.esm",
+      "overrideCount": 0,
+      "recordCount": 3,
+      "records": [
+        {
+          "chain": [
+            {
+              "file": "Fixture.esm",
+              "formId": "00000800"
+            },
+            {
+              "file": "First.esp",
+              "formId": "00000800"
+            },
+            {
+              "file": "Second.esp",
+              "formId": "00000800"
+            }
+          ],
+          "conflict": {
+            "all": 5,
+            "this": 6
+          },
+          "element": {
+            "EDID - Editor ID": "FixtureChain",
+            "Record Header": {
+              "FormID": "Fixture.esm:000800",
+              "Record Flags": {},
+              "Signature": "KYWD"
+            }
+          },
+          "formId": "00000800",
+          "isOverride": false,
+          "isWinningOverride": false,
+          "signature": "KYWD",
+          "winner": {
+            "file": "Second.esp",
+            "formId": "00000800"
+          }
+        },
+        {
+          "chain": [
+            {
+              "file": "Fixture.esm",
+              "formId": "00000801"
+            }
+          ],
+          "conflict": {
+            "all": 1,
+            "this": 4
+          },
+          "element": {
+            "EDID - Editor ID": "FixtureUnique",
+            "Record Header": {
+              "FormID": "Fixture.esm:000801",
+              "Record Flags": {},
+              "Signature": "KYWD"
+            }
+          },
+          "formId": "00000801",
+          "isOverride": false,
+          "isWinningOverride": true,
+          "signature": "KYWD",
+          "winner": {
+            "file": "Fixture.esm",
+            "formId": "00000801"
+          }
+        },
+        {
+          "chain": [
+            {
+              "file": "Fixture.esm",
+              "formId": "00000802"
+            }
+          ],
+          "conflict": {
+            "all": 1,
+            "this": 4
+          },
+          "element": {
+            "DATA - Data": {
+              "Flags": {},
+              "Teaches": 0,
+              "Type": 0,
+              "Unused": "00 00",
+              "Value": 0,
+              "Weight": 0
+            },
+            "DESC - Book Text": "",
+            "EDID - Editor ID": "FixtureCompressed",
+            "FULL - Name": "Compressed fixture",
+            "OBND - Object Bounds": {
+              "X1": 0,
+              "X2": 0,
+              "Y1": 0,
+              "Y2": 0,
+              "Z1": 0,
+              "Z2": 0
+            },
+            "Record Header": {
+              "FormID": "Fixture.esm:000802",
+              "Record Flags": {},
+              "Signature": "BOOK"
+            }
+          },
+          "formId": "00000802",
+          "isOverride": false,
+          "isWinningOverride": true,
+          "signature": "BOOK",
+          "winner": {
+            "file": "Fixture.esm",
+            "formId": "00000802"
+          }
+        }
+      ]
+    },
+    {
+      "loadOrder": 3,
+      "masters": [],
+      "name": "Light.esp",
+      "overrideCount": 0,
+      "recordCount": 1,
+      "records": [
+        {
+          "chain": [
+            {
+              "file": "Light.esp",
+              "formId": "03000800"
+            }
+          ],
+          "conflict": {
+            "all": 1,
+            "this": 4
+          },
+          "element": {
+            "EDID - Editor ID": "FixtureLight",
+            "Record Header": {
+              "FormID": "Light.esp:000800",
+              "Record Flags": {},
+              "Signature": "KYWD"
+            }
+          },
+          "formId": "03000800",
+          "isOverride": false,
+          "isWinningOverride": true,
+          "signature": "KYWD",
+          "winner": {
+            "file": "Light.esp",
+            "formId": "03000800"
+          }
+        }
+      ]
+    },
+    {
+      "loadOrder": 2,
+      "masters": [
+        "Fixture.esm"
+      ],
+      "name": "Second.esp",
+      "overrideCount": 1,
+      "recordCount": 1,
+      "records": [
+        {
+          "chain": [
+            {
+              "file": "Fixture.esm",
+              "formId": "00000800"
+            },
+            {
+              "file": "First.esp",
+              "formId": "00000800"
+            },
+            {
+              "file": "Second.esp",
+              "formId": "00000800"
+            }
+          ],
+          "conflict": {
+            "all": 5,
+            "this": 10
+          },
+          "element": {
+            "EDID - Editor ID": "FixtureSecond",
+            "Record Header": {
+              "FormID": "Second.esp:000800",
+              "Record Flags": {},
+              "Signature": "KYWD"
+            }
+          },
+          "formId": "00000800",
+          "isOverride": true,
+          "isWinningOverride": true,
+          "signature": "KYWD",
+          "winner": {
+            "file": "Second.esp",
+            "formId": "00000800"
+          }
+        }
+      ]
+    }
+  ],
+  "loadOrder": [
+    {
+      "index": 0,
+      "name": "Fixture.esm"
+    },
+    {
+      "index": 1,
+      "name": "First.esp"
+    },
+    {
+      "index": 2,
+      "name": "Second.esp"
+    },
+    {
+      "index": 3,
+      "name": "Light.esp"
+    }
+  ],
+  "schema": 1
+}

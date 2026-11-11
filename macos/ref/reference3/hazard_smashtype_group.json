@@ -1,0 +1,13 @@
+{
+  "group": "hazard_smashtype_group",
+  "schema": 1,
+  "steps": {
+    "01_smashType_on_group": {
+      "error": "SmashType failed | Access violation at address <ADDR> in module 'XEditLib.dll'. Read of address <ADDR>"
+    },
+    "99_session_survives": {
+      "fileName": "Hazard1.esp",
+      "records": 1
+    }
+  }
+}

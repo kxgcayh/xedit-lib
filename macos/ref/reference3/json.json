@@ -1,0 +1,640 @@
+{
+  "group": "json",
+  "schema": 1,
+  "steps": {
+    "01_roundtrip_book_no_formid": {
+      "back": {
+        "DATA - Data": {
+          "Flags": {},
+          "Teaches": 0,
+          "Type": 0,
+          "Unused": "00 00",
+          "Value": 0,
+          "Weight": 0
+        },
+        "DESC - Book Text": "",
+        "EDID - Editor ID": "FixtureCompressed",
+        "FULL - Name": "Compressed fixture",
+        "OBND - Object Bounds": {
+          "X1": 0,
+          "X2": 0,
+          "Y1": 0,
+          "Y2": 0,
+          "Z1": 0,
+          "Z2": 0
+        },
+        "Record Header": {
+          "FormID": "Json1.esp:000800",
+          "Record Flags": {},
+          "Signature": "BOOK"
+        }
+      },
+      "equalIgnoringFormId": true,
+      "src": {
+        "DATA - Data": {
+          "Flags": {},
+          "Teaches": 0,
+          "Type": 0,
+          "Unused": "00 00",
+          "Value": 0,
+          "Weight": 0
+        },
+        "DESC - Book Text": "",
+        "EDID - Editor ID": "FixtureCompressed",
+        "FULL - Name": "Compressed fixture",
+        "OBND - Object Bounds": {
+          "X1": 0,
+          "X2": 0,
+          "Y1": 0,
+          "Y2": 0,
+          "Z1": 0,
+          "Z2": 0
+        },
+        "Record Header": {
+          "FormID": "Fixture.esm:000802",
+          "Record Flags": {},
+          "Signature": "BOOK"
+        }
+      }
+    },
+    "02_roundtrip_kywd_no_formid": {
+      "back": {
+        "EDID - Editor ID": "FixtureChain",
+        "Record Header": {
+          "FormID": "Json1.esp:000801",
+          "Record Flags": {},
+          "Signature": "KYWD"
+        }
+      },
+      "equalIgnoringFormId": true
+    },
+    "03_record_scalar_types": {
+      "DATA - Data": {
+        "Flags": {
+          "Can't be Taken": true,
+          "Teaches Spell": true
+        },
+        "Teaches": 3,
+        "Type": 255,
+        "Unused": "00 00",
+        "Value": 77,
+        "Weight": 2.2499999943193
+      },
+      "DESC - Book Text": "",
+      "EDID - Editor ID": "JsonBook",
+      "FULL - Name": "Json Book",
+      "OBND - Object Bounds": {
+        "X1": -5,
+        "X2": 8,
+        "Y1": 6,
+        "Y2": 9,
+        "Z1": -7,
+        "Z2": 10
+      },
+      "Record Header": {
+        "FormID": "Json1.esp:000802",
+        "Record Flags": {},
+        "Signature": "BOOK"
+      }
+    },
+    "04_subpath_import": {
+      "edid": "JsonBook",
+      "value": 91
+    },
+    "05_flags_replace": [
+      "Teaches Skill"
+    ],
+    "06_array_items_hex_formids": {
+      "DATA - Data": {
+        "Flags": {},
+        "Teaches": 0,
+        "Type": 0,
+        "Unused": "00 00",
+        "Value": 0,
+        "Weight": 0
+      },
+      "DESC - Book Text": "",
+      "EDID - Editor ID": "JsonBookRefs",
+      "KSIZ - Keyword Count": 2,
+      "KWDA - Keywords": [
+        "Fixture.esm:000800",
+        "Fixture.esm:000801"
+      ],
+      "OBND - Object Bounds": {
+        "X1": 0,
+        "X2": 0,
+        "Y1": 0,
+        "Y2": 0,
+        "Z1": 0,
+        "Z2": 0
+      },
+      "Record Header": {
+        "FormID": "Json1.esp:000803",
+        "Record Flags": {},
+        "Signature": "BOOK"
+      }
+    },
+    "07_array_items_edid_string_error": {
+      "error": "ElementFromJson failed | '$FixtureChain' is not a valid integer value"
+    },
+    "08_array_items_file_hex6_form_error": {
+      "error": "ElementFromJson failed | '$Fixture.esm:000801' is not a valid integer value"
+    },
+    "09_roundtrip_exported_ref_form": {
+      "error": "ElementFromJson failed | Assertion failure (E:\\dev\\git\\xedit-lib\\lib\\xedit\\wbImplementation.pas, line 5664)"
+    },
+    "10_record_signature_mismatch": {
+      "EDID - Editor ID": "X",
+      "Record Header": {
+        "FormID": "Json1.esp:000807",
+        "Record Flags": {},
+        "Signature": "KYWD"
+      }
+    },
+    "11_malformed_json": {
+      "error": "ElementFromJson failed | Unexpected character in JSON near <...>."
+    },
+    "12_empty_object": {
+      "Record Header": {
+        "FormID": "Json1.esp:000808",
+        "Record Flags": {},
+        "Signature": "KYWD"
+      }
+    },
+    "13_unknown_member_key": {
+      "Record Header": {
+        "FormID": "Json1.esp:000809",
+        "Record Flags": {},
+        "Signature": "KYWD"
+      }
+    },
+    "14_group_records_by_edid": [
+      "FixtureChain",
+      "X",
+      null,
+      null,
+      "JsonGroupKywd",
+      "JsonGroupKywd2"
+    ],
+    "15_group_records_update_existing_by_edid": [
+      "FixtureChain",
+      "X",
+      null,
+      null,
+      "JsonGroupKywd",
+      "JsonGroupKywd2",
+      "JsonGroupKywd"
+    ],
+    "16_file_json_new_file": {
+      "json": {
+        "File Header": {
+          "CNAM - Author": "",
+          "HEDR - Header": {
+            "Next Object ID": 2049,
+            "Number of Records": 0,
+            "Version": 1.69999999570791
+          },
+          "Master Files": [
+            {
+              "DATA - Unknown": "00 00 00 00 00 00 00 00",
+              "MAST - Filename": "Fixture.esm"
+            }
+          ],
+          "Record Header": {
+            "FormID": "Json2.esp:000000",
+            "Record Flags": {},
+            "Signature": "TES4"
+          }
+        },
+        "Filename": "Json2.esp",
+        "Groups": {
+          "BOOK": [
+            {
+              "DATA - Data": {
+                "Flags": {},
+                "Teaches": 0,
+                "Type": 0,
+                "Unused": "00 00",
+                "Value": 3,
+                "Weight": 0
+              },
+              "DESC - Book Text": "",
+              "EDID - Editor ID": "J2Book",
+              "OBND - Object Bounds": {
+                "X1": 0,
+                "X2": 0,
+                "Y1": 0,
+                "Y2": 0,
+                "Z1": 0,
+                "Z2": 0
+              },
+              "Record Header": {
+                "FormID": "Json2.esp:000800",
+                "Record Flags": {},
+                "Signature": "BOOK"
+              }
+            }
+          ]
+        }
+      },
+      "masters": [
+        "Fixture.esm"
+      ]
+    },
+    "17_files_json_creates_files": {
+      "File Header": {
+        "CNAM - Author": "",
+        "HEDR - Header": {
+          "Next Object ID": 2049,
+          "Number of Records": 0,
+          "Version": 1.69999999570791
+        },
+        "Record Header": {
+          "FormID": "Json3.esp:000000",
+          "Record Flags": {
+            "ESM": true
+          },
+          "Signature": "TES4"
+        }
+      },
+      "Filename": "Json3.esp",
+      "Groups": {
+        "KYWD": [
+          {
+            "EDID - Editor ID": "J3K",
+            "Record Header": {
+              "FormID": "Json3.esp:000800",
+              "Record Flags": {},
+              "Signature": "KYWD"
+            }
+          }
+        ]
+      }
+    },
+    "18_unicode_string_roundtrip": {
+      "json": "Café Über æøå “q”",
+      "same": true,
+      "value": "Café Über æøå “q”"
+    },
+    "19_save_and_hexdump": {
+      "exists": true,
+      "hex": [
+        "000000  54 45 53 34 39 00 00 00 00 00 00 00 00 00 00 00  TES49...........",
+        "000010  00 00 00 00 2c 00 00 00 48 45 44 52 0c 00 9a 99  ....,...HEDR....",
+        "000020  d9 3f 10 00 00 00 0e 08 00 00 43 4e 41 4d 01 00  .?........CNAM..",
+        "000030  00 4d 41 53 54 0c 00 46 69 78 74 75 72 65 2e 65  .MAST..Fixture.e",
+        "000040  73 6d 00 44 41 54 41 08 00 00 00 00 00 00 00 00  sm.DATA.........",
+        "000050  00 47 52 55 50 18 01 00 00 4b 59 57 44 00 00 00  .GRUP....KYWD...",
+        "000060  00 00 00 00 00 00 00 00 00 4b 59 57 44 13 00 00  .........KYWD...",
+        "000070  00 00 00 00 00 01 08 00 01 00 00 00 00 2c 00 00  .............,..",
+        "000080  00 45 44 49 44 0d 00 46 69 78 74 75 72 65 43 68  .EDID..FixtureCh",
+        "000090  61 69 6e 00 4b 59 57 44 08 00 00 00 00 00 00 00  ain.KYWD........",
+        "0000a0  07 08 00 01 00 00 00 00 2c 00 00 00 45 44 49 44  ........,...EDID",
+        "0000b0  02 00 58 00 4b 59 57 44 00 00 00 00 00 00 00 00  ..X.KYWD........",
+        "0000c0  08 08 00 01 00 00 00 00 2c 00 00 00 4b 59 57 44  ........,...KYWD",
+        "0000d0  00 00 00 00 00 00 00 00 09 08 00 01 00 00 00 00  ................",
+        "0000e0  2c 00 00 00 4b 59 57 44 14 00 00 00 00 00 00 00  ,...KYWD........",
+        "0000f0  0a 08 00 01 00 00 00 00 2c 00 00 00 45 44 49 44  ........,...EDID",
+        "000100  0e 00 4a 73 6f 6e 47 72 6f 75 70 4b 79 77 64 00  ..JsonGroupKywd.",
+        "000110  4b 59 57 44 15 00 00 00 00 00 00 00 0b 08 00 01  KYWD............",
+        "000120  00 00 00 00 2c 00 00 00 45 44 49 44 0f 00 4a 73  ....,...EDID..Js",
+        "000130  6f 6e 47 72 6f 75 70 4b 79 77 64 32 00 4b 59 57  onGroupKywd2.KYW",
+        "000140  44 14 00 00 00 00 00 00 00 0c 08 00 01 00 00 00  D...............",
+        "000150  00 2c 00 00 00 45 44 49 44 0e 00 4a 73 6f 6e 47  .,...EDID..JsonG",
+        "000160  72 6f 75 70 4b 79 77 64 00 47 52 55 50 11 03 00  roupKywd.GRUP...",
+        "000170  00 42 4f 4f 4b 00 00 00 00 00 00 00 00 00 00 00  .BOOK...........",
+        "000180  00 42 4f 4f 4b 60 00 00 00 00 00 00 00 00 08 00  .BOOK`..........",
+        "000190  01 00 00 00 00 2c 00 00 00 45 44 49 44 12 00 46  .....,...EDID..F",
+        "0001a0  69 78 74 75 72 65 43 6f 6d 70 72 65 73 73 65 64  ixtureCompressed",
+        "0001b0  00 4f 42 4e 44 0c 00 00 00 00 00 00 00 00 00 00  .OBND...........",
+        "0001c0  00 00 00 46 55 4c 4c 13 00 43 6f 6d 70 72 65 73  ...FULL..Compres",
+        "0001d0  73 65 64 20 66 69 78 74 75 72 65 00 44 45 53 43  sed fixture.DESC",
+        "0001e0  01 00 00 44 41 54 41 10 00 00 00 00 00 00 00 00  ...DATA.........",
+        "0001f0  00 00 00 00 00 00 00 00 00 42 4f 4f 4b 4e 00 00  .........BOOKN..",
+        "000200  00 00 00 00 00 02 08 00 01 00 00 00 00 2c 00 00  .............,..",
+        "000210  00 45 44 49 44 09 00 4a 73 6f 6e 42 6f 6f 6b 00  .EDID..JsonBook.",
+        "000220  4f 42 4e 44 0c 00 fb ff 06 00 f9 ff 08 00 09 00  OBND............",
+        "000230  0a 00 46 55 4c 4c 0a 00 4a 73 6f 6e 20 42 6f 6f  ..FULL..Json Boo",
+        "000240  6b 00 44 45 53 43 01 00 00 44 41 54 41 10 00 01  k.DESC...DATA...",
+        "000250  ff 00 00 03 00 00 00 5b 00 00 00 00 00 10 40 42  .......[......@B",
+        "000260  4f 4f 4b 5a 00 00 00 00 00 00 00 03 08 00 01 00  OOKZ............",
+        "000270  00 00 00 2c 00 00 00 45 44 49 44 0d 00 4a 73 6f  ...,...EDID..Jso",
+        "000280  6e 42 6f 6f 6b 52 65 66 73 00 4f 42 4e 44 0c 00  nBookRefs.OBND..",
+        "000290  00 00 00 00 00 00 00 00 00 00 00 00 44 45 53 43  ............DESC",
+        "0002a0  01 00 00 4b 53 49 5a 04 00 02 00 00 00 4b 57 44  ...KSIZ......KWD",
+        "0002b0  41 08 00 00 08 00 00 01 08 00 00 44 41 54 41 10  A..........DATA.",
+        "0002c0  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................",
+        "0002d0  00 42 4f 4f 4b 56 00 00 00 00 00 00 00 04 08 00  .BOOKV..........",
+        "0002e0  01 00 00 00 00 2c 00 00 00 45 44 49 44 0d 00 4a  .....,...EDID..J",
+        "0002f0  73 6f 6e 42 6f 6f 6b 45 64 69 64 00 4f 42 4e 44  sonBookEdid.OBND",
+        "000300  0c 00 00 00 00 00 00 00 00 00 00 00 00 00 44 45  ..............DE",
+        "000310  53 43 01 00 00 4b 53 49 5a 04 00 01 00 00 00 4b  SC...KSIZ......K",
+        "000320  57 44 41 04 00 00 00 00 00 44 41 54 41 10 00 00  WDA......DATA...",
+        "000330  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 42  ...............B",
+        "000340  4f 4f 4b 53 00 00 00 00 00 00 00 05 08 00 01 00  OOKS............",
+        "000350  00 00 00 2c 00 00 00 45 44 49 44 0a 00 4a 73 6f  ...,...EDID..Jso",
+        "000360  6e 42 6f 6f 6b 46 00 4f 42 4e 44 0c 00 00 00 00  nBookF.OBND.....",
+        "000370  00 00 00 00 00 00 00 00 00 44 45 53 43 01 00 00  .........DESC...",
+        "000380  4b 53 49 5a 04 00 01 00 00 00 4b 57 44 41 04 00  KSIZ......KWDA..",
+        "000390  00 00 00 00 44 41 54 41 10 00 00 00 00 00 00 00  ....DATA........",
+        "0003a0  00 00 00 00 00 00 00 00 00 00 42 4f 4f 4b 47 00  ..........BOOKG.",
+        "0003b0  00 00 00 00 00 00 06 08 00 01 00 00 00 00 2c 00  ..............,.",
+        "0003c0  00 00 45 44 49 44 12 00 4a 73 6f 6e 42 6f 6f 6b  ..EDID..JsonBook",
+        "0003d0  52 6f 75 6e 64 54 72 69 70 00 4f 42 4e 44 0c 00  RoundTrip.OBND..",
+        "0003e0  00 00 00 00 00 00 00 00 00 00 00 00 44 45 53 43  ............DESC",
+        "0003f0  01 00 00 44 41 54 41 10 00 00 00 00 00 00 00 00  ...DATA.........",
+        "000400  00 00 00 00 00 00 00 00 00 42 4f 4f 4b 59 00 00  .........BOOKY..",
+        "000410  00 00 00 00 00 0d 08 00 01 00 00 00 00 2c 00 00  .............,..",
+        "000420  00 45 44 49 44 0c 00 4a 73 6f 6e 55 6e 69 63 6f  .EDID..JsonUnico",
+        "000430  64 65 00 4f 42 4e 44 0c 00 00 00 00 00 00 00 00  de.OBND.........",
+        "000440  00 00 00 00 00 46 55 4c 4c 12 00 43 61 66 e9 20  .....FULL..Caf. ",
+        "000450  dc 62 65 72 20 e6 f8 e5 20 93 71 94 00 44 45 53  .ber ... .q..DES",
+        "000460  43 01 00 00 44 41 54 41 10 00 00 00 00 00 00 00  C...DATA........",
+        "000470  00 00 00 00 00 00 00 00 00 00  .........."
+      ],
+      "sha256": "dd60ee5ccd2556345e79fd6ddfdad1c627ee3aa58760dc04cd37cc7405843270",
+      "size": 1146
+    },
+    "20_reload_and_dump": {
+      "json": {
+        "File Header": {
+          "CNAM - Author": "",
+          "HEDR - Header": {
+            "Next Object ID": 2062,
+            "Number of Records": 16,
+            "Version": 1.69999999570791
+          },
+          "Master Files": [
+            {
+              "DATA - Unknown": "00 00 00 00 00 00 00 00",
+              "MAST - Filename": "Fixture.esm"
+            }
+          ],
+          "Record Header": {
+            "FormID": "JsonOut.esp:000000",
+            "Record Flags": {},
+            "Signature": "TES4"
+          }
+        },
+        "Filename": "JsonOut.esp",
+        "Groups": {
+          "BOOK": [
+            {
+              "DATA - Data": {
+                "Flags": {},
+                "Teaches": 0,
+                "Type": 0,
+                "Unused": "00 00",
+                "Value": 0,
+                "Weight": 0
+              },
+              "DESC - Book Text": "",
+              "EDID - Editor ID": "FixtureCompressed",
+              "FULL - Name": "Compressed fixture",
+              "OBND - Object Bounds": {
+                "X1": 0,
+                "X2": 0,
+                "Y1": 0,
+                "Y2": 0,
+                "Z1": 0,
+                "Z2": 0
+              },
+              "Record Header": {
+                "FormID": "JsonOut.esp:000800",
+                "Record Flags": {},
+                "Signature": "BOOK"
+              }
+            },
+            {
+              "DATA - Data": {
+                "Flags": {
+                  "Teaches Skill": true
+                },
+                "Teaches": 3,
+                "Type": 255,
+                "Unused": "00 00",
+                "Value": 91,
+                "Weight": 2.2499999943193
+              },
+              "DESC - Book Text": "",
+              "EDID - Editor ID": "JsonBook",
+              "FULL - Name": "Json Book",
+              "OBND - Object Bounds": {
+                "X1": -5,
+                "X2": 8,
+                "Y1": 6,
+                "Y2": 9,
+                "Z1": -7,
+                "Z2": 10
+              },
+              "Record Header": {
+                "FormID": "JsonOut.esp:000802",
+                "Record Flags": {},
+                "Signature": "BOOK"
+              }
+            },
+            {
+              "DATA - Data": {
+                "Flags": {},
+                "Teaches": 0,
+                "Type": 0,
+                "Unused": "00 00",
+                "Value": 0,
+                "Weight": 0
+              },
+              "DESC - Book Text": "",
+              "EDID - Editor ID": "JsonBookRefs",
+              "KSIZ - Keyword Count": 2,
+              "KWDA - Keywords": [
+                "Fixture.esm:000800",
+                "Fixture.esm:000801"
+              ],
+              "OBND - Object Bounds": {
+                "X1": 0,
+                "X2": 0,
+                "Y1": 0,
+                "Y2": 0,
+                "Z1": 0,
+                "Z2": 0
+              },
+              "Record Header": {
+                "FormID": "JsonOut.esp:000803",
+                "Record Flags": {},
+                "Signature": "BOOK"
+              }
+            },
+            {
+              "DATA - Data": {
+                "Flags": {},
+                "Teaches": 0,
+                "Type": 0,
+                "Unused": "00 00",
+                "Value": 0,
+                "Weight": 0
+              },
+              "DESC - Book Text": "",
+              "EDID - Editor ID": "JsonBookEdid",
+              "KSIZ - Keyword Count": 1,
+              "KWDA - Keywords": [
+                0
+              ],
+              "OBND - Object Bounds": {
+                "X1": 0,
+                "X2": 0,
+                "Y1": 0,
+                "Y2": 0,
+                "Z1": 0,
+                "Z2": 0
+              },
+              "Record Header": {
+                "FormID": "JsonOut.esp:000804",
+                "Record Flags": {},
+                "Signature": "BOOK"
+              }
+            },
+            {
+              "DATA - Data": {
+                "Flags": {},
+                "Teaches": 0,
+                "Type": 0,
+                "Unused": "00 00",
+                "Value": 0,
+                "Weight": 0
+              },
+              "DESC - Book Text": "",
+              "EDID - Editor ID": "JsonBookF",
+              "KSIZ - Keyword Count": 1,
+              "KWDA - Keywords": [
+                0
+              ],
+              "OBND - Object Bounds": {
+                "X1": 0,
+                "X2": 0,
+                "Y1": 0,
+                "Y2": 0,
+                "Z1": 0,
+                "Z2": 0
+              },
+              "Record Header": {
+                "FormID": "JsonOut.esp:000805",
+                "Record Flags": {},
+                "Signature": "BOOK"
+              }
+            },
+            {
+              "DATA - Data": {
+                "Flags": {},
+                "Teaches": 0,
+                "Type": 0,
+                "Unused": "00 00",
+                "Value": 0,
+                "Weight": 0
+              },
+              "DESC - Book Text": "",
+              "EDID - Editor ID": "JsonBookRoundTrip",
+              "OBND - Object Bounds": {
+                "X1": 0,
+                "X2": 0,
+                "Y1": 0,
+                "Y2": 0,
+                "Z1": 0,
+                "Z2": 0
+              },
+              "Record Header": {
+                "FormID": "JsonOut.esp:000806",
+                "Record Flags": {},
+                "Signature": "BOOK"
+              }
+            },
+            {
+              "DATA - Data": {
+                "Flags": {},
+                "Teaches": 0,
+                "Type": 0,
+                "Unused": "00 00",
+                "Value": 0,
+                "Weight": 0
+              },
+              "DESC - Book Text": "",
+              "EDID - Editor ID": "JsonUnicode",
+              "FULL - Name": "Café Über æøå “q”",
+              "OBND - Object Bounds": {
+                "X1": 0,
+                "X2": 0,
+                "Y1": 0,
+                "Y2": 0,
+                "Z1": 0,
+                "Z2": 0
+              },
+              "Record Header": {
+                "FormID": "JsonOut.esp:00080D",
+                "Record Flags": {},
+                "Signature": "BOOK"
+              }
+            }
+          ],
+          "KYWD": [
+            {
+              "EDID - Editor ID": "FixtureChain",
+              "Record Header": {
+                "FormID": "JsonOut.esp:000801",
+                "Record Flags": {},
+                "Signature": "KYWD"
+              }
+            },
+            {
+              "EDID - Editor ID": "X",
+              "Record Header": {
+                "FormID": "JsonOut.esp:000807",
+                "Record Flags": {},
+                "Signature": "KYWD"
+              }
+            },
+            {
+              "Record Header": {
+                "FormID": "JsonOut.esp:000808",
+                "Record Flags": {},
+                "Signature": "KYWD"
+              }
+            },
+            {
+              "Record Header": {
+                "FormID": "JsonOut.esp:000809",
+                "Record Flags": {},
+                "Signature": "KYWD"
+              }
+            },
+            {
+              "EDID - Editor ID": "JsonGroupKywd",
+              "Record Header": {
+                "FormID": "JsonOut.esp:00080A",
+                "Record Flags": {},
+                "Signature": "KYWD"
+              }
+            },
+            {
+              "EDID - Editor ID": "JsonGroupKywd2",
+              "Record Header": {
+                "FormID": "JsonOut.esp:00080B",
+                "Record Flags": {},
+                "Signature": "KYWD"
+              }
+            },
+            {
+              "EDID - Editor ID": "JsonGroupKywd",
+              "Record Header": {
+                "FormID": "JsonOut.esp:00080C",
+                "Record Flags": {},
+                "Signature": "KYWD"
+              }
+            }
+          ]
+        }
+      },
+      "masters": [
+        "Fixture.esm"
+      ],
+      "records": 14
+    }
+  }
+}

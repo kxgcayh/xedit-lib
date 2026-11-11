@@ -1,3 +1,6 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from XEditLib Original Code provided by Initial Developer matortheeternal.
+// Changes are documented in macos/CHANGES.md; distributed under MPL 1.1.
 unit xeSetup;
 
 interface
@@ -71,32 +74,46 @@ implementation
 uses
   Windows, SysUtils, ShlObj, IniFiles,
   // xelib units
-  xeHelpers, xeMeta, xeConfiguration, xeMessages, xeMasters;
+  xeHelpers, xeMeta, xeConfiguration, xeMessages, xeMasters
+  {$IFDEF FPC}, NativeFaults{$ENDIF};
 
 {$region 'TLoaderThread'}
 constructor TLoaderThread.Create(useDummies: WordBool);
 begin
   self.useDummies := useDummies;
-  inherited Create;
+  inherited Create(False);
 end;
 
 procedure TLoaderThread.Execute;
+{$IFDEF FPC}
+var
+  ThreadAltStack: TThreadAltStackRecord;
+{$ENDIF}
 begin
+  {$IFDEF FPC}
+  InstallThreadAltStack(ThreadAltStack);
   try
-    LoadResources;
-    LoadPluginFiles(useDummies);
-    UpdateFileCount;
+  {$ENDIF}
+    try
+      LoadResources;
+      LoadPluginFiles(useDummies);
+      UpdateFileCount;
 
-    // done loading
-    slLoadOrder.Free;
-    AddMessage('Done loading files.');
-    SetLoaderState(lsDone);
-  except
-    on e: Exception do begin
-      AddMessage('Fatal Error: ' + e.Message);
-      SetLoaderState(lsError);
+      // done loading
+      slLoadOrder.Free;
+      AddMessage('Done loading files.');
+      SetLoaderState(lsDone);
+    except
+      on e: Exception do begin
+        AddMessage('Fatal Error: ' + e.Message);
+        SetLoaderState(lsError);
+      end;
     end;
+  {$IFDEF FPC}
+  finally
+    RemoveThreadAltStack(ThreadAltStack);
   end;
+  {$ENDIF}
 end;
 {$endregion}
 
@@ -105,24 +122,36 @@ procedure TRefThread.Execute;
 var
   i: Integer;
   _file: IwbFile;
+{$IFDEF FPC}
+  ThreadAltStack: TThreadAltStackRecord;
+{$ENDIF}
 begin
+  {$IFDEF FPC}
+  InstallThreadAltStack(ThreadAltStack);
   try
-    for i := Low(rFiles) to High(rFiles) do begin
-      _file := rFiles[i];
-      AddMessage(Format('Building references for %s (%d/%d)', [_file.FileName, i + 1, Length(rFiles)]));
-      rFiles[i].BuildRef;
-    end;
+  {$ENDIF}
+    try
+      for i := Low(rFiles) to High(rFiles) do begin
+        _file := rFiles[i];
+        AddMessage(Format('Building references for %s (%d/%d)', [_file.FileName, i + 1, Length(rFiles)]));
+        rFiles[i].BuildRef;
+      end;
 
-    // done loading
-    SetLength(rFiles, 0);
-    AddMessage('Done building references.');
-    SetLoaderState(lsDone);
-  except
-    on E: Exception do begin
-      AddMessage('Fatal Error: <' + e.ClassName + ': ' + e.Message + '>');
-      SetLoaderState(lsError);
+      // done loading
+      SetLength(rFiles, 0);
+      AddMessage('Done building references.');
+      SetLoaderState(lsDone);
+    except
+      on E: Exception do begin
+        AddMessage('Fatal Error: <' + e.ClassName + ': ' + e.Message + '>');
+        SetLoaderState(lsError);
+      end;
     end;
+  {$IFDEF FPC}
+  finally
+    RemoveThreadAltStack(ThreadAltStack);
   end;
+  {$ENDIF}
 end;
 {$endregion}
 
@@ -185,7 +214,7 @@ begin
 
   // start reference building thread
   SetLoaderState(lsActive);
-  RefThread := TRefThread.Create;
+  RefThread := TRefThread.Create(False);
 end;
 
 procedure BuildReferencesSync(_id: Cardinal);
@@ -316,7 +345,7 @@ begin
       for i := BaseFileIndex to Pred(slLoadOrder.Count) do begin
         slBSAFileNames.Clear;
         slErrors.Clear;
-        modName := ChangeFileExt(slLoadOrder[i], '');
+        modName := ChangeFileExt(string(slLoadOrder[i]), '');
         HasBSAs(modName, wbDataPath, bExact, bModIni, slBSAFileNames, slErrors);
         LoadBSAs(slBSAFileNames, slErrors);
       end;
@@ -547,6 +576,22 @@ begin
   slNew := TStringList.Create;
   try
     // search for missing plugins and masters
+{$IFDEF FPC}
+    if FindFirst(wbDataPath + '*', faAnyFile, F) = 0 then try
+      repeat
+        if (F.Name = '.') or (F.Name = '..') then
+          continue;
+        if not (IsFileESM(F.Name) or IsFileESP(F.Name) or IsFileESL(F.Name)) then
+          continue;
+        if sl.IndexOf(F.Name) = -1 then begin
+          fileSortKey := GetPluginDate(wbDataPath + F.Name);
+          slNew.AddObject(F.Name, TObject(fileSortKey));
+        end;
+      until FindNext(F) <> 0;
+    finally
+      FindClose(F);
+    end;
+{$ELSE}
     if FindFirst(wbDataPath + '*.*', faAnyFile, F) = 0 then try
       repeat
         if not (IsFileESM(F.Name) or IsFileESP(F.Name) or IsFileESL(F.Name)) then
@@ -559,6 +604,7 @@ begin
     finally
       FindClose(F);
     end;
+{$ENDIF}
 
     // sort the list
     slNew.CustomSort(PluginListCompare);
@@ -721,7 +767,7 @@ var
   i: Integer;
 begin
   CreateBackupFolder;
-  DateTimeToString(FileTimeStr, 'yymmdd_hhnnss', Now);
+  FileTimeStr := FormatDateTime('yymmdd_hhnnss', Now);
   for i := 0 to Pred(slSavedFiles.Count) do try
     RenameSavedFile(slSavedFiles[i]);
   except

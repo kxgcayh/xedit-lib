@@ -1,0 +1,17 @@
+{
+  "group": "hazard_getgamepath_badmode",
+  "schema": 1,
+  "steps": {
+    "01_GetGamePath_mode99": {
+      "error": "GetGamePath failed | Access violation at address <ADDR> in module 'XEditLib.dll'. Read of address <ADDR>"
+    },
+    "99_session_survives": {
+      "files": [
+        "Fixture.esm",
+        "First.esp",
+        "Second.esp",
+        "Light.esp"
+      ]
+    }
+  }
+}

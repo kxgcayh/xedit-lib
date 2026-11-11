@@ -36,14 +36,18 @@
 
  ******************************************************************************
 *)
+(* Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+   Derived from LZ4 / xxHash by Yann Collet, Pascal port by Jose Pascoa.
+   Changes are documented in macos/CHANGES.md; BSD 2-Clause License. *)
 
 
 unit lz4io;
+{$I lz4FPC.inc}
 {$POINTERMATH ON}
 
 interface
 
-uses Windows, Classes, SysUtils, Math, lz4frame_static, xxHash, lz4, lz4common, lz4frame, lz4HC;
+uses {$IFNDEF FPC}Windows,{$ENDIF} Classes, SysUtils, Math, lz4frame_static, xxHash, lz4, lz4Common, lz4frame, lz4HC;
 
 
 const
@@ -423,7 +427,7 @@ function LZ4IO_decompressFilename(input_filename: string; output_filename: strin
 var
   fileIn: TFileSTream;
   fileOut: TFileSTream;
-  decodedSize: int64;
+  decodedSize: uint64; // PORT FIX (both compilers): match selectDecoder return type (uint64) to avoid truncation
   filesize: int64;
 begin
   result := 0;

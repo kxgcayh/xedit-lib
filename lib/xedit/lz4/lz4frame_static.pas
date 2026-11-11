@@ -36,13 +36,17 @@
 
  ******************************************************************************
 *)
+(* Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+   Derived from LZ4 / xxHash by Yann Collet, Pascal port by Jose Pascoa.
+   Changes are documented in macos/CHANGES.md; BSD 2-Clause License. *)
 
 unit lz4frame_static;
+{$I lz4FPC.inc}
 {$POINTERMATH ON}
 
 interface
 
-uses Windows;
+uses {$IFNDEF FPC}Windows{$ELSE}SysUtils{$ENDIF};
 
 type
     LZ4F_LIST_ERRORS = (

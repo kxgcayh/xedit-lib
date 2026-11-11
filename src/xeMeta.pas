@@ -1,3 +1,6 @@
+// Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+// Derived from XEditLib Original Code provided by Initial Developer matortheeternal.
+// Changes are documented in macos/CHANGES.md; distributed under MPL 1.1.
 unit xeMeta;
 
 interface
@@ -12,7 +15,7 @@ type
   {$region 'Native functions'}
   function Resolve(_id: Cardinal): IInterface;
   function ResolveNodes(_id: Cardinal): TDynViewNodeDatas;
-  procedure StoreList(lst: TList; len: PInteger);
+  procedure StoreList(lst: Classes.TList; len: PInteger);
   procedure FilterResultArray;
   procedure SortResultArray;
   procedure GetSortedElements(const container: IwbContainer; var elements: TDynElements);
@@ -55,7 +58,7 @@ implementation
 uses
   wbImplementation,
   // xelib modules
-  xeConfiguration, xeMessages, xeSetup, xeFiles, xeElementValues;
+  xeHelpers, xeConfiguration, xeMessages, xeSetup, xeFiles, xeElementValues;
 
 const
   sortByFormID = 1;
@@ -83,6 +86,7 @@ end;
 
 procedure SetResultFromList(var sl: TStringList; len: PInteger);
 begin
+  {$IFDEF FPC}sl.LineBreak := #13#10;{$ENDIF} // Delete below assumes CRLF
   resultStr := sl.Text;
   Delete(resultStr, Length(resultStr) - 1, 2);
   len^ := Length(resultStr);
@@ -100,7 +104,7 @@ begin
   Result := _nodesStore[_id];
 end;
 
-procedure StoreList(lst: TList; len: PInteger);
+procedure StoreList(lst: Classes.TList; len: PInteger);
 var
   i: Integer;
 begin
@@ -303,7 +307,7 @@ begin
   AddMessage('XEditLib v' + ProgramVersion);
 
   // store global values
-  Globals.Values['ProgramPath'] := ExtractFilePath(ParamStr(0));
+  Globals.Values['ProgramPath'] := GetProgramPath;
   Globals.Values['Version'] := ProgramVersion;
   Globals.Values['FileCount'] := '0';
 end;
@@ -380,6 +384,7 @@ function GetGlobals(len: PInteger): WordBool; cdecl;
 begin
   Result := False;
   try
+    {$IFDEF FPC}Globals.LineBreak := #13#10;{$ENDIF}
     resultStr := Globals.Text;
     len^ := Length(resultStr);
     Result := True;

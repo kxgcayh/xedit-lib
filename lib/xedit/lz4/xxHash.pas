@@ -37,13 +37,17 @@
 
  ******************************************************************************
 *)
+(* Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+   Derived from LZ4 / xxHash by Yann Collet, Pascal port by Jose Pascoa.
+   Changes are documented in macos/CHANGES.md; BSD 2-Clause License. *)
 
 unit xxHash;
+{$I lz4FPC.inc}
 {$POINTERMATH ON}
 
 interface
 
-uses Windows, lz4common;
+uses {$IFNDEF FPC}Windows,{$ENDIF} lz4Common;
 
 const
     PRIME32_1: cardinal = 2654435761;
@@ -134,11 +138,17 @@ type
     end;
 
 function XXH_rotl32(x, r: cardinal): cardinal;
+{$IFDEF FPC}
+begin
+    result := RolDWord(x, r);
+end;
+{$ELSE}
 asm
     mov eax, x
     mov ecx, r
     rol eax, cl
 end;
+{$ENDIF}
 
 (*  Alternative
 function XXH_rotl32(x, r: cardinal): cardinal; inline;
@@ -149,6 +159,13 @@ begin
     result := (x shl r) or (temp shr (32 - r));
 end;
 *)
+{$IFDEF FPC}
+
+function XXH_rotl64(x: uint64; r: cardinal): uint64; inline;
+begin
+    result := RolQWord(x, r);
+end;
+{$ELSE}
 {$IFDEF CPUX64}
 
 function XXH_rotl64(x: uint64; r: cardinal): uint64;
@@ -159,7 +176,7 @@ asm
 end;
 {$ELSE}
 
-function XXH_rotl64(x: uint64; r: cardinal): uint64; inline
+function XXH_rotl64(x: uint64; r: cardinal): uint64; inline;
 var
     temp: uint64;
 begin
@@ -167,6 +184,7 @@ begin
     result := (x shl r) or (temp shr (64 - r));
 end;
 
+{$ENDIF}
 {$ENDIF}
 
 function A32(x: pointer): cardinal; inline;

@@ -11,6 +11,9 @@
      under the License.
 
 *******************************************************************************}
+{ Modified 2026-11-11 by kxgcayh: macOS arm64 port (Free Pascal 3.2.2).
+  Derived from xEdit Original Code by ElminsterAU and contributors.
+  Changes are documented in macos/CHANGES.md; distributed under MPL 1.1. }
 
 unit wbStreams;
 
@@ -19,15 +22,21 @@ unit wbStreams;
 interface
 
 uses
-  SysUtils, Math, Classes, Windows;
+  {$IFDEF FPC}BaseUnix, {$ENDIF}SysUtils, Math, Classes, Windows;
 
 type
   TwbBaseCachedFileStreamClass = class of TwbBaseCachedFileStream;
   TwbBaseCachedFileStream = class(TStream)
   private
+    {$IFDEF FPC}
+    function QueryInterface(constref IID: TGUID; out Obj): LongInt; cdecl;
+    function _AddRef: LongInt; cdecl;
+    function _Release: LongInt; cdecl;
+    {$ELSE}
     function QueryInterface(const IID: TGUID; out Obj): HResult; stdcall;
     function _AddRef: Integer; stdcall;
     function _Release: Integer; stdcall;
+    {$ENDIF}
   protected
     FHandle: THandle;
     FOwnsHandle: Boolean;
@@ -150,8 +159,20 @@ type
 
 implementation
 
+{$IFDEF FPC}
+// POSIX replacements for the kernel32 file API. FHandle holds a file descriptor.
+const
+  INVALID_HANDLE_VALUE = THandle(-1);
+  ERROR_HANDLE_EOF = 38;
+
+function GetLastError: DWORD;
+begin
+  Result := DWORD(fpgeterrno);
+end;
+{$ELSE}
 function GetFileSizeEx(hFile: THandle; var FileSize: Int64): BOOL; stdcall; external kernel32;
 function SetFilePointerEx(hFile: THandle; DistanceToMove: Int64; lpNewFilePointer: PInt64; dwMoveMethod: DWORD): BOOL; stdcall; external kernel32;
+{$ENDIF}
 
 { TwbBaseCachedFileStream }
 
@@ -162,7 +183,7 @@ end;
 
 constructor TwbBaseCachedFileStream.Create(const FileName: string; CacheSize: Integer);
 begin
-  Create(FileName, CacheSize, 0);
+  Create(FileName, CacheSize, {$IFDEF FPC}THandle(-1){$ELSE}0{$ENDIF});
 end;
 
 constructor TwbBaseCachedFileStream.Create(const FileName: string; CacheSize: Integer; Handle: THandle);
@@ -172,12 +193,21 @@ const
 begin
   inherited Create;
   FFileName := FileName;
-  FOwnsHandle := Handle=0;
+{$IFDEF FPC}
+  FOwnsHandle := cint(Handle) < 0;
   if FOwnsHandle then begin
-    FHandle := CreateHandle(FILE_ATTRIBUTE_NORMAL);
+    FHandle := CreateHandle(0);
   end else begin
     FHandle := Handle;
   end;
+{$ELSE}
+  FOwnsHandle := Handle=0;
+  if FOwnsHandle then begin
+    FHandle := CreateHandle(0);
+  end else begin
+    FHandle := Handle;
+  end;
+{$ENDIF}
   FCacheSize := CacheSize;
   if FCacheSize<=0 then begin
     FCacheSize := DefaultCacheSize;
@@ -188,12 +218,35 @@ end;
 destructor TwbBaseCachedFileStream.Destroy;
 begin
   FreeMem(FCache);
+{$IFDEF FPC}
+  if FOwnsHandle and (cint(FHandle) >= 0) then begin
+    FpClose(cint(FHandle));
+    FHandle := THandle(-1);
+  end;
+{$ELSE}
   if FOwnsHandle and (FHandle<>0) then begin
     CloseHandle(FHandle);
   end;
+{$ENDIF}
   inherited;
 end;
 
+{$IFDEF FPC}
+function TwbBaseCachedFileStream.QueryInterface(constref IID: TGUID; out Obj): LongInt; cdecl;
+begin
+  if GetInterface(IID, Obj) then Result := 0 else Result := LongInt($80004002); // S_OK / E_NOINTERFACE
+end;
+
+function TwbBaseCachedFileStream._AddRef: LongInt; cdecl;
+begin
+  Result := -1;
+end;
+
+function TwbBaseCachedFileStream._Release: LongInt; cdecl;
+begin
+  Result := -1;
+end;
+{$ELSE}
 function TwbBaseCachedFileStream.QueryInterface(const IID: TGUID; out Obj): HResult;
 begin
   if GetInterface(IID, Obj) then begin
@@ -212,6 +265,7 @@ function TwbBaseCachedFileStream._Release: Integer;
 begin
   Result := -1;
 end;
+{$ENDIF}
 
 procedure TwbBaseCachedFileStream.HandleError(const Msg: string);
 begin
@@ -236,11 +290,22 @@ begin
 end;
 
 function TwbBaseCachedFileStream.GetFileSize: Int64;
+{$IFDEF FPC}
+var
+  st: Stat;
+begin
+  if FpFstat(cint(FHandle), st) <> 0 then begin
+    RaiseSystemErrorFmt('fstat failed for %s.', [FFileName]);
+  end;
+  Result := st.st_size;
+end;
+{$ELSE}
 begin
   if not GetFileSizeEx(FHandle, Result) then begin
     RaiseSystemErrorFmt('GetFileSizeEx failed for %s.', [FFileName]);
   end;
 end;
+{$ENDIF}
 
 procedure TwbBaseCachedFileStream.SetSize(NewSize: Longint);
 begin
@@ -250,14 +315,19 @@ end;
 procedure TwbBaseCachedFileStream.SetSize(const NewSize: Int64);
 begin
   Seek(NewSize, soBeginning);
-  if not Windows.SetEndOfFile(FHandle) then begin
+  if not {$IFDEF FPC}(FpFtruncate(cint(FHandle), NewSize) = 0){$ELSE}Windows.SetEndOfFile(FHandle){$ENDIF} then begin
     RaiseSystemErrorFmt('SetEndOfFile for %s.', [FFileName]);
   end;
 end;
 
 function TwbBaseCachedFileStream.FileRead(var Buffer; Count: Longword): Integer;
 begin
+  {$IFDEF FPC}
+  Result := FpRead(cint(FHandle), @Buffer, Count);
+  if Result >= 0 then begin
+  {$ELSE}
   if Windows.ReadFile(FHandle, Buffer, Count, LongWord(Result), nil) then begin
+  {$ENDIF}
     FLastError := 0;
   end else begin
     FLastError := GetLastError;
@@ -267,7 +337,12 @@ end;
 
 function TwbBaseCachedFileStream.FileWrite(const Buffer; Count: Longword): Integer;
 begin
+  {$IFDEF FPC}
+  Result := FpWrite(cint(FHandle), @Buffer, Count);
+  if Result >= 0 then begin
+  {$ELSE}
   if Windows.WriteFile(FHandle, Buffer, Count, LongWord(Result), nil) then begin
+  {$ENDIF}
     FLastError := 0;
   end else begin
     FLastError := GetLastError;
@@ -277,7 +352,12 @@ end;
 
 function TwbBaseCachedFileStream.FileSeek(const Offset: Int64; Origin: TSeekOrigin): Int64;
 begin
+  {$IFDEF FPC}
+  Result := FpLseek(cint(FHandle), Offset, ord(Origin)); // soBeginning/soCurrent/soEnd = SEEK_SET/CUR/END
+  if Result < 0 then begin
+  {$ELSE}
   if not SetFilePointerEx(FHandle, Offset, @Result, ord(Origin)) then begin
+  {$ENDIF}
     RaiseSystemErrorFmt('SetFilePointerEx failed for %s.', [FFileName]);
   end;
 end;
@@ -453,6 +533,9 @@ end;
 
 function TwbReadOnlyCachedFileStream.CreateHandle(FlagsAndAttributes: DWORD): THandle;
 begin
+  {$IFDEF FPC}
+  Result := THandle(FpOpen(UTF8Encode(FFileName), O_RDONLY));
+  {$ELSE}
   Result := Windows.CreateFile(
     PChar(FFileName),
     GENERIC_READ,
@@ -462,6 +545,7 @@ begin
     FlagsAndAttributes,
     0
   );
+  {$ENDIF}
   if Result=INVALID_HANDLE_VALUE then begin
     RaiseSystemErrorFmt('Cannot open %s.', [FFileName]);
   end;
@@ -570,6 +654,9 @@ end;
 
 function TwbWriteCachedFileStream.CreateHandle(FlagsAndAttributes: DWORD): THandle;
 begin
+  {$IFDEF FPC}
+  Result := THandle(FpOpen(UTF8Encode(FFileName), O_RDWR or O_CREAT or O_TRUNC, &666));
+  {$ELSE}
   Result := Windows.CreateFile(
     PChar(FFileName),
     GENERIC_READ or GENERIC_WRITE,
@@ -579,6 +666,7 @@ begin
     FlagsAndAttributes,
     0
   );
+  {$ENDIF}
   if Result=INVALID_HANDLE_VALUE then begin
     RaiseSystemErrorFmt('Cannot create %s.', [FFileName]);
   end;
